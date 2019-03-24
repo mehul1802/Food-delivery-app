@@ -1,0 +1,27 @@
+[
+    {
+      "name": "Timber",
+      "desc": "timber",
+      "image": "https://res.cloudinary.com/grubhub-assets/image/upload/f_auto,fl_lossy,q_85/v1470779396/grubhub-discover-background-desktop.png",
+      "price": "200"
+    },
+    {
+      "name": "Building Materials",
+      "desc": "building-materials",
+      "image": "https://res.cloudinary.com/grubhub-assets/image/upload/f_auto,fl_lossy,q_85/v1470779396/grubhub-discover-background-desktop.png",
+      "price": "200"
+    },
+    {
+      "name": "Doors & Joinery",
+      "desc": "doors-joinery",
+      "image": "https://res.cloudinary.com/grubhub-assets/image/upload/f_auto,fl_lossy,q_85/v1470779396/grubhub-discover-background-desktop.png",
+      "price": "300"
+    },
+    {
+      "name": "Gardens & Landscaping",
+      "desc": "gardens-landscaping",
+      "image": "https://res.cloudinary.com/grubhub-assets/image/upload/f_auto,fl_lossy,q_85/v1470779396/grubhub-discover-background-desktop.png",
+      "price": "100"
+    }
+  ]
+  

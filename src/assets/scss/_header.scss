@@ -1,0 +1,23 @@
+.header-section {
+	box-shadow: rgba(67, 41, 163, 0.1) 0px 0px 0px 1px, rgba(67, 41, 163, 0.1) 0px 1px 8px 0px;
+	position: fixed;
+    top: 0;
+    width: 100%;
+    z-index:9999;
+	.navbar {
+    height: 60px;
+    .navbar-brand {
+			width: 100px;
+		}
+		.nav-right {
+			.signin-btn {
+				padding: 6px 16px;
+				margin-right: 20px;
+			}
+			.cart-icon {
+				width: 24px;
+				height: 24px;
+			}
+		}
+	}
+}

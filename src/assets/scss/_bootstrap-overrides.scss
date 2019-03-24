@@ -1,0 +1,351 @@
+ul {
+    li {
+        list-style: none;
+    }
+}
+
+button.btn {
+    border-radius: 100px;
+    padding-left: 60px;
+    padding-right: 60px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    min-height: 40px;
+    @extend .font-small;
+
+    &:focus {
+        outline: none;
+        box-shadow: none;
+    }
+}
+
+button.btn-link {
+    color: theme-color('muted');
+
+    &:hover {
+        text-decoration: none;
+        color: theme-color('dark-blue');
+    }
+}
+
+button.link-btn {
+    padding: 0;
+    min-height: auto;
+    text-transform: none;
+    letter-spacing: normal;
+    @extend .text-secondary;
+}
+
+button.btn-app-link {
+    @extend .text-secondary;
+}
+
+.dropdown-item {
+    @extend .px-0;
+
+    a {
+        @extend .px-3;
+        display: block;
+    }
+}
+
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: theme-color('light-blue');
+    cursor: pointer;
+}
+
+button:focus {
+    outline: 0;
+}
+
+.form-control:focus {
+    outline: 0;
+    @extend .border-secondary;
+    box-shadow: none;
+}
+
+.dropdown-toggle::after {
+    content: "\e905";
+    color: white;
+    font-family: 'icomoon';
+    border: 0;
+    font-size: 10px;
+    margin-left: 8px;
+    vertical-align: 0;
+}
+
+.dropdown-toggle.btn {
+    text-transform: initial;
+    min-width: 145px;
+    padding-left: 32px;
+    padding-right: 32px;
+
+    &:focus {
+        box-shadow: none !important;
+    }
+}
+
+.dropdown-menu {
+    width: 100%;
+    min-width: 140px;
+}
+
+.form-check-label {
+    margin-bottom: 0;
+    font-weight: normal;
+    cursor: pointer;
+
+    input[type=checkbox] {
+        border: 1px solid black;
+        appearance: none;
+        background-color: white;
+        @extend .p-2;
+        cursor: pointer;
+        outline: none;
+        border-radius: 3px;
+    }
+
+    input[type=checkbox]:checked:after {
+        content: " ";
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        right: 3px;
+        bottom: 3px;
+        background-color: theme-color('primary');
+    }
+
+
+    input[type=radio] {
+        border: 1.5px solid theme-color('muted');
+        appearance: none;
+        background-color: white;
+        @extend .p-2;
+        cursor: pointer;
+        outline: none;
+        border-radius: 50%;
+    }
+
+    input[type=radio]:checked {
+        border: 1.5px solid theme-color('secondary');
+    }
+
+    input[type=radio]:checked:after {
+        content: " ";
+        position: absolute;
+        top: 5px;
+        left: 0px;
+        right: 0px;
+        margin: 0 auto;
+        background-color: theme-color('secondary');
+        width: 7px;
+        height: 7px;
+        @extend .rounded-circle;
+    }
+
+    input[type=radio]:disabled, input[type=checkbox]:disabled {
+        opacity: 0.24;
+        cursor: default;
+    }
+
+    span {
+        @extend .pl-2;
+        @extend .font-small;
+        padding-top: 3px;
+        display: inline-block;
+    }
+}
+
+.form-check.invalid {
+    .form-check-label {
+        input[type=checkbox] {
+            border: 1px solid theme-color('danger');
+        }
+    }
+}
+
+textarea {
+    resize: none;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: theme-color('light-grey');
+}
+
+// Placeholder color override
+/** Overriding placeholder colors **/
+.form-control::placeholder {
+    font-size: 14px;
+    color: $placeholder;
+    opacity: 1; /* Firefox */
+}
+
+.form-control:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   font-size: 14px;
+   color: $placeholder;
+}
+
+.form-control::-ms-input-placeholder { /* Microsoft Edge */
+   font-size: 14px;
+   color: $placeholder;
+}
+
+.navbar-light {
+    .navbar-nav {
+        .nav-item {
+            @extend .pl-3;
+        }
+
+        .nav-link {
+            @extend .text-muted;
+        }
+    }
+}
+
+
+h1, .display-1 {
+    font-weight: 400;
+    @extend .font-extra-large;
+    letter-spacing: 0.5px;
+}
+
+h2, .display-2 {
+    @extend .font-medium;
+    letter-spacing: 0.5px;
+    @extend .text-muted;
+    font-family: "GT Walsheim Pro Light";
+}
+
+h5, .display-3 {
+    font-family: "GT Walsheim Pro Medium";
+    @extend .font-small;
+    @extend .text-dark;
+    letter-spacing: 0.15px;
+}
+
+h6, .display-4 {
+    font-family: "GT Walsheim Pro Light";
+    @extend .font-tiny;
+    letter-spacing: 0.5px;
+    @extend .text-dark;
+    letter-spacing: 0.15px;
+}
+
+a {
+    color: theme-color('secondary');
+
+    &:hover {
+        color: theme-color('dark-blue');
+        text-decoration: none;
+
+        i.icon-arrow_right {
+            color: theme-color('dark-blue');
+        }
+    }
+}
+
+
+.carousel-item {
+    text-align: center;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    opacity: 1;
+
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-image: none;
+
+        &:before {
+            content: "\e912";
+            color: theme-color('muted');
+            font-family: 'icomoon';
+            @extend .font-small;
+        }
+    }
+
+    .carousel-control-next-icon {
+        &:before {
+            content: "\e92a";
+        }
+    }
+}
+
+.modal-backdrop {
+    background-color: $modal-color;
+}
+
+.modal-backdrop.show {
+    opacity: 0.9;
+}
+
+.modal-content {
+    .icon-close {
+        position: absolute;
+        top: 16px;
+        right: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        z-index: 1051;
+    }
+}
+
+.error-message {
+    @extend .font-small;
+    @extend .text-danger;
+    @extend .pt-1;
+}
+
+.notification-item-root {
+    min-width: 320px;
+}
+
+.custom-file, .custom-file-input, .custom-file-label, .custom-file-label::after {
+    height: calc(3rem + 2px);
+    line-height: 2.25rem;
+    color: theme-color('muted');
+    @extend .font-small;
+}
+
+.custom-file-label {
+    border-color: $border-color;
+}
+
+.custom-file-label::after {
+    height: calc(3rem);
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+    border-color: $border-color;
+}
+
+.custom-file-input:focus ~ .custom-file-label, .custom-file-input:focus ~ .custom-file-label::after {
+    border-color: theme-color('secondary');
+    box-shadow: none;
+}
+
+.invalid.custom-file {
+    .custom-file-label {
+        border-color: theme-color('danger');
+    }
+}
+
+input[type=file] {
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+}
+
+.file-upload-wrapper {
+    position: absolute;
+    z-index: 1;
+}
+
+.badge {
+    min-width: 100px;
+    min-height: 30px;
+    line-height: 30px;
+    @extend .px-3;
+}
+
+.disabled {
+    pointer-events: none;
+}

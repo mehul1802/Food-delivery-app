@@ -1,0 +1,72 @@
+.resturent-menu-listing {
+	width: calc(100% - 340px);
+	.listing-header {
+	 .resturant-list-header {
+		 background-size: cover;
+		 height: 170px;
+		 padding: 12px 36px;
+	  }
+		.restaurant-info {
+		  border: 1px solid rgba(0, 0, 0, 0.125);
+			padding: 12px 36px;
+			position: relative;
+			h1 {
+				font-zise: 15px;
+				color: #000000de;
+			}
+			a {
+			 margin-right: 16px;
+			 font-size: 14px;
+			 font-weight: 400;
+			 color: #000;
+			}
+			.brand-logo {
+			    position: absolute;
+			    width: 80px;
+			    height: 80px;
+			    top: -46px;
+			    right: 36px;
+			    box-shadow: rgba(67, 41, 163, 0.1) 0px 0px 0px 1px, rgba(67, 41, 163, 0.1) 0px 1px 8px 0px;
+			    border-radius: 4px;
+			    img {
+			     height: 100%;
+			     width: 100%;
+			    }
+			}
+		}
+	}
+	.restaurant-product-listing {
+	   padding: 24px 30px;
+	   background: rgb(251, 251, 252) !important;
+		.res-banner-section {
+		  align-items: center;
+		  img {
+		    height: 124px;
+		    flex-basis: 30%;
+		  }
+		  .banner-offer-text {
+		  	flex-basis: 70%;
+		  	color: #fff;
+		  	padding: 20px;
+		  	align-items: center;
+		  }
+		}
+		.hot-deal-offer {
+			padding: 8px 16px;
+			border: 1px solid #fff;
+			color: #fff;
+			border-radius: 4px;
+		}
+		.row {
+		 	margin: 0px -6px;
+		}
+		.product-cat-title {
+			font-size: 24px;
+			font-weight: 400;
+			color: #000;
+			line-height: 32px;
+			margin: 0;
+			padding: 8px 0px;
+		}
+	}
+}

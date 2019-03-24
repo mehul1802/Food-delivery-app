@@ -1,0 +1,206 @@
+/** Font size **/
+.font-extra-tiny {
+    font-size: $font-size-base * 0.625; // 10px
+}
+
+.font-tiny {
+    font-size: $font-size-base * 0.75; // 12px
+}
+
+.font-small {
+    font-size: $font-size-base * 0.875; // 14px
+}
+
+.font-regular {
+    font-size: $font-size-base; // 16px
+}
+
+.font-medium {
+    font-size: $font-size-base * 1.125; // 18px
+}
+
+.font-large {
+    font-size: $font-size-base * 1.5; // 24px
+}
+
+.font-larger {
+    font-size: $font-size-base * 1.75; // 28px
+}
+
+.font-extra-large {
+    font-size: $font-size-base * 2; // 32px
+}
+
+.font-xxl {
+    font-size: $font-size-base * 3; // 32px
+}
+//32px, 24px, 18px, 14px, 12px, 10px
+.app-border-bottom {
+    border-bottom: 2px solid theme-color("primary");
+}
+
+.app-border-bottom-thick {
+    border-bottom: 4px solid theme-color("primary");
+}
+
+.app-top-border {
+    border-top: 3px solid theme-color("primary");
+}
+
+.light {
+    font-family: "GT Walsheim Pro Light";
+}
+
+.medium {
+    font-family: "GT Walsheim Pro Medium";
+}
+
+.regular {
+    font-family: "GT Walsheim Pro Regular";
+}
+
+.align-super {
+    vertical-align: super;
+}
+
+.dotted-border {
+    background-image: linear-gradient(90deg, #E3E3E3 15%, rgba(255, 255, 255, 0) 0);
+    background-position: bottom;
+    background-size: 18px 3px;
+    background-repeat: repeat-x;
+    height: 4px;
+}
+
+.vertical-dotted-border {
+    background-image: linear-gradient(to bottom, #333 10%, rgba(255, 255, 255, 0) 0%);
+    background-position: right;
+    background-size: 1px 10px;
+    background-repeat: repeat-y;
+}
+
+.app-border-left {
+    border-left: 2px solid theme-color("primary");
+}
+
+.minh-textarea {
+    min-height: 130px;
+}
+
+.border-thick {
+    border-width: 2px !important;
+}
+
+.divider {
+    height: 40px;
+    width: 2px;
+    border: 1px solid theme-color("primary");
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.br-3 {
+    border-radius: 3px !important;
+}
+
+.line-height-28 {
+    line-height: 28px;
+}
+
+.line-height-34 {
+    line-height: 34px;
+}
+
+.table-divider {
+    border-bottom: 2px solid $border-color-light;
+}
+
+.card-shadow {
+    box-shadow: 0 0 4px 0 rgba(0,0,0,0.17);
+}
+
+.text-muted {
+    color: theme-color("muted") !important;
+}
+
+.text-dark {
+    color: theme-color("dark");
+}
+
+.custom-border-top {
+    &:after {
+        content: "";
+        width: 70px;
+        height: 3px;
+        left: 0px;
+        top: -12px;
+        position: absolute;
+        z-index: 9;
+        background: theme-color("primary");
+    }
+}
+
+.custom-border-bottom {
+    &::after {
+        content: "";
+        box-sizing: border-box;
+        width: 39px;
+        height: 3px;
+        left: 0px;
+        bottom: -12px;
+        position: absolute;
+        z-index: 9;
+        background: theme-color("primary");
+    }
+}
+
+.icon-info-secondary {
+    &:before {
+        color: theme-color("secondary");
+    }
+}
+
+.tooltip-wide {
+    max-width: 400px;
+}
+
+.reset-height {
+    height: unset !important;
+    min-height: unset !important;
+    line-height: unset !important;
+}
+
+.no-hover {
+    border: none;
+    &:hover {
+        background: inherit !important;
+        border: none;
+    }
+}
+
+.lh-normal {
+    line-height: normal;
+}
+
+.fit-image {
+    width: 100%;
+    object-fit: cover;
+    height: 250px;
+}
+
+.mh-80 {
+    min-height: 80px;
+}
+
+.mh-100 {
+    min-height: 100px;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+.list-item {
+    list-style: inherit !important;
+}
