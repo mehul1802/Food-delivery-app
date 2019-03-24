@@ -7,20 +7,28 @@ import {
   Nav,
   NavItem,
   Input, Button} from 'reactstrap';
- import logo from '../../assets/images/logo.svg';
- import cart from '../../assets/images/cart.svg';
+import SignInDialog from '../Dialog/SignInDialog';
+import logo from '../../assets/images/logo.svg';
+import cart from '../../assets/images/cart.svg';
 
 
 class Header extends Component {
 	constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
+      signInModal: false,
     };
   }
-  toggle() {
+
+  handleSignInDialog = () => {
+    this.setState(prevState => ({
+      signInModal: !prevState.signInModal
+    }));
+    console.log('sdsd');
+  }
+
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
@@ -39,7 +47,7 @@ class Header extends Component {
             </Nav>
             <Nav className="ml-auto nav-right d-flex align-items-center" navbar>
               <NavItem>
-                <Button outline color="primary" className="rounded signin-btn">Sign in</Button>
+                <Button outline color="primary" className="rounded signin-btn" onClick={this.handleSignInDialog}>Sign in</Button>
               </NavItem>
               <NavItem className="w-24 cart-icon">
                <img src={cart} alt="cart" />
@@ -47,6 +55,11 @@ class Header extends Component {
             </Nav>
           </Collapse>
          </Navbar>
+         <SignInDialog
+           isOpen={this.state.signInModal}
+           handleSignInDialog={this.handleSignInDialog}
+           className="signin-wrapper"
+          />
       </div>
     );
   }
