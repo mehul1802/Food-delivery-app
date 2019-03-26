@@ -25,7 +25,6 @@ class Header extends Component {
     this.setState(prevState => ({
       signInModal: !prevState.signInModal
     }));
-    console.log('sdsd');
   }
 
   toggle = () => {

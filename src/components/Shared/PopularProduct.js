@@ -7,9 +7,9 @@ class PopularProduct extends Component {
   }
  
   render() {
-    const { product } = this.props;
+    const { product, handleMenuItemOptionsDialog } = this.props;
     return (
-      <div className="card product-card">
+      <div className="card product-card" onClick={handleMenuItemOptionsDialog}>
         <div className="card-body p-0 most-popular" style={{ background: `url(${product.image})` }}>
           <div className="product-info">
             <h5 className="card-title mb-2">{product.name}</h5>

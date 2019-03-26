@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Footer extends Component {
   render() {
     return (
-      <div className="footer-section bg-dark">
+      <div className="footer-section bg-blue">
         <div className="footer-links">
           <div className="row">
             <div className="col-3">

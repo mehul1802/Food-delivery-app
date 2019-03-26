@@ -17,7 +17,7 @@ class Product extends Component {
             <p class="card-text">{product.desc}</p>
           </div>
           <div className="product-img">
-            <img className="card-img-top" src={product.image} alt="Card image cap" />
+            <img src={product.image} alt="Card image cap" />
             <div className="menuitem-price">{product.price}</div>
           </div>
         </div>

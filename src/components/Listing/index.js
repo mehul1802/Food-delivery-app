@@ -4,6 +4,7 @@ import PopularProduct from '../Shared/PopularProduct';
 import Product from '../Shared/Product';
 import defaultProducts from '../../utils/products.json';
 import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
 
 import arrowIcon from '../../assets/images/cart.svg';
 import discBanner from '../../assets/images/discount-banner.jpg';
@@ -11,7 +12,16 @@ import discBanner from '../../assets/images/discount-banner.jpg';
 class Listing extends Component {
 	constructor(props) {
     super(props);
-    this.state = { collapse: true };
+    this.state = {
+      collapse: true,
+      menuItemOptionsModal: false,
+    };
+  }
+
+   handleMenuItemOptionsDialog = () => {
+    this.setState(prevState => ({
+      menuItemOptionsModal: !prevState.menuItemOptionsModal
+    }));
   }
 
   toggle() {
@@ -25,7 +35,7 @@ class Listing extends Component {
         <div className="restaurant-product-listing">
           <div className="res-banner-section d-flex">
             <img src={discBanner} />
-            <div className="bg-dark banner-offer-text d-flex">
+            <div className="bg-blue banner-offer-text d-flex">
               <div style={{ flexBasis: '70%', marginRight: '20px' }}>
                 <h4>Get $10 off your first app order!</h4>
                 <p className="m-0">Download the Grubhub app to get $10 off your first delivery order.</p>
@@ -39,7 +49,10 @@ class Listing extends Component {
               {this.props.products &&
                 this.props.products.map(product => (
                   <div className="col-md-6 p-2">
-                    <PopularProduct product={product} />
+                    <PopularProduct
+                     product={product}
+                     handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
+                    />
                   </div>
                 ))
               }
@@ -63,6 +76,11 @@ class Listing extends Component {
            </Collapse>
           </div>
         </div>
+        <MenuItemOptionsDialog
+           isOpen={this.state.menuItemOptionsModal}
+           handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
+           className="menuitem-options-wrapper"
+          />
       </div>
     );
   }
