@@ -9,6 +9,7 @@ import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
 import arrowIcon from '../../assets/images/cart.svg';
 import discBanner from '../../assets/images/discount-banner.jpg';
 import arrowDown from '../../assets/images/arrow-down.svg';
+import popularIcon from '../../assets/images/popular-icon.svg';
 
 
 class Listing extends Component {
@@ -46,7 +47,10 @@ class Listing extends Component {
             </div>
           </div>
           <div className="popular-product-section mt30">
-            <h3 className="product-cat-title">Most Popular</h3>
+            <div className="d-flex align-items-center">
+              <h3 className="font-weight-bold font-large product-cat-title">Most Popular</h3>
+              <img src={popularIcon} width="24" />
+            </div>
             <div className="row">
               {this.props.products &&
                 this.props.products.map(product => (
@@ -62,7 +66,7 @@ class Listing extends Component {
           </div>
           <div className="restaurant-menu-section mt30">
            <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={this.toggle}>
-              <h3 className="product-cat-title">Drinks</h3>
+              <h3 className="font-weight-bold font-large product-cat-title">Drinks</h3>
               <img className="w-10" src={arrowDown} style={{ transform: `${this.state.collapse ? 'rotate(-180deg)' : 'unset'}`}}/>
            </div>
            <Collapse isOpen={this.state.collapse}>
