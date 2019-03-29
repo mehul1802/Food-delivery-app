@@ -8,6 +8,8 @@ import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
 
 import arrowIcon from '../../assets/images/cart.svg';
 import discBanner from '../../assets/images/discount-banner.jpg';
+import arrowDown from '../../assets/images/arrow-down.svg';
+
 
 class Listing extends Component {
 	constructor(props) {
@@ -24,8 +26,8 @@ class Listing extends Component {
     }));
   }
 
-  toggle() {
-    this.setState(state => ({ collapse: !state.collapse }));
+  toggle = () => {
+    this.setState(prevState => ({ collapse: !prevState.collapse }));
   }
  
   render() {
@@ -59,9 +61,9 @@ class Listing extends Component {
             </div>
           </div>
           <div className="restaurant-menu-section mt30">
-           <div className="restaurant-menu-header" onClick={this.toggle}>
+           <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={this.toggle}>
               <h3 className="product-cat-title">Drinks</h3>
-              
+              <img className="w-10" src={arrowDown} style={{ transform: `${this.state.collapse ? 'rotate(-180deg)' : 'unset'}`}}/>
            </div>
            <Collapse isOpen={this.state.collapse}>
               <div className="row">

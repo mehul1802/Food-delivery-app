@@ -60,13 +60,21 @@
 		.row {
 		 	margin: 0px -6px;
 		}
-		.product-cat-title {
-			font-size: 24px;
-			font-weight: 400;
-			color: #000;
-			line-height: 32px;
-			margin: 0;
-			padding: 8px 0px;
+		.restaurant-menu-header {
+		  cursor: pointer;
+			.product-cat-title {
+				font-size: 24px;
+				font-weight: 400;
+				color: #000;
+				line-height: 32px;
+				margin: 0;
+				padding: 8px 0px;
+			}
+			img {
+			  width: 20px;
+			  height: 20px;
+			  transition: transform 0.3s ease-in 0s;
+			}
 		}
 	}
 }
