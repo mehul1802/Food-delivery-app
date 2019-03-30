@@ -1,5 +1,5 @@
 import API from './api';
-import { API_URL } from '../utils';
+// import { API_URL } from '../utils';
 
 const LOCAL_STORAGE_KEY = 'authentication';
 
@@ -24,9 +24,9 @@ class Session {
         localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
 
-    authenticate(credential) {
-        return API.post(`${API_URL.ADMIN.LOGIN}`, credential);
-    }
+    // authenticate(credential) {
+    //     return API.post(`${API_URL.ADMIN.LOGIN}`, credential);
+    // }
 
     logout() {
         this.removeToken();

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import ListingHeader from './ListingHeader';
 import PopularProduct from '../Shared/PopularProduct';
 import Product from '../Shared/Product';
 import defaultProducts from '../../utils/products.json';
-import { Collapse, Button, CardBody, Card } from 'reactstrap';
+import { Collapse } from 'reactstrap';
 import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
+
+import { ApiRequest } from '../../services/api-request';
 
 import arrowIcon from '../../assets/images/cart.svg';
 import discBanner from '../../assets/images/discount-banner.jpg';
@@ -12,25 +15,49 @@ import arrowDown from '../../assets/images/arrow-down.svg';
 import popularIcon from '../../assets/images/popular-icon.svg';
 
 
+const initialState = {
+  menuItemOptionsModal: false,
+  menuList: []
+};
+
 class Listing extends Component {
-	constructor(props) {
-    super(props);
-    this.state = {
-      collapse: true,
-      menuItemOptionsModal: false,
-    };
+
+  state = initialState
+
+  async componentDidMount() {
+    try {
+      let response = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/menu`);
+      let menuList = response.data;
+      this.setState({ menuList });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
-   handleMenuItemOptionsDialog = () => {
+  handleMenuItemOptionsDialog = () => {
     this.setState(prevState => ({
       menuItemOptionsModal: !prevState.menuItemOptionsModal
     }));
   }
 
-  toggle = () => {
-    this.setState(prevState => ({ collapse: !prevState.collapse }));
+  toggle = (categoryName) => {
+    let cetegoryObj = this.state.menuList.find(category => category.category_name === categoryName);
+
+    const menuList = this.state.menuList.map(item => {
+      let cetegoryObj = _.cloneDeep(item);
+      if (item.category_name === categoryName) {
+        // Avoid mutating state directly
+        return { ...cetegoryObj, collapse: !cetegoryObj.collapse };
+      } else {
+        return cetegoryObj;
+      }
+    });
+
+    this.setState({
+      menuList
+    });
   }
- 
+
   render() {
     return (
       <div>
@@ -56,37 +83,37 @@ class Listing extends Component {
                 this.props.products.map(product => (
                   <div className="col-md-6 p-2">
                     <PopularProduct
-                     product={product}
-                     handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
+                      product={product}
+                      handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
                     />
                   </div>
                 ))
               }
             </div>
           </div>
-          <div className="restaurant-menu-section mt30">
-           <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={this.toggle}>
-              <h3 className="font-weight-bold font-large product-cat-title">Drinks</h3>
-              <img className="w-10" src={arrowDown} style={{ transform: `${this.state.collapse ? 'rotate(-180deg)' : 'unset'}`}}/>
-           </div>
-           <Collapse isOpen={this.state.collapse}>
+          {this.state.menuList.map(item => <div className="restaurant-menu-section mt30">
+            <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={() => this.toggle(item.category_name)}>
+              <h3 className="font-weight-bold font-large product-cat-title">{item.category_name}</h3>
+              <img className="w-10" src={arrowDown} style={{ transform: `${item.collapse ? 'rotate(-180deg)' : 'unset'}` }} />
+            </div>
+            <Collapse isOpen={!item.collapse}>
               <div className="row">
-              {this.props.products &&
-                this.props.products.map(product => (
+                {item.list_items.map(product => (
                   <div className="col-md-6 p-2">
                     <Product product={product} />
                   </div>
-                ))
-              }
+                ))}
               </div>
-           </Collapse>
-          </div>
+            </Collapse>
+          </div>)
+          }
+
         </div>
         <MenuItemOptionsDialog
-           isOpen={this.state.menuItemOptionsModal}
-           handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
-           className="menuitem-options-wrapper"
-          />
+          isOpen={this.state.menuItemOptionsModal}
+          handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
+          className="menuitem-options-wrapper"
+        />
       </div>
     );
   }
