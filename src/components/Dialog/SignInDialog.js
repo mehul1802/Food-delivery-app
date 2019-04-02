@@ -14,7 +14,7 @@ class SignInDialog extends Component {
          isOpen={isOpen}
          toggle={handleSignInDialog}
          className={className}
-         backdrop="true"
+         backdrop
          style={{ maxWidth: '570px' }}
         >
           <ModalHeader toggle={handleSignInDialog} close={closeBtn} />

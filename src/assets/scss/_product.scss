@@ -7,24 +7,8 @@
 		}
 	}
 	.card-body {
-		display: flex;
-		position: relative;
-		.product-basic {
-		  padding: 8px 12px;
-		  width: calc(100% - 150px);
-		  .card-title {
-				font-weight: 500;
-				font-size: 16px;
-				color: #0070eb;
-				margin-bottom: 4px;
-			}
-			.card-text {
-			  font-size: 14px;
-			  color: rgba(0,0,0,0.55);
-			}
-		}
 		.product-img {
-		width: 150px;
+			width: 150px;
   		height: 120px;
   		position: relative;
   		img {
@@ -44,25 +28,6 @@
         font-size: 16px;
         border-radius: 4px;
   		}
-		}
-		&.most-popular {
-			height: 135px;
-			border-radius: 4px;
-			.product-info {
-				bottom: 0;
-		    left: 0;
-		    position: absolute;
-		    margin: 10px;
-		    padding: 5px 10px;
-		    background-color: hsla(0,0%,100%,.75);
-		    transition: background-color .2s ease-in-out;
-		    border-radius: 4px;
-		    font-size: 14px;
-		    color: rgba(0,0,0,.87);
-		    .card-title {
-		    	color: #000 !important;
-		    }
-		  }
 		}
 	}
 }

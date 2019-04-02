@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { withRouter } from "react-router-dom";
 import ListingHeader from './ListingHeader';
 import PopularProduct from '../Shared/PopularProduct';
 import Product from '../Shared/Product';
@@ -34,10 +35,9 @@ class Listing extends Component {
     }
   }
 
-  handleMenuItemOptionsDialog = () => {
-    this.setState(prevState => ({
-      menuItemOptionsModal: !prevState.menuItemOptionsModal
-    }));
+  productOptionModal = (productId) => {
+    this.setState({ menuItemOptionsModal: true, productId: productId });
+    this.props.history.push(`/product/${productId}`);
   }
 
   toggle = (categoryName) => {
@@ -73,7 +73,7 @@ class Listing extends Component {
               <a href="#" className="hot-deal-offer">Hot Deal</a>
             </div>
           </div>
-          <div className="popular-product-section mt30">
+          {/* <div className="popular-product-section mt30">
             <div className="d-flex align-items-center">
               <h3 className="font-weight-bold font-large product-cat-title">Most Popular</h3>
               <img src={popularIcon} width="24" />
@@ -90,8 +90,8 @@ class Listing extends Component {
                 ))
               }
             </div>
-          </div>
-          {this.state.menuList.map(item => <div className="restaurant-menu-section mt30">
+          </div> */}
+          {this.state.menuList.map(item => <div className="restaurant-menu-section mt30" key={item.category_name}>
             <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={() => this.toggle(item.category_name)}>
               <h3 className="font-weight-bold font-large product-cat-title">{item.category_name}</h3>
               <img className="w-10" src={arrowDown} style={{ transform: `${item.collapse ? 'rotate(-180deg)' : 'unset'}` }} />
@@ -99,21 +99,21 @@ class Listing extends Component {
             <Collapse isOpen={!item.collapse}>
               <div className="row">
                 {item.list_items.map(product => (
-                  <div className="col-md-6 p-2">
-                    <Product product={product} />
+                  <div className="col-md-6 p-2" key={product.ProductID}>
+                    <Product product={product} onClick={(e) => this.productOptionModal(product.ProductID)}/>
                   </div>
                 ))}
               </div>
             </Collapse>
           </div>)
           }
-
         </div>
-        <MenuItemOptionsDialog
+        {/*<MenuItemOptionsDialog
           isOpen={this.state.menuItemOptionsModal}
+          productId={this.state.productId}
           handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
           className="menuitem-options-wrapper"
-        />
+        /> */}
       </div>
     );
   }
@@ -124,4 +124,4 @@ Listing.defaultProps = {
 };
 
 
-export default Listing;
+export default withRouter(Listing);

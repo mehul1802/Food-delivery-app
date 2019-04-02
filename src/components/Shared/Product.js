@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { currencyFormat } from '../../utils/common';
 
 class Product extends Component {
 	constructor(props) {
@@ -7,17 +7,17 @@ class Product extends Component {
   }
  
   render() {
-    const { product } = this.props;
+    const { product, onClick } = this.props;
     return (
-      <div className="card product-card">
-        <div className="card-body p-0">
+      <div className="card product-card" onClick={onClick}>
+        <div className="card-body p-2 d-flex justify-content-between align-items-center">
           <div className="product-basic">
-            <h4 className="card-title">{product.ProductName}</h4>
-            {/* <p class="card-text">{product.desc}</p> */}
+            <h4 className="font-regular card-title m-0 text-primary">{product.ProductName}</h4>
+            {/* <p className="card-text">{product.desc}</p> */}
           </div>
-          <div className="product-img">
-            {/* <img src={product.image} alt="Card image cap" /> */}
-            <div className="menuitem-price">{product.UnitPrice}</div>
+          <div>
+            {/* <img src={product.image}  className="product-img" alt="Card image cap" /> */}
+            <div className="menuitem-price">{currencyFormat(product.UnitPrice)}</div>
           </div>
         </div>
       </div>

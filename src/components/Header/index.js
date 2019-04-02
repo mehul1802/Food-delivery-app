@@ -35,7 +35,7 @@ class Header extends Component {
   render() {
     return (
       <div className="header-section">
-       <Navbar color="white" white expand="md">
+       <Navbar color="white" expand="md">
           <NavbarBrand href="/"><img src={logo} alt="logo"/></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
