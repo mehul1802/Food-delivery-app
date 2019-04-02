@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { currencyFormat } from '../../utils/common';
+import { formatPrice } from '../../utils/common';
 
 class Product extends Component {
 	constructor(props) {
@@ -17,7 +17,7 @@ class Product extends Component {
           </div>
           <div>
             {/* <img src={product.image}  className="product-img" alt="Card image cap" /> */}
-            <div className="menuitem-price">{currencyFormat(product.UnitPrice)}</div>
+            <div className="menuitem-price">{formatPrice(product.UnitPrice)}</div>
           </div>
         </div>
       </div>

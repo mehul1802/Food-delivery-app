@@ -37,7 +37,11 @@ class Listing extends Component {
 
   productOptionModal = (productId) => {
     this.setState({ menuItemOptionsModal: true, productId: productId });
-    this.props.history.push(`/product/${productId}`);
+    // this.props.history.push(`/product/${productId}`);
+  }
+
+  handleMenuItemOptionsDialog = () => {
+    this.setState({ menuItemOptionsModal: false });
   }
 
   toggle = (categoryName) => {
@@ -108,12 +112,14 @@ class Listing extends Component {
           </div>)
           }
         </div>
-        {/*<MenuItemOptionsDialog
-          isOpen={this.state.menuItemOptionsModal}
-          productId={this.state.productId}
-          handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
-          className="menuitem-options-wrapper"
-        /> */}
+        {this.state.menuItemOptionsModal &&
+          <MenuItemOptionsDialog
+            isOpen={this.state.menuItemOptionsModal}
+            productId={this.state.productId}
+            handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
+            className="menuitem-options-wrapper"
+          />
+        }
       </div>
     );
   }
