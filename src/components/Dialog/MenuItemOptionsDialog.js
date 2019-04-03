@@ -38,6 +38,33 @@ class MenuItemOptionsDialog extends Component {
     }
   }
 
+  handleChangeQuantity = (option) => {
+    let pquantity;
+
+    switch (option) {
+      case 'plus':
+        pquantity = this.state.product.quantity + 1 || 2;
+        break;
+      case 'minus':
+        pquantity = (this.state.product.quantity > 1) ? this.state.product.quantity - 1 : 1;
+        break;
+      default:
+        pquantity = this.state.product.quantity;
+        break;
+    }
+
+    this.setState({ quantity: pquantity });
+  };
+
+  handleChangeQuantityTyped = val => this.setState({ quantity: val.target.value });
+
+  calculateBasePrice = () => {
+    let baseprice;
+    baseprice = parseFloat(this.state.product.unit_price*this.state.product.quantity);
+    console.log(baseprice);
+    this.setState({ basePrice: baseprice });
+  }
+
   toggleOption = (e) => {
     const name = e.target.name;
     const obj = this.state.product.modifiers.map(item => {
@@ -47,7 +74,7 @@ class MenuItemOptionsDialog extends Component {
       return item;
     })
     this.setState({
-      modifier: Object.assign({}, this.state.product.modifiers, { extra: obj })
+      modifier: Object.assign({}, this.state.product.modifiers, { obj })
     });
   }
  
@@ -76,9 +103,14 @@ class MenuItemOptionsDialog extends Component {
               <div className="quantity-wrapper mb-5">
                  <span>Quantity</span>
                  <div className="quantity">
-                    <span>-</span>
-                    <Input type="text" value={this.state.product.quantity}/>
-                    <span>+</span>
+                    <span onClick={() => this.handleChangeQuantity('minus')}>-</span>
+                    <Input
+                      type="number"
+                      min="1"
+                      className="p-0"
+                      onChange={val => this.handleChangeQuantityTyped(val)}
+                      value={this.state.product.quantity} />
+                    <span onClick={() => this.handleChangeQuantity('plus')}>+</span>
                  </div>
               </div>
               <div className="mb-4">

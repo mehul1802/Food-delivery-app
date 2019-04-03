@@ -10,7 +10,7 @@ class Product extends Component {
     const { product, onClick } = this.props;
     return (
       <div className="card product-card" onClick={onClick}>
-        <div className="card-body p-2 d-flex justify-content-between align-items-center">
+        <div className="card-body p-3 d-flex justify-content-between align-items-center">
           <div className="product-basic">
             <h4 className="font-regular card-title m-0 text-primary">{product.ProductName}</h4>
             {/* <p className="card-text">{product.desc}</p> */}
