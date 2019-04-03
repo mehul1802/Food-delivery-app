@@ -11,11 +11,12 @@ const initialState = {
     quantity: 1,
     bag_price: 0,
     comment: '',
+    modifierTotal: 0,
   }
 }
 
 class MenuItemOptionsDialog extends Component {
-	constructor(props) {
+  constructor(props) {
     super(props);
     this.state = initialState;
   }
@@ -31,6 +32,7 @@ class MenuItemOptionsDialog extends Component {
       this.setState({ product: {
         ...this.state.product,
         ...product,
+        bag_price: product.unit_price,
       } });
      
     } catch (e) {
@@ -39,30 +41,81 @@ class MenuItemOptionsDialog extends Component {
   }
 
   handleChangeQuantity = (option) => {
-    let pquantity;
+    let quantity;
 
     switch (option) {
       case 'plus':
-        pquantity = this.state.product.quantity + 1 || 2;
+        quantity = (this.state.product.quantity < this.state.product.stock) ? this.state.product.quantity + 1 : this.state.product.stock;
         break;
       case 'minus':
-        pquantity = (this.state.product.quantity > 1) ? this.state.product.quantity - 1 : 1;
+        quantity = (this.state.product.quantity > 1) ? this.state.product.quantity - 1 : 1;
         break;
       default:
-        pquantity = this.state.product.quantity;
+        quantity = this.state.product.quantity;
         break;
     }
 
-    this.setState({ quantity: pquantity });
+    this.setState({ product: {
+      ...this.state.product,
+      quantity: quantity
+    }} , () => { this.calculateBasePrice();});
   };
 
-  handleChangeQuantityTyped = val => this.setState({ quantity: val.target.value });
-
+  handleChangeQuantityTyped = val =>  {
+    this.setState({ product: {
+    ...this.state.product,
+    quantity: val.target.value
+  }})};
+  
   calculateBasePrice = () => {
-    let baseprice;
-    baseprice = parseFloat(this.state.product.unit_price*this.state.product.quantity);
-    console.log(baseprice);
-    this.setState({ basePrice: baseprice });
+    let unitPrice;
+    let modifierPrice;
+    unitPrice = parseFloat(this.state.product.unit_price*this.state.product.quantity);
+    modifierPrice = parseFloat(this.state.product.modifierTotal*this.state.product.quantity);
+    
+    this.setState({ product: {
+      ...this.state.product,
+      bag_price: unitPrice + modifierPrice
+    }});
+  }
+
+  selectedModifier = () => {
+ 
+    const selectedModifiers = this.state.product.modifiers
+      .filter(modifier => modifier.selected)
+      .reduce((list, modifier) => {
+        list.push({
+          id: modifier.id,
+          name: modifier.name,
+          price: modifier.price,
+        });
+        return list;
+      }, []);
+
+      this.setState({ product: {
+        ...this.state.product,
+        selected_Modifiers : selectedModifiers,
+      }}, () => {
+        const modifiersPrice = this.state.product.selected_Modifiers
+          .reduce((modifiersPrice, modifier) => {
+            modifiersPrice.push(modifier.price);
+            return modifiersPrice;
+          }, []);
+
+            let modifierTotal = modifiersPrice.reduce(
+              ( accumulator, currentValue ) => accumulator + currentValue,
+              0
+            );
+           
+           this.setState({ product: {
+            ...this.state.product,
+            modifierTotal
+           }}, () => {this.calculateBasePrice()})
+        });
+  }
+
+  addToCart = () => {
+    console.log(this.state.product);
   }
 
   toggleOption = (e) => {
@@ -73,15 +126,17 @@ class MenuItemOptionsDialog extends Component {
       }
       return item;
     })
-    this.setState({
-      modifier: Object.assign({}, this.state.product.modifiers, { obj })
-    });
+
+    this.setState({ product: {
+      ...this.state.product,
+      modifiers : obj,
+    }}, () => { this.selectedModifier()});
   }
  
   render() {
     const { isOpen, handleMenuItemOptionsDialog, className } = this.props;
     const closeBtn = <button className="close" onClick={handleMenuItemOptionsDialog}>&times;</button>;
-    
+
     return (
        <Modal
          isOpen={isOpen}
@@ -107,38 +162,40 @@ class MenuItemOptionsDialog extends Component {
                     <Input
                       type="number"
                       min="1"
-                      className="p-0"
+                      className="p-0 text-center"
                       onChange={val => this.handleChangeQuantityTyped(val)}
                       value={this.state.product.quantity} />
                     <span onClick={() => this.handleChangeQuantity('plus')}>+</span>
                  </div>
               </div>
-              <div className="mb-4">
-                <div className="font-dark">
-                  <div className="font-medium medium">Complete your meal</div>
-                  <div className="font-regular text-muted light mb-2">Optional. Here are some popular add-ons.</div>
+              {this.state.product.modifiers &&
+                <div className="mb-4">
+                  <div className="font-dark">
+                    <div className="font-medium medium">Complete your meal</div>
+                    <div className="font-regular text-muted light mb-2">Optional. Here are some popular add-ons.</div>
+                  </div>
+                  <FormGroup tag="div" check className="row m-0 font-tiny d-flex">
+                    {this.state.product.modifiers.map(modifier =>  <div className="col-6 col-md-4 py-2 mb-2" key={modifier.key}>
+                      <Label check className="help-cntr">
+                        <Input
+                          name={modifier.key}
+                          type="checkbox"
+                          checked={this.state.product.modifiers.find(item => item.key === modifier.key).selected}
+                          onChange={this.toggleOption}
+                        />
+                          <span>{modifier.name} - {formatPrice(modifier.price)}</span>
+                      </Label>
+                    </div>)}
+                  </FormGroup>
                 </div>
-                <FormGroup tag="div" check className="row m-0 font-tiny d-flex">
-                  {this.state.product.modifiers && this.state.product.modifiers.map(modifier =>  <div className="col-6 col-md-4 py-2 mb-2" key={modifier.key}>
-                    <Label check className="help-cntr">
-                      <Input
-                        name={modifier.key}
-                        type="checkbox"
-                        checked={this.state.product.modifiers.find(item => item.key === modifier.key).selected}
-                        onChange={this.toggleOption}
-                      />
-                        <span>{modifier.name} - {formatPrice(modifier.price)}</span>
-                    </Label>
-                  </div>)}
-                </FormGroup>
-              </div>
+              }
               <div>
                 <div className="font-medium medium">Special instruction</div>
                 <Input name="special-instruction" type="textarea" rows={3} placeholder="Dressing on the side?No pickels" />
               </div>
             </div>
 
-            <Button color="primary w-50 my-2 mx-4" onClick={handleMenuItemOptionsDialog}>Add to bag</Button>
+            <Button color="primary w-50 my-2 mx-4" onClick={this.addToCart}>Add to bag {formatPrice(this.state.product.bag_price)}</Button>
           </ModalBody>
         </Modal>
     );

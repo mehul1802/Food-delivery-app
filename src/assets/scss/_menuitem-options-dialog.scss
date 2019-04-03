@@ -3,21 +3,21 @@
  .modal-body {
 	padding: 0px;
 	 overflow-y: auto;
- height: calc(100vh - 60px);
+   height: calc(100vh - 60px);
 	.item-header {
 	  height: 300px;
 	  position: relative;
 	  .close-icon {
-	  cursor: pointer;
+	    cursor: pointer;
 	  	width: 36px;
 	  	height: 36px;
 	  	background: #fff;
 	  	border-radius: 50%;
-	  	    left: 24px;
-    top: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	  	left: 24px;
+	    top: 16px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
 	  }
 	  .item-info {
 	  	  bottom: 40px;
@@ -59,9 +59,12 @@
 				align-items: center;
 				margin-left: 16px;
 				input {
-				margin: 0px 8px !important;
-				width: 44px;
-				border: 2px solid #cacaca;
+					margin: 0px 8px !important;
+					width: 44px;
+					border: 2px solid #cacaca;
+					&:focus {
+						border-color: #3232aa !important;
+					}
 				}
 				span {
 					width: 36px;
