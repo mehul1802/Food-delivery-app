@@ -45,7 +45,6 @@ class Listing extends Component {
   }
 
   toggle = (categoryName) => {
-    let cetegoryObj = this.state.menuList.find(category => category.category_name === categoryName);
 
     const menuList = this.state.menuList.map(item => {
       let cetegoryObj = _.cloneDeep(item);
