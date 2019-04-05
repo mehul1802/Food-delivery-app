@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import ListingHeader from './ListingHeader';
 import PopularProduct from '../Shared/PopularProduct';
@@ -7,6 +8,8 @@ import Product from '../Shared/Product';
 import defaultProducts from '../../utils/products.json';
 import { Collapse } from 'reactstrap';
 import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
+import OrderTypeDialog from '../Dialog/OrderTypeDialog';
+import { addOrderType } from '../../actions/order-actions';
 
 import { ApiRequest } from '../../services/api-request';
 
@@ -18,7 +21,7 @@ import popularIcon from '../../assets/images/popular-icon.svg';
 
 const initialState = {
   menuItemOptionsModal: false,
-  menuList: []
+  menuList: [],
 };
 
 class Listing extends Component {
@@ -33,6 +36,22 @@ class Listing extends Component {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  addOrderType = (orderType) => {
+    this.props.addOrderType(orderType);
+    this.setState({ orderTypeModal: false });
+  }
+
+  handleOrderType = (productId) => {
+    console.log(this.props.orderType);
+    if(this.props.orderType) {
+      this.productOptionModal(productId);
+    } else {
+      this.setState({ orderTypeModal: true })
+      console.log(this.props);
+    }
+    
   }
 
   productOptionModal = (productId) => {
@@ -103,7 +122,7 @@ class Listing extends Component {
               <div className="row">
                 {item.list_items.map(product => (
                   <div className="col-md-6 p-2" key={product.ProductID}>
-                    <Product product={product} onClick={(e) => this.productOptionModal(product.ProductID)}/>
+                    <Product product={product} onClick={(e) => this.handleOrderType(product.ProductID)}/>
                   </div>
                 ))}
               </div>
@@ -119,6 +138,12 @@ class Listing extends Component {
             className="menuitem-options-wrapper"
           />
         }
+        {this.state.orderTypeModal &&
+          <OrderTypeDialog
+            isOpen={this.state.orderTypeModal}
+            addOrderType={this.addOrderType}
+          />
+        }
       </div>
     );
   }
@@ -128,5 +153,15 @@ Listing.defaultProps = {
   products: defaultProducts,
 };
 
+const mapStateToListingProps = (state) => {
+   return { orderType: state.order.orderType };
+};
 
-export default withRouter(Listing);
+const mapDispatchToListingProps = {
+  addOrderType
+};
+
+export default withRouter(connect(
+  mapStateToListingProps,
+  mapDispatchToListingProps
+)(Listing));
