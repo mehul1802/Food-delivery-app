@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addToCart } from '../../actions/cart-actions';
 
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
@@ -36,7 +34,7 @@ class OrderTypeDialog extends Component {
         style={{ maxWidth: '460px' }}
       >
         <ModalBody>
-           <Nav tabs>
+           <Nav tabs className="border border-primary">
             <NavItem>
               <NavLink
                 className={classnames({ active: this.state.orderType === '1' })}

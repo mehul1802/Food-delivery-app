@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import ListingHeader from './ListingHeader';
-import PopularProduct from '../Shared/PopularProduct';
 import Product from '../Shared/Product';
 import defaultProducts from '../../utils/products.json';
 import { Collapse } from 'reactstrap';
@@ -13,10 +12,8 @@ import { addOrderType } from '../../actions/order-actions';
 
 import { ApiRequest } from '../../services/api-request';
 
-import arrowIcon from '../../assets/images/cart.svg';
 import discBanner from '../../assets/images/discount-banner.jpg';
 import arrowDown from '../../assets/images/arrow-down.svg';
-import popularIcon from '../../assets/images/popular-icon.svg';
 
 
 const initialState = {
@@ -44,12 +41,10 @@ class Listing extends Component {
   }
 
   handleOrderType = (productId) => {
-    console.log(this.props.orderType);
     if(this.props.orderType) {
       this.productOptionModal(productId);
     } else {
-      this.setState({ orderTypeModal: true })
-      console.log(this.props);
+      this.setState({ orderTypeModal: true });
     }
     
   }
