@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addToCart } from '../../actions/cart-actions';
-
+import hash  from 'object-hash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 
+import { addToCart } from '../../actions/cart-actions';
+
+
 import { ApiRequest } from '../../services/api-request';
+import { session } from '../../services/session';
 import { formatPrice, strToLowercase } from '../../utils/common';
+
 import closeIcon from '../../assets/images/close-icon.png';
 
 const initialState = {
@@ -14,6 +18,7 @@ const initialState = {
     bag_price: 0,
     comment: '',
     modifierTotal: 0,
+    tax_price: 0
   }
 }
 
@@ -31,11 +36,13 @@ class MenuItemOptionsDialog extends Component {
         modifier = Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })
       });
 
+      let unitTax = (parseFloat(product.vat_value) / 100) * parseFloat(product.unit_price);
       this.setState({
         product: {
           ...this.state.product,
           ...product,
           bag_price: product.unit_price,
+          tax_price: unitTax
         }
       });
 
@@ -77,10 +84,10 @@ class MenuItemOptionsDialog extends Component {
   };
 
   calculateBasePrice = () => {
-    let unitPrice;
-    let modifierPrice;
-    let taxPrice;
-    let bagPrice;
+    let unitPrice = 0;
+    let modifierPrice = 0;
+    let taxPrice = 0;
+    let bagPrice = 0;
     unitPrice = parseFloat(this.state.product.unit_price * this.state.product.quantity);
     modifierPrice = parseFloat(this.state.product.modifierTotal * this.state.product.quantity);
     bagPrice = unitPrice + modifierPrice;
@@ -135,7 +142,7 @@ class MenuItemOptionsDialog extends Component {
 
   addToCart = () => {
     const { product_id, product_name, cat_id, quantity, unit_price, vat_value, is_weight, modifierTotal, bag_price, tax_price ,selected_modifiers } = this.state.product;
-    let product = {
+    let obj = {
       product_id : product_id,
       product_name: product_name,
       cat_id : cat_id,
@@ -148,7 +155,12 @@ class MenuItemOptionsDialog extends Component {
       total_price: bag_price,
       modifiers: selected_modifiers
     };
+    let product = {
+      uid: hash(obj),
+      ...obj
+    }
     this.props.addToCart(product);
+    session.setCartData(product);
     this.props.handleMenuItemOptionsDialog();
   }
 
