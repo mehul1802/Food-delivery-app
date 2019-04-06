@@ -182,7 +182,7 @@ class MenuItemOptionsDialog extends Component {
         style={{ maxWidth: '750px' }}
       >
         <ModalBody>
-          <div className="item-header" style={{ background: `url("https://res.cloudinary.com/grubhub/image/upload/w_768,h_300,f_auto,q_auto,dpr_auto,g_auto,c_fill/usoaalkbgoxdczx6qfhh")` }} x>
+          <div className="item-header" style={{ background: `url("https://res.cloudinary.com/grubhub/image/upload/w_768,h_300,f_auto,q_auto,dpr_auto,g_auto,c_fill/usoaalkbgoxdczx6qfhh")` }}>
             <div className="position-absolute close-icon" onClick={handleMenuItemOptionsDialog}><img src={closeIcon} /></div>
             <div className="item-info">
               <h4 className="item-title">{this.state.product.product_name}</h4>

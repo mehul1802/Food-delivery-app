@@ -1,0 +1,26 @@
+.order-type-dialog {
+	.modal-title {
+		font-size: 24px;
+		font-weight: 400;
+		line-height: 32px;
+	}
+	.modal-body {
+		.nav-tabs {
+			margin: 30px 0px !important;
+			.nav-item {
+				width: 50%;
+				.nav-link {
+				  border: 2px solid rgba(0,0,0,.2);
+				  text-align: center;
+				  border-radius: 4px;
+				  cursor: pointer;
+				  &.active {
+				  	background: #0070eb;
+				  	color: #fff;
+				  	border-color: #0070eb;
+				  }
+				}
+			}
+		}
+	}
+}

@@ -8,6 +8,6 @@ export function addToCart(product) {
 
 export function removeFromCart(productId) {
     return dispatch => {
-        dispatch({ type: cartTypes.ADD_TO_CART, payload: productId });
+        dispatch({ type: cartTypes.REMOVE_FROM_CART, payload: productId });
     };
 }

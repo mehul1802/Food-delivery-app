@@ -31,13 +31,17 @@ class OrderTypeDialog extends Component {
       <Modal
         isOpen={isOpen}
         backdrop
-        style={{ maxWidth: '460px' }}
+        style={{ maxWidth: '360px' }}
+        className="order-type-dialog"
       >
+        <ModalHeader className="px-8">
+          Your order setting
+        </ModalHeader>
         <ModalBody>
-           <Nav tabs className="border border-primary">
+           <Nav tabs className="border-0 my-8">
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.orderType === '1' })}
+                className={`font-weight-bold ${classnames({ active: this.state.orderType === '1' })}`}
                 onClick={() => { this.toggle('1'); }}
               >
                 Delivery
@@ -52,8 +56,10 @@ class OrderTypeDialog extends Component {
               </NavLink>
             </NavItem>
           </Nav>
-          <Button color="primary w-50 my-2 mx-4" onClick={this.hadleOrderType}>Update</Button>
         </ModalBody>
+        <ModalFooter>
+          <Button color="primary w-100 rounded" onClick={this.hadleOrderType}>Update</Button>
+        </ModalFooter>
       </Modal>
     )
   }
