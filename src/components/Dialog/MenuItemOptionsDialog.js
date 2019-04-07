@@ -30,7 +30,7 @@ class MenuItemOptionsDialog extends Component {
 
   async componentDidMount() {
     try {
-      let response = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/product/${this.props.productId}`);
+      let response = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/menu/${this.props.productId}`);
       let product = response.data;
       product.modifiers.map(modifier => {
         modifier = Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })
