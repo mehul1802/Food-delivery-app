@@ -36,17 +36,28 @@ class Session {
             productArr = JSON.parse(this.cart);
         }
 
-        let updatedProducts = productArr.filter(item => {
-            return item.uid !== product.uid
-        });
-
-        if (productArr.length > updatedProducts.length) {
-            productArr = updatedProducts;
-        } else {
+        if (!productArr.find(item => item.uid === product.uid)) {
             productArr.push(product);
         }
 
         localStorage.setItem(CART_KEY, JSON.stringify(productArr));
+        this.cart = localStorage.getItem(CART_KEY);
+
+        return this.cart;
+    }
+
+    removeCartItem(product) {
+        let productArr = [];
+
+        if (this.cart) {
+            productArr = JSON.parse(this.cart);
+        }
+        
+        let updatedProducts = productArr.filter(item => {
+            return item.uid !== product.uid
+        });
+
+        localStorage.setItem(CART_KEY, JSON.stringify(updatedProducts));
         this.cart = localStorage.getItem(CART_KEY);
 
         return this.cart;

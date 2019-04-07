@@ -28,7 +28,7 @@ class CartDrawer extends Component {
   }
 
   removeFromCart = (cartItem) => {
-    session.setCartData(cartItem)
+    session.removeCartItem(cartItem);
     this.props.removeFromCart(cartItem.uid);
   }
 
