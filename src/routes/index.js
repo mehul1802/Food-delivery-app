@@ -8,7 +8,6 @@ import Checkout from '../components/Checkout';
 export default (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/checkout/:id/gather" component={Checkout} />
     <Route path="/checkout/:id/payment" component={Checkout} />
   </Switch>
 );
