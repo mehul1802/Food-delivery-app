@@ -21,8 +21,8 @@ class Session {
         return !!this.token;
     }
 
-    setToken(token) {
-        this.token = token;
+    setToken(data) {
+        this.token = data.token;
         localStorage.setItem(LOCAL_STORAGE_KEY, this.token);
     }
 
@@ -33,15 +33,13 @@ class Session {
 
     async authenticate (url, credential) {
         try {
-            console.log(url);
+            
             const response = await API.post(url, credential);
-            this.setToken(response.data.data);
-
-            console.log(response.data.data);
-            const user = await store.dispatch(
-              action.getRecord(`${process.env.REACT_APP_API_URL}/users`, response.token, {action: 'GET_USER', urlAction: '/me'})
-             )
-
+            this.setToken(response.data);
+            console.log(response.data);
+            const user = await API.get(`${process.env.REACT_APP_API_URL}/users/me`);
+            console.log(user);
+            store.dispatch({ type: 'GET_USER', payload: user })
             return Promise.resolve(user);
         } catch(e) {
             return Promise.reject(e);
