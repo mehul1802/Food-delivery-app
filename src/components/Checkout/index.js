@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import CartDrawer from '../CartDrawer';
+import { Card, CardBody, Button } from 'reactstrap';
+import SimpleReactValidator from 'simple-react-validator';
 import { StripeProvider, Elements } from 'react-stripe-elements';
+import _ from 'lodash';
+
+import { stripePayment, session, ApiRequest } from '../../services';
+import Stripe from '../Shared/Stripe';
 
 const initialState = {
   stripe: null,
@@ -31,9 +36,27 @@ class Checkout extends Component {
     this.setState({ [name]: value });
   }
 
+  setStripeProps = (param) => {
+    this.setState({
+      stripe: param
+    });
+  }
+
   setStripeData = (e) => {
     const { elementType, complete } = e;
     this.setState({ [elementType]: complete });
+  }
+
+  createOrder = async (param = {}) => {
+    try {
+      let obj = {
+      };
+      console.log('sdf')
+      // await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, Object.assign(obj, param));
+    } catch (e) {
+      // showError(this.props.api.notification, e);
+      console.log(e)
+    }
   }
 
   async triggerPayment(userId = 0, customerId = null) {
@@ -43,11 +66,11 @@ class Checkout extends Component {
       if (!_.isEmpty(customerId)) {
         url = `/${customerId}/sources`;
       } else {
-        obj.description = `New Traveler creation - ${userId}`;
+        obj.description = `New User creation - ${userId}`;
       }
 
       // Create stripe Token
-      const response = await this.state.stripe.createToken({ name: this.state.cardName });
+      const response = await this.state.stripe.createToken({ name: this.state.cardName, cardNumber: this.state.cardNumber });
       obj.source = response.token.id;
 
       // Create customer
@@ -55,16 +78,17 @@ class Checkout extends Component {
       let id = customer.data.id
 
       // Create new booking after adding card in stripe
-      this.props.createBooking(customerId ? { card_id: id } : { stripe_customer_id: id });
+      this.createOrder(customerId ? { card_id: id } : { stripe_customer_id: id });
     } catch (e) {
       // showError(this.props.notification, e);
+      console.log(e);
     }
   }
 
   placeOrder = () => {
     try {
       if (this.validator.allValid()) {
-        this.triggerPayment(session.userId, this.props.customerId);
+        this.triggerPayment(session.userId);
       } else {
         this.validator.showMessages();
         // rerender to show messages for the first time
@@ -77,7 +101,32 @@ class Checkout extends Component {
 
   render() {
     return (
-     <div>Checkout page</div>
+      <div className="row">
+        <div className="col-12 col-md-6 mx-auto">
+          <Card>
+            <CardBody>
+              <div className="checkout">
+                <StripeProvider apiKey={stripePayment.key}>
+                  <Elements>
+                    <Stripe
+                      cardName={this.state.cardName}
+                      setStripeProps={this.setStripeProps}
+                      onChange={this.onChange}
+                      validator={this.validator}
+                      showStripeError={this.state.showStripeError}
+                      setStripeData={this.setStripeData}
+                      cardNumber={this.state.cardNumber}
+                      cardExpiry={this.state.cardExpiry}
+                      cardCvc={this.state.cardCvc}
+                    />
+                  </Elements>
+                </StripeProvider>
+              </div>
+            </CardBody>
+          </Card>
+          <Button color="secondary" className="d-block mx-auto my-3" onClick={this.placeOrder}>Place order</Button>
+        </div>
+      </div>
     );
   }
 }

@@ -10,8 +10,23 @@ import { session } from '../../services';
 import emptyBag from '../../assets/images/empty-bag.svg';
 import deleteIcon from '../../assets/images/delete-icon.svg';
 
+const calculateOrderAmount = (cartItems) => {
+  let subtotal_amount = 0;
+  let tax_amount = 0;
+  let order_amount = 0;
+  cartItems.forEach(cartItem => {
+    subtotal_amount = subtotal_amount + parseFloat(cartItem.total_price);
+    tax_amount = tax_amount + parseFloat(cartItem.tax_amount);
+    order_amount = subtotal_amount + tax_amount;
+  });
+  return { subtotal_amount, tax_amount , order_amount }
+}
+
 const initialState = {
-  products: []
+  products: [],
+  subtotal_amount: 0,
+  tax_amount: 0,
+  order_amount: 0
 }
 
 class CartDrawer extends Component {
@@ -20,11 +35,19 @@ class CartDrawer extends Component {
   static getDerivedStateFromProps(nextProps, prevState) {
     let cartData = session.getCartData();
     if (!_.isEqual(nextProps.products, prevState.products)) {
-      return { products: nextProps.products };     
+      let obj = calculateOrderAmount(nextProps.products);
+      return { products: nextProps.products, ...obj };     
     } else if (!_.isEmpty(cartData)) {
-      return { products: cartData }
+      let obj = calculateOrderAmount(cartData);
+      return { products: cartData, ...obj };
     }
     else return null;
+  }
+
+  handleCartSubmit = () => {
+      const { orderType } = this.props;
+      const obj = { ...this.state, orderType };
+      console.log(obj)
   }
 
   removeFromCart = (cartItem) => {
@@ -33,10 +56,7 @@ class CartDrawer extends Component {
   }
 
   render() {
-    const { products } = this.state;
-    let subTotal = 0;
-    let vatPrice = 0;
-    let total = 0;
+    const { products, subtotal_amount, tax_amount, order_amount } = this.state;
     return (
       <div className="cart-drawer">
         {Object.keys(products).length > 0 ?
@@ -44,9 +64,6 @@ class CartDrawer extends Component {
             <div className="px-3 py-2 cart-title">Order Detail</div>
             <div className="cart-items-wrapper">
               {products.map(cartItem => {
-                subTotal = subTotal + parseFloat(cartItem.total_price);
-                vatPrice = vatPrice + parseFloat(cartItem.tax_amount);
-                total = subTotal + vatPrice;
                 return (
                   <div className="cart-item px-3 py-2"  key={cartItem.product_id}>
                     <div className="item-info m-0 row">
@@ -73,17 +90,17 @@ class CartDrawer extends Component {
             <div className="py-3 px-4 bg-gray-lighter position-absolute w-100" style={{ bottom: 0 }}>
               <div className="d-flex justify-content-between font-small pb-2">
                 <span>Subtotal</span>
-                <span>{formatPrice(subTotal)}</span>
+                <span>{formatPrice(subtotal_amount)}</span>
               </div>
               <div className="d-flex justify-content-between font-small pb-2">
                 <span>Vat</span>
-                <span>{formatPrice(vatPrice)}</span>
+                <span>{formatPrice(tax_amount)}</span>
               </div>
               <div className="d-flex justify-content-between font-medium pb-2">
                 <span>Total</span>
-                <span>{formatPrice(total)}</span>
+                <span>{formatPrice(order_amount)}</span>
               </div>
-              <Button className="rounded bg-primary w-100 m-0">Continue Order</Button>
+              <Button className="rounded bg-primary w-100 m-0" onClick={this.handleCartSubmit}>Continue Order</Button>
             </div>
           </>)
           :
@@ -99,7 +116,7 @@ class CartDrawer extends Component {
 }
 
 const mapStateToCartDrawerProps = (state) => {
-  return { products: state.cart.products };
+  return { products: state.cart.products, orderType: state.order.orderType };
 };
 
 const mapDispatchToCartDrawerProps = {

@@ -4,7 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav, NavItem, NavLi
 import classnames from 'classnames';
 
 const initialState = {
-  orderType: '1',
+  orderType: 1,
 }
 
 class OrderTypeDialog extends Component {
@@ -41,16 +41,16 @@ class OrderTypeDialog extends Component {
            <Nav tabs className="border-0 my-8">
             <NavItem>
               <NavLink
-                className={`font-weight-bold ${classnames({ active: this.state.orderType === '1' })}`}
-                onClick={() => { this.toggle('1'); }}
+                className={`font-weight-bold ${classnames({ active: this.state.orderType === 1 })}`}
+                onClick={() => { this.toggle(1); }}
               >
                 Delivery
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.orderType === '2' })}
-                onClick={() => { this.toggle('2'); }}
+                className={classnames({ active: this.state.orderType === 2 })}
+                onClick={() => { this.toggle(2); }}
               >
                 Pickup
               </NavLink>

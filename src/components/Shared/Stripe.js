@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardNumberElement, CardExpiryElement, CardCVCElement } from 'react-stripe-elements';
+import { injectStripe ,CardNumberElement, CardExpiryElement, CardCVCElement } from 'react-stripe-elements';
 import AppInput from '../form-fields/AppInput';
 
 const createOptions = () => {
@@ -78,7 +78,7 @@ class _Stripe extends React.Component {
 
                         <CardNumberElement
                             onChange={this.handleChange}
-                            {...createOptions(this.props.fontSize)}
+                            {...createOptions()}
                         />
                     </div>
 
@@ -101,7 +101,7 @@ class _Stripe extends React.Component {
 
                             <CardExpiryElement
                                 onChange={this.handleChange}
-                                {...createOptions(this.props.fontSize)}
+                                {...createOptions()}
                             />
                         </div>
 
@@ -125,7 +125,7 @@ class _Stripe extends React.Component {
                             <CardCVCElement
                                 onChange={this.handleChange}
                                 placeholder="CVV"
-                                {...createOptions(this.props.fontSize)}
+                                {...createOptions()}
                             />
                         </div>
 

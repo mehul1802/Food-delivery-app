@@ -1,0 +1,27 @@
+.checkout {
+    .card-no legend {
+        width: 90px;
+    }
+
+    .expiry legend {
+        width: 80px;
+    }
+
+    .cvv legend {
+        width: 35px;
+    }
+
+    .StripeElement {
+        @extend .form-control;
+        height: calc(3rem + 2px);
+        border: 0;
+        color: #2B2B2B;
+        background: none;
+        padding: 18.5px 14px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .StripeElement--invalid {
+        color: red;
+    }
+}
