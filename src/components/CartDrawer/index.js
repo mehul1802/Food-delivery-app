@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import { removeFromCart } from '../../actions/cart-actions';
 import { formatPrice } from '../../utils/common';
-import { session } from '../../services/session';
+import { session } from '../../services';
 
 import emptyBag from '../../assets/images/empty-bag.svg';
 import deleteIcon from '../../assets/images/delete-icon.svg';

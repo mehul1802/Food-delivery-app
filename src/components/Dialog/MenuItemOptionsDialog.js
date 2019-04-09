@@ -7,7 +7,7 @@ import { addToCart } from '../../actions/cart-actions';
 
 
 import { ApiRequest } from '../../services/api-request';
-import { session } from '../../services/session';
+import { session } from '../../services';
 import { formatPrice, strToLowercase } from '../../utils/common';
 
 import closeIcon from '../../assets/images/close-icon.png';

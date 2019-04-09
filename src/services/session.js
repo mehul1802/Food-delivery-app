@@ -1,5 +1,7 @@
 import API from './api';
-// import { API_URL } from '../utils';
+import { store } from '../store';
+import { apiServices as action } from '../actions';
+import { ApiRequest } from './api-request';
 
 const LOCAL_STORAGE_KEY = 'authentication';
 const CART_KEY = 'cart';
@@ -21,12 +23,31 @@ class Session {
 
     setToken(token) {
         this.token = token;
-        localStorage.setItem(LOCAL_STORAGE_KEY, token);
+        localStorage.setItem(LOCAL_STORAGE_KEY, this.token);
     }
 
     removeToken() {
         this.token = null;
         localStorage.removeItem(LOCAL_STORAGE_KEY);
+    }
+
+    async authenticate (url, credential) {
+        try {
+            console.log(url);
+            const response = await API.post(url, credential);
+            this.setToken(response.data.data);
+
+            console.log(response.data.data);
+            const user = await store.dispatch(
+              action.getRecord(`${process.env.REACT_APP_API_URL}/users`, response.token, {action: 'GET_USER', urlAction: '/me'})
+             )
+
+            return Promise.resolve(user);
+        } catch(e) {
+            return Promise.reject(e);
+        } finally {
+            store.dispatch(action.hideLoader());
+        }
     }
 
     setCartData(product) {

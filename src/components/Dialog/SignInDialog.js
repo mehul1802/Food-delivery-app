@@ -1,14 +1,103 @@
 import React, { Component } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
+import SimpleReactValidator from 'simple-react-validator';
+import { Button, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
+import AppInput from '../form-fields/AppInput';
+import { session, ApiRequest } from '../../services';
+import { showError } from '../../helpers';
+
+const loginInitalState = {
+    accEmail: '',
+    accPassword: '',
+};
+
+const registerInitalState = {
+    name: '',
+    phone: '',
+    email: '',
+    address: '',
+    password: '',
+};
+
+const initiateValidation = () => {
+    return new SimpleReactValidator({
+        element: message => <div className="text-left error-message">{message}</div>
+    });
+};
 
 class SignInDialog extends Component {
 	constructor(props) {
     super(props);
+    this.validator = initiateValidation();
+  }
+
+  state = {
+    ...loginInitalState,
+    ...registerInitalState,
+    showSignUp: false,
+  }
+
+  onChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  handleLogin = async event => {
+    event.preventDefault();
+    try {
+      if (this.validator.allValid()) {
+        let credential = {email: this.state.accEmail, password: this.state.accPassword};
+        console.log(credential);
+        const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, credential);  
+      } else {
+        this.validator.showMessages();
+        this.forceUpdate();
+      }
+    }
+    catch (event){
+      showError(this.props.notification, event);
+    }
+  }
+
+   handleSignUp = async event => {
+      event.preventDefault();
+      try {
+        if (this.validator.allValid()) {
+          const { name, email, password, address, phone } = this.state;
+          let obj = {
+            email: email,
+            name: name,
+            address: address,
+            phone: phone,
+            password: password,
+          }
+          const response = await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/users/register`, obj);
+          if (response.status === 200) {
+            this.setState({ success: true });
+            this.setState({ ...registerInitalState });
+          }
+        } else {
+          this.validator.showMessages();
+          this.forceUpdate();
+        }
+      }
+      catch (event){
+        showError(this.props.notification, event);
+      }
   }
  
+ openSignUp = () => {
+  this.setState({ showSignUp: !this.state.showSignUp });
+  this.validator = initiateValidation();
+ }
+
+ closeDialog = () => {
+  this.setState({ showSignUp: false });
+  this.props.handleSignInDialog();
+ }
+
   render() {
     const { isOpen, handleSignInDialog, className } = this.props;
-    const closeBtn = <button className="close" onClick={handleSignInDialog}>&times;</button>;
+    const closeBtn = <button className="close" onClick={this.closeDialog}>&times;</button>;
     return (
        <Modal
          isOpen={isOpen}
@@ -19,12 +108,46 @@ class SignInDialog extends Component {
         >
           <ModalHeader toggle={handleSignInDialog} close={closeBtn} />
           <ModalBody>
-            <h1 className="signin-title">Sign in with your Grubhub account</h1>
-            <div>
-               <Input type="text" placeholder="email address" className="mt-4"/>
-               <Input type="text" placeholder="Password" className="mt-3" />
-            </div>
-            <Button color="primary w-100 mt-5" onClick={handleSignInDialog}>Sign In</Button>
+          {!this.state.showSignUp &&
+            <React.Fragment>
+              <h1 className="signin-title">Sign in with your Grubhub account</h1>
+              <Form onSubmit={this.handleLogin}>
+                <div>
+                   <AppInput label="Email" name="accEmail" type="email" value={this.state.accEmail} onChange={this.onChange} validator={this.validator} validation="required|email" />
+                   <AppInput label="Password" name="accPassword" type="password" value={this.state.accPassword} onChange={this.onChange} validator={this.validator} validation="required|password" />
+                </div>
+                <Button color="primary w-100 mt-5">Sign In</Button>
+                {this.props.errorMessage && 
+                          <Alert color="danger" className="error-message py-2 mt-3">
+                              {this.props.errorMessage}
+                          </Alert>}
+                <div className="font-small mb-3">
+                  Already have an account?
+                  <span className="text-secondary ml-1 cursor-pointer" onClick={this.openSignUp}>Create an account</span>
+                </div>
+              </Form>
+            </React.Fragment>
+          }
+          {this.state.showSignUp && 
+            <React.Fragment>
+
+              <h1>signup</h1>
+              {this.state.success && <p>Thank you for registration</p>}
+              <Form onSubmit={this.handleSignUp}>
+                <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|alpha_space|min:3|max:30" />
+                <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
+                <AppInput label="Email" name="email" type="email" value={this.state.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
+                <AppInput label="Adress" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
+                <AppInput label="Password" name="password" type="password" value={this.state.password} onChange={this.onChange} validator={this.validator} validation="required|password" />
+                <Button color="primary w-100 mt-5">Create Account</Button>
+              </Form>
+
+              <div className="font-small mb-3">
+                Already have an account?
+                <span className="text-secondary ml-1 cursor-pointer" onClick={this.openSignUp}>Sign</span>
+              </div>
+            </React.Fragment>
+          }
           </ModalBody>
         </Modal>
     );
