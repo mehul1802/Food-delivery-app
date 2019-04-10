@@ -107,22 +107,23 @@ class SignInDialog extends Component {
         backdrop
         style={{ maxWidth: '570px' }}
       >
-        <ModalHeader toggle={handleSignInDialog} close={closeBtn} />
-        <ModalBody>
+        <ModalHeader toggle={handleSignInDialog} close={closeBtn}>
+          {!this.state.showSignUp ? 'Sign in with your account' : 'Register'}
+        </ModalHeader>
+        <ModalBody className="mt-2">
           {!this.state.showSignUp &&
             <React.Fragment>
-              <h1 className="signin-title">Sign in with your Grubhub account</h1>
               <Form onSubmit={this.handleLogin}>
                 <div>
                   <AppInput label="Email" name="accEmail" type="email" value={this.state.accEmail} onChange={this.onChange} validator={this.validator} validation="required|email" />
                   <AppInput label="Password" name="accPassword" type="password" value={this.state.accPassword} onChange={this.onChange} validator={this.validator} validation="required|password" />
                 </div>
-                <Button color="primary w-100 mt-5">Sign In</Button>
+                <Button color="primary w-100 mt-3">Sign In</Button>
                 {this.props.errorMessage &&
                   <Alert color="danger" className="error-message py-2 mt-3">
                     {this.props.errorMessage}
                   </Alert>}
-                <div className="font-small mb-3">
+                <div className="font-small mt-2 mb-2 text-center">
                   Already have an account?
                   <span className="text-secondary ml-1 cursor-pointer" onClick={this.showSignUp}>Create an account</span>
                 </div>
@@ -131,8 +132,6 @@ class SignInDialog extends Component {
           }
           {this.state.showSignUp &&
             <React.Fragment>
-
-              <h1>signup</h1>
               {this.state.success && <p>Thank you for registration</p>}
               <Form onSubmit={this.handleSignUp}>
                 <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|alpha_space|min:3|max:30" />
@@ -140,12 +139,12 @@ class SignInDialog extends Component {
                 <AppInput label="Email" name="email" type="email" value={this.state.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
                 <AppInput label="Address" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
                 <AppInput label="Password" name="password" type="password" value={this.state.password} onChange={this.onChange} validator={this.validator} validation="required|password" />
-                <Button color="primary w-100 mt-5">Create Account</Button>
+                <Button color="primary w-100 mt-3">Create Account</Button>
               </Form>
 
-              <div className="font-small mb-3">
+              <div className="font-small mt-2 mb-2 text-center">
                 Already have an account?
-                <span className="text-secondary ml-1 cursor-pointer" onClick={this.showSignUp}>Sign</span>
+                <span className="text-secondary ml-1 cursor-pointer" onClick={this.showSignUp}>Sign in</span>
               </div>
             </React.Fragment>
           }
