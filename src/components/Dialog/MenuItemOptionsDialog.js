@@ -153,7 +153,7 @@ class MenuItemOptionsDialog extends Component {
       modifiers_total: modifierTotal,
       tax_amount : tax_price,
       total_price: bag_price,
-      modifiers: selected_modifiers
+      modifiers: selected_modifiers || []
     };
     let product = {
       uid: hash(obj),

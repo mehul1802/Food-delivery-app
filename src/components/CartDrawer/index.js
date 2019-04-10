@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router";
 import { Button } from 'reactstrap';
 import _ from 'lodash';
 
+
 import { removeFromCart } from '../../actions/cart-actions';
 import { addOrder } from '../../actions/order-actions';
-import { formatPrice } from '../../utils/common';
+import { showLogin } from '../../actions/dialog-actions';
+import { formatPrice, formatAmount } from '../../utils/common';
 import { session } from '../../services';
 
 import emptyBag from '../../assets/images/empty-bag.svg';
@@ -16,8 +19,8 @@ const calculateOrderAmount = (cartItems) => {
   let tax_amount = 0;
   let order_amount = 0;
   cartItems.forEach(cartItem => {
-    subtotal_amount = subtotal_amount + parseFloat(cartItem.total_price);
-    tax_amount = tax_amount + parseFloat(cartItem.tax_amount);
+    subtotal_amount = formatAmount(subtotal_amount + parseFloat(cartItem.total_price));
+    tax_amount = formatAmount(tax_amount + parseFloat(cartItem.tax_amount));
     order_amount = subtotal_amount + tax_amount;
   });
   return { subtotal_amount, tax_amount , order_amount }
@@ -46,9 +49,14 @@ class CartDrawer extends Component {
   }
 
   handleCartSubmit = () => {
+    if (session.isLoggedIn()) {
       const { orderType } = this.props;
       const obj = { ...this.state, orderType };
       this.props.addOrder(obj);
+      this.props.history.push(`/checkout/payment`);
+    } else {
+      this.props.showLogin();
+    }
   }
 
   removeFromCart = (cartItem) => {
@@ -117,15 +125,16 @@ class CartDrawer extends Component {
 }
 
 const mapStateToCartDrawerProps = (state) => {
-  return { products: state.cart.products, orderType: state.order.orderType };
+  return { products: state.cart.products, orderType: state.order.orderType, showSignIn: state.dialog.showSignIn };
 };
 
 const mapDispatchToCartDrawerProps = {
   removeFromCart,
-  addOrder
+  addOrder,
+  showLogin
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToCartDrawerProps,
   mapDispatchToCartDrawerProps
-)(CartDrawer);
+)(CartDrawer));

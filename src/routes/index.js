@@ -1,6 +1,7 @@
 
 import React from 'react';
-import {Redirect, Route , Switch  } from 'react-router-dom';
+import { Route , Switch  } from 'react-router-dom';
+import PrivateRoute from '../components/high-order/PrivateRoute';
 
 import Home from '../components/Home';
 import Checkout from '../components/Checkout';
@@ -8,6 +9,6 @@ import Checkout from '../components/Checkout';
 export default (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/checkout/:id/payment" component={Checkout} />
+    <PrivateRoute path="/checkout/payment" component={Checkout} />
   </Switch>
 );

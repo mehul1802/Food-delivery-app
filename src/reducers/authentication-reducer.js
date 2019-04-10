@@ -9,14 +9,6 @@ export function authentication(state = initialState, action) {
         return {...state, cards: state.cards.concat(action.response)};
     } else if (action.type === 'REMOVE_USER_CARD') {
         return {...state, cards: state.cards.filter(item => item._id !== action.response.id)};
-    } else if (action.type === 'UPDATE_PROFILE_PICTURE') {
-        return {...state, user: {...state.user, profile_picture: action.response}};
-    } else if (action.type === 'UPDATE_TEMP_PHOTOS') {
-        return {...state, tempPhotos: action.response}
-    }  else if (action.type === 'UPDATE_PLANNER_PROFILE_STATUS') {
-        return {...state, plannerProfileStatus: action.response}
-    }  else if (action.type === 'UPDATE_PROFILE_INCOMPLETE_STATUS') {
-        return {...state, user: {...state.user, ...action.response}}
     } else {
         return state;
     }

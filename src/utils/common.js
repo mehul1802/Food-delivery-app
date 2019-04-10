@@ -12,3 +12,7 @@ export function formatPrice(price) {
   const sign = price < 0 ? '-' : '';
   return `${sign}${symbol}${amount}`;
 }
+
+export function formatAmount(amount) {
+  return Number(Math.abs(amount).toFixed(2));
+}
