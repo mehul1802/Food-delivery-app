@@ -46,9 +46,10 @@ class SignInDialog extends Component {
     try {
       if (this.validator.allValid()) {
         this.closeSingInDialog();
+        
         let credential = { email: this.state.accEmail, password: this.state.accPassword };
         const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, credential);
-
+       
       } else {
         this.validator.showMessages();
         this.forceUpdate();

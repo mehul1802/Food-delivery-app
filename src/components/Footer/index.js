@@ -4,7 +4,7 @@ class Footer extends Component {
   render() {
     return (
       <div className="footer-section bg-blue">
-        <div className="footer-links">
+        {/* <div className="footer-links">
           <div className="row">
             <div className="col-3">
               <h4>Get to know us</h4>
@@ -51,9 +51,9 @@ class Footer extends Component {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="copyright-section d-flex justify-content-between">
-          <p className="body">© 2019 Grubhub All rights reserved.</p>
+          <p className="m-0">© 2019 Grubhub All rights reserved.</p>
           <div className="w-50 d-flex justify-content-end">
             <a className="text-white" href="/legal/terms-of-use">Terms of Use</a>
             <a className="text-white" href="/legal/privacy-policy">Privacy Policy</a>

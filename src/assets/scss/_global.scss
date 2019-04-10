@@ -1,5 +1,8 @@
 .rest-layout {
 	padding-top: 60px;
+	.page-layout {
+		min-height: calc(100vh - 144px);
+	}
 }
 
 .container {
