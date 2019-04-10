@@ -2,8 +2,7 @@ const initialState = {user: {}, cards: [], customerId: null, tempPhotos: {}, pla
 
 export function authentication(state = initialState, action) {
     if (action.type === 'GET_USER') {
-        console.log(action);
-        return {...state, user: action.response};
+        return {...state, user: action.payload};
     } else if (action.type === 'GET_USER_CARDS') {
         return {...state, cards: action.response.cards, customerId: action.response.stripe_customer_id};
     } else if (action.type === 'ADD_USER_CARD') {

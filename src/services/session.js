@@ -33,13 +33,10 @@ class Session {
 
     async authenticate (url, credential) {
         try {
-            
             const response = await API.post(url, credential);
             this.setToken(response.data);
-            console.log(response.data);
             const user = await API.get(`${process.env.REACT_APP_API_URL}/users/me`);
-            console.log(user);
-            store.dispatch({ type: 'GET_USER', payload: user })
+            store.dispatch({ type: 'GET_USER', payload: user.data })
             return Promise.resolve(user);
         } catch(e) {
             return Promise.reject(e);

@@ -45,9 +45,10 @@ class SignInDialog extends Component {
     event.preventDefault();
     try {
       if (this.validator.allValid()) {
+        this.closeSingInDialog();
         let credential = { email: this.state.accEmail, password: this.state.accPassword };
-        console.log(credential);
         const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, credential);
+
       } else {
         this.validator.showMessages();
         this.forceUpdate();
@@ -137,7 +138,7 @@ class SignInDialog extends Component {
                 <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|alpha_space|min:3|max:30" />
                 <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
                 <AppInput label="Email" name="email" type="email" value={this.state.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
-                <AppInput label="Adress" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
+                <AppInput label="Address" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
                 <AppInput label="Password" name="password" type="password" value={this.state.password} onChange={this.onChange} validator={this.validator} validation="required|password" />
                 <Button color="primary w-100 mt-5">Create Account</Button>
               </Form>
