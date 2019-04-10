@@ -94,6 +94,7 @@ class SignInDialog extends Component {
   closeSingInDialog = () => {
     this.setState({ showSignUp: false });
     this.props.handleSignInDialog();
+    this.validator = initiateValidation();
   }
 
   render() {
@@ -102,7 +103,7 @@ class SignInDialog extends Component {
     return (
       <Modal
         isOpen={isOpen}
-        toggle={handleSignInDialog}
+        toggle={closeSingInDialog}
         className={className}
         backdrop
         style={{ maxWidth: '570px' }}
