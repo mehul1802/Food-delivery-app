@@ -9,7 +9,7 @@ import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
 import OrderTypeDialog from '../Dialog/OrderTypeDialog';
 import { addOrderType } from '../../actions/order-actions';
 
-import { ApiRequest } from '../../services/api-request';
+import { ApiRequest, session } from '../../services';
 
 import discBanner from '../../assets/images/discount-banner.jpg';
 import arrowDown from '../../assets/images/arrow-down.svg';
@@ -40,12 +40,11 @@ class Listing extends Component {
   }
 
   handleOrderType = (productId) => {
-    if(this.props.orderType) {
+    if(this.props.orderType || (!!session.orderType)) {
       this.productOptionModal(productId);
     } else {
       this.setState({ orderTypeModal: true });
     }
-    
   }
 
   productOptionModal = (productId) => {

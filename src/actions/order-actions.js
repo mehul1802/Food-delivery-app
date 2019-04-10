@@ -1,7 +1,9 @@
 import * as orderTypes from '../types/order';
+import { session } from '../services';
 
 export function addOrderType(orderType) {
     return dispatch => {
+        session.setOrderType(orderType);
         dispatch({ type: orderTypes.ADD_ORDER_TYPE, payload: orderType });
     };
 }

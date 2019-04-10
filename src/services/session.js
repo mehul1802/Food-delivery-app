@@ -5,6 +5,7 @@ import { ApiRequest } from './api-request';
 
 const LOCAL_STORAGE_KEY = 'authentication';
 const CART_KEY = 'cart';
+const ORDER_TYPE = 'order_type';
 
 class Session {
     constructor() {
@@ -14,6 +15,10 @@ class Session {
 
         if (localStorage.getItem(CART_KEY)) {
             this.cart = localStorage.getItem(CART_KEY);
+        }
+
+        if (localStorage.getItem(ORDER_TYPE)) {
+            this.orderType = localStorage.getItem(ORDER_TYPE);
         }
     }
 
@@ -81,6 +86,10 @@ class Session {
         if (localStorage.getItem(CART_KEY)) {
             return JSON.parse(localStorage.getItem(CART_KEY));
         }
+    }
+
+    setOrderType(orderType) {
+        localStorage.setItem(ORDER_TYPE, orderType);
     }
 
     logout() {
