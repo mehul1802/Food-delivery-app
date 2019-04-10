@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Card, CardBody, Button } from 'reactstrap';
 import SimpleReactValidator from 'simple-react-validator';
 import { StripeProvider, Elements } from 'react-stripe-elements';
@@ -100,6 +101,7 @@ class Checkout extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div className="row">
         <div className="col-12 col-md-6 mx-auto">
@@ -131,4 +133,14 @@ class Checkout extends Component {
   }
 }
 
-export default Checkout;
+const mapStateToCheckoutProps = (state) => {
+  return { order: state.order };
+};
+
+const mapDispatchTocehckoutProps = {
+};
+
+export default connect(
+  mapStateToCheckoutProps,
+  mapDispatchTocehckoutProps
+)(Checkout);

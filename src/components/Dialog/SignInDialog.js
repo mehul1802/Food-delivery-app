@@ -103,7 +103,7 @@ class SignInDialog extends Component {
     return (
       <Modal
         isOpen={isOpen}
-        toggle={closeSingInDialog}
+        toggle={this.closeSingInDialog}
         className={className}
         backdrop
         style={{ maxWidth: '570px' }}

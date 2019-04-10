@@ -4,6 +4,7 @@ import { Button } from 'reactstrap';
 import _ from 'lodash';
 
 import { removeFromCart } from '../../actions/cart-actions';
+import { addOrder } from '../../actions/order-actions';
 import { formatPrice } from '../../utils/common';
 import { session } from '../../services';
 
@@ -47,7 +48,7 @@ class CartDrawer extends Component {
   handleCartSubmit = () => {
       const { orderType } = this.props;
       const obj = { ...this.state, orderType };
-      console.log(obj)
+      this.props.addOrder(obj);
   }
 
   removeFromCart = (cartItem) => {
@@ -120,7 +121,8 @@ const mapStateToCartDrawerProps = (state) => {
 };
 
 const mapDispatchToCartDrawerProps = {
-  removeFromCart
+  removeFromCart,
+  addOrder
 };
 
 export default connect(
