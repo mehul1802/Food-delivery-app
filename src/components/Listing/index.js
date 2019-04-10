@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import ListingHeader from './ListingHeader';
 import Product from '../Shared/Product';
-import defaultProducts from '../../utils/products.json';
 import { Collapse } from 'reactstrap';
 import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
 import OrderTypeDialog from '../Dialog/OrderTypeDialog';
@@ -90,24 +89,6 @@ class Listing extends Component {
               <a href="#" className="hot-deal-offer">Hot Deal</a>
             </div>
           </div>
-          {/* <div className="popular-product-section mt30">
-            <div className="d-flex align-items-center">
-              <h3 className="font-weight-bold font-large product-cat-title">Most Popular</h3>
-              <img src={popularIcon} width="24" />
-            </div>
-            <div className="row">
-              {this.props.products &&
-                this.props.products.map(product => (
-                  <div className="col-md-6 p-2">
-                    <PopularProduct
-                      product={product}
-                      handleMenuItemOptionsDialog={this.handleMenuItemOptionsDialog}
-                    />
-                  </div>
-                ))
-              }
-            </div>
-          </div> */}
           {this.state.menuList.map(item => <div className="restaurant-menu-section mt30" key={item.category_name}>
             <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={() => this.toggle(item.category_name)}>
               <h3 className="font-weight-bold font-large product-cat-title">{item.category_name}</h3>
@@ -143,10 +124,6 @@ class Listing extends Component {
     );
   }
 }
-
-Listing.defaultProps = {
-  products: defaultProducts,
-};
 
 const mapStateToListingProps = (state) => {
    return { orderType: state.order.orderType };

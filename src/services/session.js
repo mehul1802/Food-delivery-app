@@ -31,17 +31,15 @@ class Session {
         localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
 
-    async authenticate (url, credential) {
+    async authenticate(url, credential) {
         try {
             const response = await API.post(url, credential);
             this.setToken(response.data);
             const user = await API.get(`${process.env.REACT_APP_API_URL}/users/me`);
-            store.dispatch({ type: 'GET_USER', payload: user.data })
+            await store.dispatch({ type: 'GET_USER', payload: user.data })
             return Promise.resolve(user);
-        } catch(e) {
+        } catch (e) {
             return Promise.reject(e);
-        } finally {
-            store.dispatch(action.hideLoader());
         }
     }
 
@@ -68,7 +66,7 @@ class Session {
         if (this.cart) {
             productArr = JSON.parse(this.cart);
         }
-        
+
         let updatedProducts = productArr.filter(item => {
             return item.uid !== product.uid
         });
@@ -79,7 +77,7 @@ class Session {
         return this.cart;
     }
 
-    getCartData () {
+    getCartData() {
         if (localStorage.getItem(CART_KEY)) {
             return JSON.parse(localStorage.getItem(CART_KEY));
         }
