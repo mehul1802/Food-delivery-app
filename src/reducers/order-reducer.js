@@ -1,4 +1,5 @@
 import { session } from '../services';
+import * as orderTypes from '../types/order';
 const initialState = { orderType: null, order: {} };
 
 if (session.orderType) {
@@ -7,9 +8,9 @@ if (session.orderType) {
 
 export function order(state = initialState, action) {
     switch (action.type) {
-        case 'ADD_ORDER_TYPE':
+        case orderTypes.ADD_ORDER_TYPE:
             return { ...state, orderType: action.payload };
-        case 'ADD_ORDER':
+        case orderTypes.ADD_ORDER:
             return { ...state, order: action.payload };
         default:
             return state;
