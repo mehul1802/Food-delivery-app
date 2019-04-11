@@ -13,14 +13,14 @@ import {
   Input, Button
 } from 'reactstrap';
 
-import { store } from '../../store';
-import { session, ApiRequest } from '../../services';
-import { showLogin, hideLogin } from '../../actions/dialog-actions';
+import { store } from '../store';
+import { session, ApiRequest } from '../services';
+import { showLogin, hideLogin } from '../actions/dialog-actions';
 
-import SignInDialog from '../Dialog/SignInDialog';
-import logo from '../../assets/images/logo.svg';
-import arrowDown from '../../assets/images/arrow-down.svg';
-import cart from '../../assets/images/cart.svg';
+import SignInDialog from './app-components/dialog/SignInDialog';
+import logo from '../assets/images/logo.svg';
+import arrowDown from '../assets/images/arrow-down.svg';
+import cart from '../assets/images/cart.svg';
 
 class Header extends Component {
   constructor(props) {

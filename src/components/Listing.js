@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
-import ListingHeader from './ListingHeader';
-import Product from '../Shared/Product';
+import Product from './app-components/Product';
 import { Collapse } from 'reactstrap';
-import MenuItemOptionsDialog from '../Dialog/MenuItemOptionsDialog';
-import OrderTypeDialog from '../Dialog/OrderTypeDialog';
-import { addOrderType } from '../../actions/order-actions';
+import MenuItemOptionsDialog from './app-components/dialog/MenuItemOptionsDialog';
+import OrderTypeDialog from './app-components/dialog/OrderTypeDialog';
+import { addOrderType } from '../actions/order-actions';
 
-import { ApiRequest, session } from '../../services';
+import { ApiRequest, session } from '../services';
 
-import discBanner from '../../assets/images/discount-banner.jpg';
-import arrowDown from '../../assets/images/arrow-down.svg';
+import discBanner from '../assets/images/discount-banner.jpg';
+import arrowDown from '../assets/images/arrow-down.svg';
+import pizzaBrand from '../assets/images/pizza-brand.jpg';
 
 
 const initialState = {
@@ -40,7 +40,7 @@ class Listing extends Component {
   }
 
   handleOrderType = (productId) => {
-    if(this.props.orderType || (!!session.orderType)) {
+    if (this.props.orderType || (!!session.orderType)) {
       this.productOptionModal(productId);
     } else {
       this.setState({ orderTypeModal: true });
@@ -75,8 +75,21 @@ class Listing extends Component {
 
   render() {
     return (
-      <div>
-        <ListingHeader />
+      <React.Fragment>
+        <div className="listing-header">
+          <div className="resturant-list-header" style={{ background: 'url(https://res.cloudinary.com/grubhub-assets/image/upload/f_auto,fl_lossy,q_85/v1470779396/grubhub-discover-background-desktop.png) no-repeat', }}>
+            <div></div>
+          </div>
+          <div className="restaurant-info">
+            <h1>Andale Mexican Restaurant</h1>
+            <div className="d-flex">
+              <a href="#">151 N Santa Cruz Ave</a>
+              <a href="tel:4083958800"> (408) 395-8800</a>
+            </div>
+            <div className="rating"></div>
+            <div className="brand-logo"><img src={pizzaBrand} /></div>
+          </div>
+        </div>
         <div className="restaurant-product-listing">
           <div className="res-banner-section d-flex">
             <img src={discBanner} />
@@ -97,7 +110,7 @@ class Listing extends Component {
               <div className="row">
                 {item.list_items.map(product => (
                   <div className="col-md-6 p-2" key={product.ProductID}>
-                    <Product product={product} onClick={(e) => this.handleOrderType(product.ProductID)}/>
+                    <Product product={product} onClick={(e) => this.handleOrderType(product.ProductID)} />
                   </div>
                 ))}
               </div>
@@ -119,13 +132,13 @@ class Listing extends Component {
             addOrderType={this.addOrderType}
           />
         }
-      </div>
+      </React.Fragment>
     );
   }
 }
 
 const mapStateToListingProps = (state) => {
-   return { orderType: state.order.orderType };
+  return { orderType: state.order.orderType };
 };
 
 const mapDispatchToListingProps = {

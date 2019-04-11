@@ -4,7 +4,6 @@ import { withRouter } from "react-router";
 import { Button } from 'reactstrap';
 import _ from 'lodash';
 
-
 import { removeFromCart } from '../../actions/cart-actions';
 import { addOrder } from '../../actions/order-actions';
 import { showLogin } from '../../actions/dialog-actions';

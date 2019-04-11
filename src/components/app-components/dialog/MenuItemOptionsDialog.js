@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import hash  from 'object-hash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 
-import { addToCart } from '../../actions/cart-actions';
+import { addToCart } from '../../../actions/cart-actions';
 
 
-import { ApiRequest } from '../../services/api-request';
-import { session } from '../../services';
-import { formatPrice, strToLowercase } from '../../utils/common';
+import { ApiRequest } from '../../../services/api-request';
+import { session } from '../../../services';
+import { formatPrice, strToLowercase } from '../../../utils/common';
 
-import closeIcon from '../../assets/images/close-icon.png';
+import closeIcon from '../../../assets/images/close-icon.png';
 
 const initialState = {
   product: {

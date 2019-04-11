@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Listing from './Listing';
-import CartDrawer from './CartDrawer';
+import CartDrawer from './app-components/CartDrawer';
 
 class Home extends Component {
   render() {

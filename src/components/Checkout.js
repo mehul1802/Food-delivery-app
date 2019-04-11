@@ -5,8 +5,8 @@ import SimpleReactValidator from 'simple-react-validator';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import _ from 'lodash';
 
-import { stripePayment, session, ApiRequest } from '../../services';
-import Stripe from '../Shared/Stripe';
+import { stripePayment, session, ApiRequest } from '../services';
+import Stripe from './app-components/Stripe';
 
 const initialState = {
   stripe: null,
