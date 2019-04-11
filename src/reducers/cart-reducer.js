@@ -1,4 +1,10 @@
+import { session } from '../services';
 const initialState = { products: [] };
+
+// Hack since we are not using api for cart data fetching
+if(session.getCartData()) {
+    initialState.products = session.getCartData();
+};
 
 export function cart(state = initialState, action) {
     switch (action.type) {

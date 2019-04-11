@@ -1,4 +1,9 @@
+import { session } from '../services';
 const initialState = { orderType: null, order: {} };
+
+if (session.orderType) {
+    initialState.orderType = session.orderType;
+};
 
 export function order(state = initialState, action) {
     switch (action.type) {
