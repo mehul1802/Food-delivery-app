@@ -10,7 +10,7 @@ import { ApiRequest } from '../../../services/api-request';
 import { session } from '../../../services';
 import { formatPrice, strToLowercase } from '../../../utils/common';
 
-import closeIcon from '../../../assets/images/close-icon.png';
+import closeIcon from '../../../assets/images/close-icon.svg';
 
 const initialState = {
   product: {
@@ -195,7 +195,9 @@ class MenuItemOptionsDialog extends Component {
       >
         <ModalBody>
           <div className="item-header" style={{ background: `url("https://res.cloudinary.com/grubhub/image/upload/w_768,h_300,f_auto,q_auto,dpr_auto,g_auto,c_fill/usoaalkbgoxdczx6qfhh")` }}>
-            <div className="position-absolute close-icon" onClick={handleMenuItemOptionsDialog}><img src={closeIcon} /></div>
+            <div className="position-absolute close-icon" onClick={handleMenuItemOptionsDialog}>
+              <img src={closeIcon} style={{ width: 20 }}/>
+            </div>
             <div className="item-info">
               <h4 className="item-title">{this.state.product.product_name}</h4>
               <span>{formatPrice(this.state.product.unit_price)}</span>
@@ -242,9 +244,10 @@ class MenuItemOptionsDialog extends Component {
               <Input name="special-instruction" type="textarea" rows={3} placeholder="Dressing on the side?No pickels" />
             </div> */}
           </div>
-
-          <Button color="primary w-50 my-2 mx-4" onClick={this.addToCart}>Add to bag {formatPrice(this.state.product.bag_price)}</Button>
         </ModalBody>
+        <ModalFooter className="justify-content-start">   
+          <Button color="primary w-40 rounded" onClick={this.addToCart}>Add to bag {formatPrice(this.state.product.bag_price)}</Button>   
+        </ModalFooter>
       </Modal>
     );
   }

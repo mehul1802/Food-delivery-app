@@ -16,6 +16,7 @@ import {
 import { store } from '../store';
 import { session, ApiRequest } from '../services';
 import { showLogin, hideLogin } from '../actions/dialog-actions';
+import { getUser } from '../actions/user-actions';
 
 import SignInDialog from './app-components/dialog/SignInDialog';
 import logo from '../assets/images/logo.svg';
@@ -33,7 +34,7 @@ class Header extends Component {
   async componentDidMount() {
     if (session.isLoggedIn()) {
       const user = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/users/me`);
-      store.dispatch({ type: 'GET_USER', payload: user.data })
+      this.props.getUser(user.data);
     }
   }
 
@@ -73,7 +74,7 @@ class Header extends Component {
                 <Button outline color="primary" className="rounded signin-btn" onClick={this.handleSignInDialog}>Sign in</Button>
               </NavItem>
               :
-              <NavItem className="px-3">
+              <NavItem>
                 <Dropdown isOpen={this.state.isOpen} size="sm" toggle={this.toggle}>
                   <DropdownToggle className="bg-white border-0 text-secondary">
                     <span className="text-capitalize mr-3 font-tiny">Hi, {user.name}</span>
@@ -109,7 +110,8 @@ const mapStateToHeaderProps = (state) => {
 
 const mapDispatchToHeaderProps = {
   showLogin,
-  hideLogin
+  hideLogin,
+  getUser,
 };
 
 export default connect(
