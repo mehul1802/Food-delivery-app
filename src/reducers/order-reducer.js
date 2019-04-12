@@ -3,7 +3,11 @@ import * as orderTypes from '../types/order';
 const initialState = { orderType: null, order: {} };
 
 if (session.orderType) {
-    initialState.orderType = session.orderType;
+    initialState.orderType = +session.orderType;
+};
+
+if (session.getOrder()) {
+    initialState.order = session.getOrder();
 };
 
 export function order(state = initialState, action) {

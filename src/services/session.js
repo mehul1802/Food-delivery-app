@@ -1,11 +1,12 @@
 import API from './api';
 import { store } from '../store';
-import { apiServices as action } from '../actions';
-import { ApiRequest } from './api-request';
+// import { apiServices as action } from '../actions';
+// import { ApiRequest } from './api-request';
 
 const LOCAL_STORAGE_KEY = 'authentication';
 const CART_KEY = 'cart';
 const ORDER_TYPE = 'order_type';
+const ORDER = 'order';
 
 class Session {
     constructor() {
@@ -19,6 +20,10 @@ class Session {
 
         if (localStorage.getItem(ORDER_TYPE)) {
             this.orderType = localStorage.getItem(ORDER_TYPE);
+        }
+
+        if (localStorage.getItem(ORDER)) {
+            this.order = localStorage.getItem(ORDER);
         }
     }
 
@@ -90,6 +95,16 @@ class Session {
 
     setOrderType(orderType) {
         localStorage.setItem(ORDER_TYPE, orderType);
+    }
+
+    setOrder(order) {
+        this.order = localStorage.setItem(ORDER, JSON.stringify(order));
+    }
+
+    getOrder() {
+        if (localStorage.getItem(ORDER)) {
+            return JSON.parse(localStorage.getItem(ORDER));
+        }
     }
 
     logout() {

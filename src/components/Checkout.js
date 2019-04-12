@@ -50,10 +50,8 @@ class Checkout extends Component {
 
   createOrder = async (param = {}) => {
     try {
-      let obj = {
-      };
-      console.log('sdf')
-      // await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, Object.assign(obj, param));
+      // const { order } = this.props;
+      // await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, order);
     } catch (e) {
       // showError(this.props.api.notification, e);
       console.log(e)
@@ -134,7 +132,7 @@ class Checkout extends Component {
 }
 
 const mapStateToCheckoutProps = (state) => {
-  return { order: state.order };
+  return { order: state.order.order };
 };
 
 const mapDispatchTocehckoutProps = {
