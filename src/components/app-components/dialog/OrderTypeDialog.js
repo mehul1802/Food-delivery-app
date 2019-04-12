@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
+import { ORDERTYPES } from '../../../utils/enum';
 
 const initialState = {
   orderType: 1,
@@ -13,12 +13,8 @@ class OrderTypeDialog extends Component {
     this.state = initialState;
   }
 
-  toggle(tab) {
-    if (this.state.orderType !== tab) {
-      this.setState({
-        orderType: tab
-      });
-    }
+  toggle(orderType) {
+    this.setState({ orderType: orderType });
   }
 
   hadleOrderType = () => {
@@ -39,22 +35,16 @@ class OrderTypeDialog extends Component {
         </ModalHeader>
         <ModalBody>
            <Nav tabs className="border-0 my-8">
-            <NavItem>
-              <NavLink
-                className={`font-weight-bold ${classnames({ active: this.state.orderType === 1 })}`}
-                onClick={() => { this.toggle(1); }}
-              >
-                Delivery
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink
-                className={classnames({ active: this.state.orderType === 2 })}
-                onClick={() => { this.toggle(2); }}
-              >
-                Pickup
-              </NavLink>
-            </NavItem>
+            {ORDERTYPES.map(ordertype => (
+              <NavItem>
+                <NavLink
+                  className={`font-weight-bold ${classnames({ active: this.state.orderType == ordertype.value })}`}
+                  onClick={() => { this.toggle(ordertype.value); }}
+                >
+                  {ordertype.name}
+                </NavLink>
+              </NavItem>
+            ))}
           </Nav>
         </ModalBody>
         <ModalFooter>

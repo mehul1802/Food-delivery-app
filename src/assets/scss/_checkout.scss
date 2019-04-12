@@ -1,3 +1,12 @@
+.checkout-body {
+    .footer-section {
+        width: 100%;
+    }
+    .navbar-nav, .cart-icon {
+        display: none;
+    }
+}
+
 .checkout {
     .card-no legend {
         width: 90px;

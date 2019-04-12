@@ -92,7 +92,7 @@ class CartDrawer extends Component {
                       </div>
                       <div className="col-1 p-0 text-right">
                         <div onClick={() => this.removeFromCart(cartItem)}>
-                          <img src={deleteIcon} style={{ width: 18, height: 18 }} />
+                          <img src={deleteIcon} className="cursor-pointer" style={{ width: 18, height: 18 }} />
                         </div>
                       </div>
                       <div className="col-3 p-0 text-right font-small text-break">{formatPrice(cartItem.total_price)}</div>

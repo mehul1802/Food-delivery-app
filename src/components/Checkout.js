@@ -30,6 +30,14 @@ class Checkout extends Component {
     });
   }
 
+  componentDidMount() {   
+    document.body.classList.add('checkout-body');   
+  }
+
+  componentWillUnmount() {    
+   document.body.classList.remove('checkout-body');    
+  }
+
   state = initialState;
 
   onChange = (e) => {

@@ -3,7 +3,7 @@
  .modal-body {
 	padding: 0px;
 	 overflow-y: auto;
-   height: calc(100vh - 60px);
+   height: calc(100vh - 124px);
 	.item-header {
 	  height: 300px;
 	  position: relative;
@@ -29,65 +29,68 @@
 		    border-radius: 4px;
 		    font-size: 14px;
 		    color: rgba(0,0,0,.87);
-	   	.item-title {
+		   	.item-title {
+					font-weight: 400;
+					color: #000;
+					margin-bottom: 5px;
+				}
+				span{
+				  color: #000;
+				  font-size: 18px;
+				}
+			}
+		}
+		.item-options {
+			padding: 16px 32px;
+			.desc {
+				font-size: 16px;
 				font-weight: 400;
 				color: #000;
-				margin-bottom: 5px;
+				margin-bottom: 16px !important;
 			}
-			span{
-			  color: #000;
-			  font-size: 18px;
-			}
-		}
-	}
-	.item-options {
-		padding: 16px 32px;
-		.desc {
-			font-size: 16px;
-			font-weight: 400;
-			color: #000;
-			margin-bottom: 16px !important;
-		}
-		.quantity-wrapper {
-			display: flex;
-			font-size: 18px;
-			font-weight: 400;
-			color: #000;
-			align-items: center;
-			.quantity {
+			.quantity-wrapper {
 				display: flex;
+				font-size: 18px;
+				font-weight: 400;
+				color: #000;
 				align-items: center;
-				margin-left: 16px;
-				input {
-					margin: 0px 8px !important;
-					width: 44px;
-					border: 2px solid #cacaca;
-					&:focus {
-						border-color: #3232aa !important;
+				.quantity {
+					display: flex;
+					align-items: center;
+					margin-left: 16px;
+					input {
+						margin: 0px 8px !important;
+						width: 44px;
+						border: 2px solid #cacaca;
+						&:focus {
+							border-color: #0070eb !important;
+						}
+					}
+					span {
+						width: 36px;
+						height: 36px;
+				    border: 2px solid #cacaca;
+				    border-radius: 50%;
+				    display: flex;
+				    justify-content: center;
+				    align-items: center;
+				    color: #cacaca;
+				    cursor: pointer;
+				    &:hover {
+				    	border: 2px solid #0070eb !important;
+				    	color: #0070eb;
+				    }
 					}
 				}
-				span {
-					width: 36px;
-					height: 36px;
-			    border: 2px solid #cacaca;
-			    border-radius: 50%;
-			    display: flex;
-			    justify-content: center;
-			    align-items: center;
-			    color: #cacaca;
-			    cursor: pointer;
-			    &:hover {
-			    	border: 2px solid #3232aa !important;
-			    	color: #3232aa;
-			    }
+			}
+			.item-choice {
+				&:before {
+				  background: url('../images/flag_vertical.svg') no-repeat;
 				}
 			}
 		}
-		.item-choice {
-			&:before {
-				background: url('../images/flag_vertical.svg') no-repeat;
-			}
-		}
-	}
- }	
+	 }
+	 .modal-footer{
+	 	padding: 16px 32px;
+	 }
 }

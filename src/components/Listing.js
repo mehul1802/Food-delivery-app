@@ -9,15 +9,20 @@ import OrderTypeDialog from './app-components/dialog/OrderTypeDialog';
 import { addOrderType } from '../actions/order-actions';
 
 import { ApiRequest, session } from '../services';
+import { ORDERTYPES } from '../utils/enum';
 
 import discBanner from '../assets/images/discount-banner.jpg';
 import arrowDown from '../assets/images/arrow-down.svg';
 import pizzaBrand from '../assets/images/pizza-brand.jpg';
 
+const orderTypeLabel = (orderType) => {
+  return ORDERTYPES.find(item => item.value == orderType);
+}
 
 const initialState = {
   menuItemOptionsModal: false,
   menuList: [],
+  orderType: 1,
 };
 
 class Listing extends Component {
@@ -34,6 +39,18 @@ class Listing extends Component {
     }
   }
 
+   static getDerivedStateFromProps(nextProps, prevState) {
+    let orderType = session.orderType;
+    if (!_.isEqual(nextProps.orderType, prevState.orderType)) {
+      let obj = orderTypeLabel(nextProps.orderType);
+      return { orderType: obj };     
+    } else if (!_.isEmpty(orderType)) {
+      let obj = orderTypeLabel(nextProps.orderType);
+      return { orderType: obj };
+    }
+    else return null;
+  }
+
   addOrderType = (orderType) => {
     this.props.addOrderType(orderType);
     this.setState({ orderTypeModal: false });
@@ -45,6 +62,10 @@ class Listing extends Component {
     } else {
       this.setState({ orderTypeModal: true });
     }
+  }
+
+  changeOrderType = () => {
+    this.setState({ orderTypeModal: true });
   }
 
   productOptionModal = (productId) => {
@@ -74,6 +95,7 @@ class Listing extends Component {
   }
 
   render() {
+    const { orderType } = this.state;
     return (
       <React.Fragment>
         <div className="listing-header">
@@ -89,6 +111,13 @@ class Listing extends Component {
             <div className="rating"></div>
             <div className="brand-logo"><img src={pizzaBrand} /></div>
           </div>
+        </div>
+        <div className="p-3 d-flex align-items-center justify-content-center order-type-section">
+          <div className="mr-4">
+            <div className="font-small mb-1">{orderType.name}</div>
+            <div className="font-tiny text-light-gray">{orderType.desc}</div>
+          </div>
+          <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.changeOrderType}>Change</div>
         </div>
         <div className="restaurant-product-listing">
           <div className="res-banner-section d-flex">

@@ -10,7 +10,9 @@
 			.nav-item {
 				width: 50%;
 				.nav-link {
-				  border: 2px solid rgba(0,0,0,.2);
+				  border: 2px solid transparent;
+				  transition: background .2s ease,border-color .2s ease,color .2s ease;
+				  border-color: rgba(0,0,0,.2);
 				  text-align: center;
 				  border-radius: 4px;
 				  cursor: pointer;
@@ -19,6 +21,20 @@
 				  	color: #fff;
 				  	border-color: #0070eb;
 				  }
+				}
+				&:first-child {
+					.nav-link {
+				    border-top-right-radius: 0;
+  					border-bottom-right-radius: 0;
+					}
+				}
+				&:last-child {
+					.nav-link {
+				    border-top-left-radius: 0;
+  					border-bottom-left-radius: 0;
+  					border-left-color: rgba(0,0,0,.1);
+  					margin-left: -2px;
+					}
 				}
 			}
 		}

@@ -107,7 +107,7 @@ class SignInDialog extends Component {
         toggle={this.closeSingInDialog}
         className={className}
         backdrop
-        style={{ maxWidth: '570px' }}
+        style={{ maxWidth: '420px' }}
       >
         <ModalHeader toggle={handleSignInDialog} close={closeBtn}>
           {!this.state.showSignUp ? 'Sign in with your account' : 'Register'}
@@ -125,8 +125,8 @@ class SignInDialog extends Component {
                   <Alert color="danger" className="error-message py-2 mt-3">
                     {this.props.errorMessage}
                   </Alert>}
-                <div className="font-small mt-2 mb-2 text-center">
-                  Already have an account?
+                <div className="font-small mt-3 mb-2 text-center">
+                  You don't have an account?
                   <span className="text-secondary ml-1 cursor-pointer" onClick={this.showSignUp}>Create an account</span>
                 </div>
               </Form>
@@ -144,7 +144,7 @@ class SignInDialog extends Component {
                 <Button color="primary w-100 mt-3">Create Account</Button>
               </Form>
 
-              <div className="font-small mt-2 mb-2 text-center">
+              <div className="font-small mt-3 mb-2 text-center">
                 Already have an account?
                 <span className="text-secondary ml-1 cursor-pointer" onClick={this.showSignUp}>Sign in</span>
               </div>
