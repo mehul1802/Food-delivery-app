@@ -58,8 +58,8 @@ class Checkout extends Component {
 
   createOrder = async (param = {}) => {
     try {
-      // const { order } = this.props;
-      // await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, order);
+      const orderObj = Object.assign(this.props.order, param)
+      await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, orderObj);
     } catch (e) {
       // showError(this.props.api.notification, e);
       console.log(e)
@@ -85,7 +85,7 @@ class Checkout extends Component {
       let id = customer.data.id
 
       // Create new booking after adding card in stripe
-      this.createOrder(customerId ? { card_id: id } : { stripe_customer_id: id });
+      this.createOrder({ stripe_customer_id: id });
     } catch (e) {
       // showError(this.props.notification, e);
       console.log(e);
