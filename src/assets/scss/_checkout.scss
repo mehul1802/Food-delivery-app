@@ -1,15 +1,15 @@
 .checkout-body {
-    .footer-section {
-        width: 100%;
-    }
-    .navbar-nav, .cart-icon {
-        display: none;
-    }
+  .footer-section {
+    width: 100%;
+  }
+  .navbar-nav, .cart-icon {
+    display: none;
+  }
 }
 
 .checkout-wrapper {
- max-width: 800px;
- margin: 0 auto;
+  max-width: 860px;
+  margin: 0 auto;
   .order-item {
     &:not(:last-child) {
       border-bottom: 1px solid #e9e9e9;
@@ -17,29 +17,29 @@
   }
   .checkout {
     .card-no legend {
-        width: 90px;
+      width: 90px;
     }
 
     .expiry legend {
-        width: 80px;
+      width: 80px;
     }
 
     .cvv legend {
-        width: 35px;
+      width: 35px;
     }
 
     .StripeElement {
-        @extend .form-control;
-        height: calc(3rem + 2px);
-        border: 0;
-        color: #2B2B2B;
-        background: none;
-        padding: 18.5px 14px;
-        -webkit-tap-highlight-color: transparent;
+      @extend .form-control;
+      height: calc(3rem + 2px);
+      border: 0;
+      color: #2B2B2B;
+      background: none;
+      padding: 18.5px 14px;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .StripeElement--invalid {
-        color: red;
+      color: red;
     }
-}
+  }
 }

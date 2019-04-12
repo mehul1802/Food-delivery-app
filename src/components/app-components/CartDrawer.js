@@ -85,8 +85,8 @@ class CartDrawer extends Component {
                       <div className="col-7 p-0">
                         <div className="font-small text-primary">{cartItem.product_name}</div>
                         <div className="mt-1">
-                          {cartItem.modifiers && cartItem.modifiers.map(modifier => (
-                            <span className="font-tiny text-light-gray">{modifier.name}</span>
+                          {cartItem.modifiers && cartItem.modifiers.map((modifier,i) => (
+                            <span className="font-tiny text-light-gray pr-1">{modifier.name}{i+1 < cartItem.modifiers.length && ','}</span>
                           ))}
                         </div>
                       </div>

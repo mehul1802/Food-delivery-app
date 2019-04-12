@@ -110,57 +110,76 @@ class Checkout extends Component {
   render() {
     const { products, subtotal_amount, tax_amount, order_amount } = this.props.order;
     return (
-      <div className="row checkout-wrapper">
-        <div className="col-12 col-md-8">
-          <Card className="mt-4">
-            <CardBody className="order-items p-0">
-              {products.map(product => (
-                <div className="order-item py-3 px-4 d-flex justify-content-between">
-                  <div>
-                    <div className="text-primary">{product.product_name}</div>
-                    <div className="font-tiny d-flex mt-1">
-                      <div className="text-light-gray">Quantity: <span className="text-dark">{product.quantity}</span></div>
-                      <div className="ml-2 text-light-gray">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
+      <div className="checkout-wrapper mt-5">
+        <h1 className="pb-2">Confirm and pay</h1>
+        <div className="row mt-4">
+          <div className="col-12 col-md-8">
+            <Card>
+              <CardBody className="order-items p-0">
+                {products.map(product => (
+                  <div className="order-item py-3 px-4 d-flex justify-content-between">
+                    <div style={{ width: 'calc(100% - 100px)' }}>
+                      <div className="text-primary">{product.product_name}</div>
+                      <div className="font-tiny d-flex mt-1">
+                        <div className="text-light-gray">Quantity: <span className="text-dark">{product.quantity}</span></div>
+                        <div className="ml-2 text-light-gray">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
+                      </div>
+                      {product.modifiers.length > 0 &&
+                        <div className="pt-1 d-flex flex-wrap">
+                          {product.modifiers.map((modifier,i) => (
+                            <span className="text-light-gray font-tiny pr-1">{modifier.name}{i+1 < product.modifiers.length && ','}</span>
+                          ))}
+                        </div>
+                      }
+                    </div>
+                    <div>
+                      {formatPrice(product.total_price)}
                     </div>
                   </div>
-                  <div>
-                    {formatPrice(product.total_price)}
-                  </div>
+                ))}
+              </CardBody>
+            </Card>
+            <Card className="mt-4">
+              <CardBody>
+                <div className="checkout">
+                  <StripeProvider apiKey={stripePayment.key}>
+                    <Elements>
+                      <Stripe
+                        cardName={this.state.cardName}
+                        setStripeProps={this.setStripeProps}
+                        onChange={this.onChange}
+                        validator={this.validator}
+                        showStripeError={this.state.showStripeError}
+                        setStripeData={this.setStripeData}
+                        cardNumber={this.state.cardNumber}
+                        cardExpiry={this.state.cardExpiry}
+                        cardCvc={this.state.cardCvc}
+                      />
+                    </Elements>
+                  </StripeProvider>
                 </div>
-              ))}
-            </CardBody>
-          </Card>
-          <Card className="mt-4">
-            <CardBody>
-              <div className="checkout">
-                <StripeProvider apiKey={stripePayment.key}>
-                  <Elements>
-                    <Stripe
-                      cardName={this.state.cardName}
-                      setStripeProps={this.setStripeProps}
-                      onChange={this.onChange}
-                      validator={this.validator}
-                      showStripeError={this.state.showStripeError}
-                      setStripeData={this.setStripeData}
-                      cardNumber={this.state.cardNumber}
-                      cardExpiry={this.state.cardExpiry}
-                      cardCvc={this.state.cardCvc}
-                    />
-                  </Elements>
-                </StripeProvider>
-              </div>
-            </CardBody>
-          </Card>
-          <Button color="secondary" className="d-block mx-auto my-3" onClick={this.placeOrder}>Place order</Button>
-        </div>
-        <div className="col-12 col-md-4">
-          <Card className="mt-4">
-            <CardBody>
-              <div>subtotal {formatPrice(subtotal_amount)}</div>
-              <div>Vat {formatPrice(tax_amount)}</div>
-              <div>Total {formatPrice(order_amount)}</div>
-            </CardBody>
-          </Card>
+              </CardBody>
+            </Card>
+            <Button color="secondary" className="d-block mx-auto my-3" onClick={this.placeOrder}>Place order</Button>
+          </div>
+          <div className="col-12 col-md-4">
+            <Card>
+              <CardBody className="p-3 bg-gray-lighter">
+                <div className="d-flex justify-content-between font-medium pb-2">
+                  <span>Subtotal</span>
+                  <span>{formatPrice(subtotal_amount)}</span>
+                </div>
+                <div className="d-flex justify-content-between font-medium pb-2">
+                  <span>Vat</span>
+                  <span>{formatPrice(tax_amount)}</span>
+                </div>
+                <div className="d-flex justify-content-between font-large">
+                  <span>Total</span>
+                  <span>{formatPrice(order_amount)}</span>
+                </div>
+              </CardBody>
+            </Card>
+          </div>
         </div>
       </div>
     );
