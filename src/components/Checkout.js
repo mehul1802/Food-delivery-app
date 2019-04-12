@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import { stripePayment, session, ApiRequest } from '../services';
 import Stripe from './app-components/Stripe';
+import { formatPrice } from '../utils/common';
 
 const initialState = {
   stripe: null,
@@ -107,11 +108,29 @@ class Checkout extends Component {
   }
 
   render() {
-    console.log(this.props);
+    const { products, subtotal_amount, tax_amount, order_amount } = this.props.order;
     return (
-      <div className="row">
-        <div className="col-12 col-md-6 mx-auto">
-          <Card>
+      <div className="row checkout-wrapper">
+        <div className="col-12 col-md-8">
+          <Card className="mt-4">
+            <CardBody className="order-items p-0">
+              {products.map(product => (
+                <div className="order-item py-3 px-4 d-flex justify-content-between">
+                  <div>
+                    <div className="text-primary">{product.product_name}</div>
+                    <div className="font-tiny d-flex mt-1">
+                      <div className="text-light-gray">Quantity: <span className="text-dark">{product.quantity}</span></div>
+                      <div className="ml-2 text-light-gray">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
+                    </div>
+                  </div>
+                  <div>
+                    {formatPrice(product.total_price)}
+                  </div>
+                </div>
+              ))}
+            </CardBody>
+          </Card>
+          <Card className="mt-4">
             <CardBody>
               <div className="checkout">
                 <StripeProvider apiKey={stripePayment.key}>
@@ -133,6 +152,15 @@ class Checkout extends Component {
             </CardBody>
           </Card>
           <Button color="secondary" className="d-block mx-auto my-3" onClick={this.placeOrder}>Place order</Button>
+        </div>
+        <div className="col-12 col-md-4">
+          <Card className="mt-4">
+            <CardBody>
+              <div>subtotal {formatPrice(subtotal_amount)}</div>
+              <div>Vat {formatPrice(tax_amount)}</div>
+              <div>Total {formatPrice(order_amount)}</div>
+            </CardBody>
+          </Card>
         </div>
       </div>
     );
