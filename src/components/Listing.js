@@ -22,7 +22,7 @@ const orderTypeLabel = (orderType) => {
 const initialState = {
   menuItemOptionsModal: false,
   menuList: [],
-  orderType: 1,
+  orderType: {},
 };
 
 class Listing extends Component {
@@ -112,13 +112,13 @@ class Listing extends Component {
             <div className="brand-logo"><img src={pizzaBrand} /></div>
           </div>
         </div>
-        <div className="p-3 d-flex align-items-center justify-content-center order-type-section">
+        {!_.isEmpty(orderType) && <div className="p-3 d-flex align-items-center justify-content-center order-type-section">
           <div className="mr-4">
             <div className="font-small mb-1">{orderType.name}</div>
             <div className="font-tiny text-light-gray">{orderType.desc}</div>
           </div>
           <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.changeOrderType}>Change</div>
-        </div>
+        </div>}
         <div className="restaurant-product-listing">
           <div className="res-banner-section d-flex">
             <img src={discBanner} />
