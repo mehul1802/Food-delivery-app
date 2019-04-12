@@ -86,7 +86,7 @@ class Checkout extends Component {
       let id = customer.data.id
 
       // Create new booking after adding card in stripe
-      this.createOrder({ stripe_customer_id: id });
+      this.createOrder(customerId ? { card_id: id } : { stripe_customer_id: id });
     } catch (e) {
       // showError(this.props.notification, e);
       console.log(e);
@@ -96,7 +96,8 @@ class Checkout extends Component {
   placeOrder = () => {
     try {
       if (this.validator.allValid()) {
-        this.triggerPayment(session.userId);
+        const { user: { stripe_customer_id } } = this.props;
+        this.triggerPayment(session.userId, stripe_customer_id);
       } else {
         this.validator.showMessages();
         // rerender to show messages for the first time
@@ -187,7 +188,7 @@ class Checkout extends Component {
 }
 
 const mapStateToCheckoutProps = (state) => {
-  return { order: state.order.order };
+  return { order: state.order.order, user: state.authentication.user };
 };
 
 const mapDispatchTocehckoutProps = {
