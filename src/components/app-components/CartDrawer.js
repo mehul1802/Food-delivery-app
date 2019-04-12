@@ -50,8 +50,7 @@ class CartDrawer extends Component {
   handleCartSubmit = () => {
     if (session.isLoggedIn()) {
       try {
-        const { orderType } = this.props;
-        const obj = { ...this.state, orderType };
+        const obj = { ...this.state, order_type: this.props.orderType };
         session.setOrder(obj);
         this.props.addOrder(obj);
   
