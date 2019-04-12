@@ -7,11 +7,13 @@ import _ from 'lodash';
 
 import { stripePayment, session, ApiRequest } from '../services';
 import Stripe from './app-components/Stripe';
+import AppInput from './form-fields/AppInput';
 import { formatPrice } from '../utils/common';
 
 const initialState = {
   stripe: null,
   showStripeError: false,
+  comment: '',
   cardName: '',
   cardNumber: null,
   cardExpiry: null,
@@ -111,75 +113,87 @@ class Checkout extends Component {
   render() {
     const { products, subtotal_amount, tax_amount, order_amount } = this.props.order;
     return (
-      <div className="checkout-wrapper mt-5">
-        <h1 className="pb-2">Confirm and pay</h1>
-        <div className="row mt-4">
-          <div className="col-12 col-md-8">
-            <Card>
-              <CardBody className="order-items p-0">
-                {products.map(product => (
-                  <div className="order-item py-3 px-4 d-flex justify-content-between">
-                    <div style={{ width: 'calc(100% - 100px)' }}>
-                      <div className="text-primary">{product.product_name}</div>
-                      <div className="font-tiny d-flex mt-1">
-                        <div className="text-light-gray">Quantity: <span className="text-dark">{product.quantity}</span></div>
-                        <div className="ml-2 text-light-gray">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
-                      </div>
-                      {product.modifiers.length > 0 &&
-                        <div className="pt-1 d-flex flex-wrap">
-                          {product.modifiers.map((modifier,i) => (
-                            <span className="text-light-gray font-tiny pr-1">{modifier.name}{i+1 < product.modifiers.length && ','}</span>
-                          ))}
+      <div className="container">
+        <div className="checkout-wrapper mt-5 mb-5">
+          <h1 className="pb-2">Confirm and pay</h1>
+          <div className="row mt-4">
+            <div className="col-12 col-md-8">
+              <Card>
+                <CardBody className="order-items p-0">
+                  {products.map(product => (
+                    <div className="order-item py-3 px-4 d-flex justify-content-between">
+                      <div style={{ width: 'calc(100% - 100px)' }}>
+                        <div className="text-primary">{product.product_name}</div>
+                        <div className="font-tiny d-flex mt-1">
+                          <div className="text-light-gray">Quantity: <span className="text-dark">{product.quantity}</span></div>
+                          <div className="ml-2 text-light-gray">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
                         </div>
-                      }
+                        {product.modifiers.length > 0 &&
+                          <div className="pt-2 d-flex flex-wrap">
+                            {product.modifiers.map((modifier,i) => (
+                              <span className="text-light-gray font-tiny pr-1">{modifier.name}{i+1 < product.modifiers.length && ','}</span>
+                            ))}
+                          </div>
+                        }
+                      </div>
+                      <div>
+                        {formatPrice(product.total_price)}
+                      </div>
                     </div>
-                    <div>
-                      {formatPrice(product.total_price)}
-                    </div>
+                  ))}
+                </CardBody>
+              </Card>
+              <div className="dotted-border my-4" />
+              <AppInput
+                name="comment"
+                label="Add delivery instructions"
+                type="textarea"
+                rows={4}
+                value={this.state.comment}
+                onChange={this.onChange}
+                placeholder="Delivery instructions (e.g. Check in with doorman.)"
+              />
+            </div>
+            <div className="col-12 col-md-4">
+              <Card>
+                <CardBody className="p-3 bg-gray-lighter">
+                  <div className="d-flex justify-content-between font-regular pb-2">
+                    <span>Subtotal</span>
+                    <span>{formatPrice(subtotal_amount)}</span>
                   </div>
-                ))}
-              </CardBody>
-            </Card>
-            <Card className="mt-4">
-              <CardBody>
-                <div className="checkout">
-                  <StripeProvider apiKey={stripePayment.key}>
-                    <Elements>
-                      <Stripe
-                        cardName={this.state.cardName}
-                        setStripeProps={this.setStripeProps}
-                        onChange={this.onChange}
-                        validator={this.validator}
-                        showStripeError={this.state.showStripeError}
-                        setStripeData={this.setStripeData}
-                        cardNumber={this.state.cardNumber}
-                        cardExpiry={this.state.cardExpiry}
-                        cardCvc={this.state.cardCvc}
-                      />
-                    </Elements>
-                  </StripeProvider>
-                </div>
-              </CardBody>
-            </Card>
-            <Button color="secondary" className="d-block mx-auto my-3" onClick={this.placeOrder}>Place order</Button>
-          </div>
-          <div className="col-12 col-md-4">
-            <Card>
-              <CardBody className="p-3 bg-gray-lighter">
-                <div className="d-flex justify-content-between font-medium pb-2">
-                  <span>Subtotal</span>
-                  <span>{formatPrice(subtotal_amount)}</span>
-                </div>
-                <div className="d-flex justify-content-between font-medium pb-2">
-                  <span>Vat</span>
-                  <span>{formatPrice(tax_amount)}</span>
-                </div>
-                <div className="d-flex justify-content-between font-large">
-                  <span>Total</span>
-                  <span>{formatPrice(order_amount)}</span>
-                </div>
-              </CardBody>
-            </Card>
+                  <div className="d-flex justify-content-between font-regular pb-2">
+                    <span>Vat</span>
+                    <span>{formatPrice(tax_amount)}</span>
+                  </div>
+                  <div className="d-flex justify-content-between font-large">
+                    <span>Total</span>
+                    <span>{formatPrice(order_amount)}</span>
+                  </div>
+                </CardBody>
+              </Card>
+              <Card className="mt-4">
+                <CardBody>
+                  <div className="checkout">
+                    <StripeProvider apiKey={stripePayment.key}>
+                      <Elements>
+                        <Stripe
+                          cardName={this.state.cardName}
+                          setStripeProps={this.setStripeProps}
+                          onChange={this.onChange}
+                          validator={this.validator}
+                          showStripeError={this.state.showStripeError}
+                          setStripeData={this.setStripeData}
+                          cardNumber={this.state.cardNumber}
+                          cardExpiry={this.state.cardExpiry}
+                          cardCvc={this.state.cardCvc}
+                        />
+                      </Elements>
+                    </StripeProvider>
+                  </div>
+                  <Button color="secondary" className="rounded d-block w-100 mt-2 btn btn-secondary p-0" onClick={this.placeOrder}>Place order</Button>
+                </CardBody>
+              </Card>
+            </div>
           </div>
         </div>
       </div>
