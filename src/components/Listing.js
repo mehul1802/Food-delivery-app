@@ -98,7 +98,7 @@ class Listing extends Component {
     const { orderType } = this.state;
     return (
       <React.Fragment>
-        <div className="listing-header">
+        <div className="listing-header bg-white">
           <div className="resturant-list-header" style={{ background: 'url(https://res.cloudinary.com/grubhub-assets/image/upload/f_auto,fl_lossy,q_85/v1470779396/grubhub-discover-background-desktop.png) no-repeat', }}>
             <div></div>
           </div>
@@ -112,13 +112,15 @@ class Listing extends Component {
             <div className="brand-logo"><img src={pizzaBrand} /></div>
           </div>
         </div>
-        {!_.isEmpty(orderType) && <div className="p-3 d-flex align-items-center justify-content-center order-type-section">
-          <div className="mr-4">
-            <div className="font-small mb-1">{orderType.name}</div>
-            <div className="font-tiny text-light-gray">{orderType.desc}</div>
+        {!_.isEmpty(orderType) &&
+          <div className="p-3 d-flex align-items-center justify-content-center order-type-section bg-white">
+            <div className="mr-4">
+              <div className="font-small mb-1">{orderType.name}</div>
+              <div className="font-tiny text-light-gray">{orderType.desc}</div>
+            </div>
+            <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.changeOrderType}>Change</div>
           </div>
-          <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.changeOrderType}>Change</div>
-        </div>}
+        }
         <div className="restaurant-product-listing">
           <div className="res-banner-section d-flex">
             <img src={discBanner} />

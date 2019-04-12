@@ -56,7 +56,7 @@ html {
         overflow-x: hidden;
         @extend .font-regular;
         color: theme-color('dark');
-
+        background: #fbfbfc;
         #root {
             overflow-x: hidden;
         }

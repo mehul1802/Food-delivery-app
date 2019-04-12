@@ -61,8 +61,9 @@ class Checkout extends Component {
 
   createOrder = async (param = {}) => {
     try {
-      const orderObj = Object.assign(this.props.order, param)
-      await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, orderObj);
+      const orderObj = Object.assign(this.props.order, param, {comment: this.state.comment});
+      const response = await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, orderObj);
+      console.log(response);
     } catch (e) {
       // showError(this.props.api.notification, e);
       console.log(e)
@@ -156,7 +157,7 @@ class Checkout extends Component {
             </div>
             <div className="col-12 col-md-4">
               <Card>
-                <CardBody className="p-3 bg-gray-lighter">
+                <CardBody className="p-3 bg-white">
                   <div className="d-flex justify-content-between font-regular pb-2">
                     <span>Subtotal</span>
                     <span>{formatPrice(subtotal_amount)}</span>
