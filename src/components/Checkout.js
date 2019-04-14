@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Card, CardBody, Button } from 'reactstrap';
 import SimpleReactValidator from 'simple-react-validator';
 import { StripeProvider, Elements } from 'react-stripe-elements';
@@ -19,6 +20,7 @@ const initialState = {
   cardExpiry: null,
   cardCvc: null,
   cardId: null,
+  redirectToSuccess : false
 };
 
 class Checkout extends Component {
@@ -63,7 +65,11 @@ class Checkout extends Component {
     try {
       const orderObj = Object.assign(this.props.order, param, {comment: this.state.comment});
       const response = await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/order`, orderObj);
-      console.log(response);
+      if (response.status === 200) {
+        this.setState({
+          redirectToSuccess: true
+        });
+      }
     } catch (e) {
       // showError(this.props.api.notification, e);
       console.log(e)
@@ -112,6 +118,12 @@ class Checkout extends Component {
   }
 
   render() {
+    if (this.state.redirectToSuccess) {
+      return (
+          <Redirect to="/checkout/success" />
+      );
+    }
+
     const { products, subtotal_amount, tax_amount, order_amount } = this.props.order;
     return (
       <div className="container">

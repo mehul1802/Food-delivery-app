@@ -22,7 +22,7 @@ const orderTypeLabel = (orderType) => {
 const initialState = {
   menuItemOptionsModal: false,
   menuList: [],
-  orderType: {},
+  orderType: ORDERTYPES[0],
 };
 
 class Listing extends Component {
@@ -39,11 +39,11 @@ class Listing extends Component {
     }
   }
 
-   static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     let orderType = session.orderType;
     if (!_.isEqual(nextProps.orderType, prevState.orderType)) {
       let obj = orderTypeLabel(nextProps.orderType);
-      return { orderType: obj };     
+      return { orderType: obj };
     } else if (!_.isEmpty(orderType)) {
       let obj = orderTypeLabel(nextProps.orderType);
       return { orderType: obj };
@@ -56,21 +56,22 @@ class Listing extends Component {
     this.setState({ orderTypeModal: false });
   }
 
-  handleOrderType = (productId) => {
+  toggleOrderTypeModel = () => {
+    this.setState((prevState) => {
+      return { orderTypeModal: !prevState.orderTypeModal }
+    });
+  }
+
+  handleProductSelect = (productId) => {
     if (this.props.orderType || (!!session.orderType)) {
-      this.productOptionModal(productId);
+      this.setState({ menuItemOptionsModal: true, productId: productId });
     } else {
-      this.setState({ orderTypeModal: true });
+      this.editOrderType();
     }
   }
 
-  changeOrderType = () => {
+  editOrderType = () => {
     this.setState({ orderTypeModal: true });
-  }
-
-  productOptionModal = (productId) => {
-    this.setState({ menuItemOptionsModal: true, productId: productId });
-    // this.props.history.push(`/product/${productId}`);
   }
 
   handleMenuItemOptionsDialog = () => {
@@ -78,7 +79,6 @@ class Listing extends Component {
   }
 
   toggle = (categoryName) => {
-
     const menuList = this.state.menuList.map(item => {
       let cetegoryObj = _.cloneDeep(item);
       if (item.category_name === categoryName) {
@@ -118,7 +118,7 @@ class Listing extends Component {
               <div className="font-small mb-1">{orderType.name}</div>
               <div className="font-tiny text-light-gray">{orderType.desc}</div>
             </div>
-            <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.changeOrderType}>Change</div>
+            <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.editOrderType}>Change</div>
           </div>
         }
         <div className="restaurant-product-listing">
@@ -141,7 +141,7 @@ class Listing extends Component {
               <div className="row">
                 {item.list_items.map(product => (
                   <div className="col-md-6 p-2" key={product.ProductID}>
-                    <Product product={product} onClick={(e) => this.handleOrderType(product.ProductID)} />
+                    <Product product={product} onClick={(e) => this.handleProductSelect(product.ProductID)} />
                   </div>
                 ))}
               </div>
@@ -160,6 +160,8 @@ class Listing extends Component {
         {this.state.orderTypeModal &&
           <OrderTypeDialog
             isOpen={this.state.orderTypeModal}
+            orderType={this.state.orderType}
+            toggleOrderTypeModel={this.toggleOrderTypeModel}
             addOrderType={this.addOrderType}
           />
         }

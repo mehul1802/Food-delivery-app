@@ -11,3 +11,9 @@ export function removeFromCart(productId) {
         dispatch({ type: cartTypes.REMOVE_FROM_CART, payload: productId });
     };
 }
+
+export function resetCart() {
+    return dispatch => {
+        dispatch({ type: cartTypes.RESET_CART });
+    };
+}

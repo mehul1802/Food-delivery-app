@@ -16,6 +16,8 @@ export function order(state = initialState, action) {
             return { ...state, orderType: action.payload };
         case orderTypes.ADD_ORDER:
             return { ...state, order: action.payload };
+        case orderTypes.REMOVE_ORDER:
+            return { ...initialState };
         default:
             return state;
     }

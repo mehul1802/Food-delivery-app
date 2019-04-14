@@ -13,3 +13,9 @@ export function addOrder(orderDetail) {
         dispatch({ type: orderTypes.ADD_ORDER, payload: orderDetail });
     };
 }
+
+export function removeOrder() {
+    return dispatch => {
+        dispatch({ type: orderTypes.REMOVE_ORDER });
+    };
+}

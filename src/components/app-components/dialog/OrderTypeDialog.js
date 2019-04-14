@@ -22,10 +22,11 @@ class OrderTypeDialog extends Component {
   }
 
   render() {
-    const { isOpen } = this.props;
+    const { isOpen, toggleOrderTypeModel } = this.props;
     return (
       <Modal
         isOpen={isOpen}
+        toggle={toggleOrderTypeModel}
         backdrop
         style={{ maxWidth: '360px' }}
         className="order-type-dialog"

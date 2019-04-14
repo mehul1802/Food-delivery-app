@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from "react-router";
-import { Button } from 'reactstrap';
 import _ from 'lodash';
+import { Button } from 'reactstrap';
 
 import { removeFromCart } from '../../actions/cart-actions';
 import { addOrder } from '../../actions/order-actions';
@@ -20,7 +20,7 @@ const calculateOrderAmount = (cartItems) => {
   cartItems.forEach(cartItem => {
     subtotal_amount = formatAmount(subtotal_amount + parseFloat(cartItem.total_price));
     tax_amount = formatAmount(tax_amount + parseFloat(cartItem.tax_amount));
-    order_amount = subtotal_amount + tax_amount;
+    order_amount = formatAmount(subtotal_amount + tax_amount);
   });
   return { subtotal_amount, tax_amount , order_amount }
 }

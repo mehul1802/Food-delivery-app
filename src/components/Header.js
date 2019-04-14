@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { withRouter } from "react-router";
 import _ from 'lodash';
 import {
   Collapse,
@@ -13,7 +14,6 @@ import {
   Input, Button
 } from 'reactstrap';
 
-import { store } from '../store';
 import { session, ApiRequest } from '../services';
 import { showLogin, hideLogin } from '../actions/dialog-actions';
 import { getUser } from '../actions/user-actions';
@@ -58,16 +58,17 @@ class Header extends Component {
   }
 
   render() {
-    const { user, showSignIn } = this.props;
+    const { user, showSignIn, location } = this.props;
+    let isHome = location.pathname === '/';
     return (
       <div className="header-section">
         <Navbar color="white" expand="md">
           <Link to="/"><NavbarBrand><img src={logo} alt="logo" /></NavbarBrand></Link>
-          <Nav className="w-25" navbar>
+          {isHome && <Nav className="w-25" navbar>
             <NavItem className="w-100">
               <Input type="email" name="email" id="exampleEmail" placeholder="pizza, sushi and chinese" />
             </NavItem>
-          </Nav>
+          </Nav>}
           <Nav className="ml-auto nav-right d-flex align-items-center" navbar>
             {!session.isLoggedIn() ?
               <NavItem>
@@ -82,15 +83,15 @@ class Header extends Component {
                       style={{ width: 10, height: 10, transform: `${this.state.isOpen ? 'rotate(-180deg)' : 'unset'}` }} />
                   </DropdownToggle>
                   <DropdownMenu className="p-2">
-                    <div className="font-small cursor-pointer" onClick={this.logout}>Sign out</div>
+                    <DropdownItem className="font-small cursor-pointer" onClick={this.logout}>Sign out</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </NavItem>
             }
 
-            <NavItem className="w-24 cart-icon">
+            {isHome && <NavItem className="w-24 cart-icon">
               <img src={cart} alt="cart" />
-            </NavItem>
+            </NavItem>}
           </Nav>
 
         </Navbar>
@@ -114,7 +115,7 @@ const mapDispatchToHeaderProps = {
   getUser,
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToHeaderProps,
   mapDispatchToHeaderProps
-)(Header);
+)(Header));
