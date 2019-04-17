@@ -22,7 +22,7 @@ class OrderList extends Component {
     document.body.classList.add('checkout-body');
   }
 
-  componentWillUnmount() {    
+  componentWillUnmount() {
     document.body.classList.remove('checkout-body');    
    }
 
@@ -33,15 +33,15 @@ class OrderList extends Component {
         <div className="orderlist-wrapper my-5">
           <h1 className="pb-2">My orders</h1>
               {orders && orders.map(order => (
-                <Card className="mb-4">
+                <Card className="mb-4" key={order.order_id}>
                   <CardBody className="p-0">
                     <div className="d-flex justify-content-between">
-                      <div className="order-id p-2 font-tiny">{order.date}</div>
+                      <div className="order-id p-2 font-tiny">{order.order_id}</div>
                       <div className="order-date p-2 font-tiny">{order.date}</div>
                     </div>
-                    <div className="py-4">
+                    <div className="pt-2">
                       {order.order_items && order.order_items.map(item => (
-                        <div className="d-flex product-list p-3">
+                        <div className="d-flex product-list py-3 px-4" key={item.name}>
                           <div className="w-25">
                             <img className="w-100" src="https://www.yourmomhatesthis.com/images/2016/12/Pizza-Free-PNG-Image.png" />
                           </div>
@@ -64,6 +64,9 @@ class OrderList extends Component {
                           </div>
                         </div>
                       ))}
+                    </div>
+                    <div className="px-4 pb-2 float-right font-medium">
+                      Total:  <span>{formatPrice(order.amount)}</span>
                     </div>
                   </CardBody>
                 </Card>
