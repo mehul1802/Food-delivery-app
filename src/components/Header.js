@@ -19,7 +19,7 @@ import { showLogin, hideLogin } from '../actions/dialog-actions';
 import { getUser } from '../actions/user-actions';
 
 import SignInDialog from './app-components/dialog/SignInDialog';
-import logo from '../assets/images/logo.svg';
+import logo from '../assets/images/logo_trans.png';
 import arrowDown from '../assets/images/arrow-down.svg';
 import cart from '../assets/images/cart.svg';
 

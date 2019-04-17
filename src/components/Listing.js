@@ -13,7 +13,7 @@ import { ORDERTYPES } from '../utils/enum';
 
 import discBanner from '../assets/images/discount-banner.jpg';
 import arrowDown from '../assets/images/arrow-down.svg';
-import pizzaBrand from '../assets/images/pizza-brand.jpg';
+import pizzaBrand from '../assets/images/logo_white.png';
 
 const orderTypeLabel = (orderType) => {
   return ORDERTYPES.find(item => item.value == orderType);
@@ -103,7 +103,7 @@ class Listing extends Component {
             <div></div>
           </div>
           <div className="restaurant-info">
-            <h1>Andale Mexican Restaurant</h1>
+            <h1>Alsalampizza</h1>
             <div className="d-flex">
               <a href="#">151 N Santa Cruz Ave</a>
               <a href="tel:4083958800"> (408) 395-8800</a>
