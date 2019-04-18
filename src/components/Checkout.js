@@ -104,6 +104,7 @@ class Checkout extends Component {
 
   placeOrder = () => {
     try {
+      this.setState({ showStripeError: true });
       if (this.validator.allValid()) {
         const { user: { stripe_customer_id } } = this.props;
         this.triggerPayment(session.userId, stripe_customer_id);
