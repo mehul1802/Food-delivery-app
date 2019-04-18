@@ -1,0 +1,15 @@
+.orderlist-wrapper {
+	.order-id {
+		border-right: 1px solid #00000020;
+		border-bottom: 1px solid #00000020;
+	}
+	.order-date {
+		border-left: 1px solid #00000020;
+		border-bottom: 1px solid #00000020;
+	}
+	.product-list {
+		&:not(:last-child) {
+			border-bottom: 1px solid #00000020;
+		}
+	}
+}

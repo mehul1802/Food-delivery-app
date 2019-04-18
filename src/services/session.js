@@ -93,6 +93,14 @@ class Session {
         }
     }
 
+    removeCartData() {
+        localStorage.removeItem(CART_KEY);
+    }
+    
+    removeOrderData() {
+        localStorage.removeItem(ORDER);
+    }
+
     setOrderType(orderType) {
         localStorage.setItem(ORDER_TYPE, orderType);
     }

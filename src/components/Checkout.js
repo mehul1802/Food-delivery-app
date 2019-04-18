@@ -69,6 +69,8 @@ class Checkout extends Component {
         this.setState({
           redirectToSuccess: true
         });
+        session.removeCartData();
+        session.removeOrderData();
       }
     } catch (e) {
       // showError(this.props.api.notification, e);
