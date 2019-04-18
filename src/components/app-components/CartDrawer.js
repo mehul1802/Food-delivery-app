@@ -106,7 +106,7 @@ class CartDrawer extends Component {
                 <span>{formatPrice(subtotal_amount)}</span>
               </div>
               <div className="d-flex justify-content-between font-small pb-2">
-                <span>Vat</span>
+                <span>Tax</span>
                 <span>{formatPrice(tax_amount)}</span>
               </div>
               <div className="d-flex justify-content-between font-medium pb-2">
