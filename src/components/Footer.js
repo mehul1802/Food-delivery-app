@@ -20,7 +20,7 @@ class Footer extends Component {
           </div>
         </div> */}
         <div className="copyright-section d-flex justify-content-between">
-          <p className="m-0">© 2019 Grubhub All rights reserved.</p>
+          <p className="m-0">© 2019 Al Salam Pizzeria All rights reserved.</p>
           <div className="w-50 d-flex justify-content-end">
             <a className="text-white" href="/legal/terms-of-use">Terms of Use</a>
             <a className="text-white" href="/legal/privacy-policy">Privacy Policy</a>

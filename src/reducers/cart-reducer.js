@@ -17,7 +17,7 @@ export function cart(state = initialState, action) {
         case cartTypes.REMOVE_FROM_CART:
             return { ...state, products: state.products.filter(product => product.uid != action.payload) };
         case cartTypes.RESET_CART:
-            return { ...initialState };
+            return { products: [] };
         default:
             return state;
     }

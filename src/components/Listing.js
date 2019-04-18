@@ -122,7 +122,7 @@ class Listing extends Component {
           </div>
         }
         <div className="restaurant-product-listing">
-          <div className="res-banner-section d-flex">
+          {/* <div className="res-banner-section d-flex">
             <img src={discBanner} />
             <div className="bg-blue banner-offer-text d-flex">
               <div style={{ flexBasis: '70%', marginRight: '20px' }}>
@@ -131,7 +131,7 @@ class Listing extends Component {
               </div>
               <a href="#" className="hot-deal-offer">Hot Deal</a>
             </div>
-          </div>
+          </div> */}
           {this.state.menuList.map(item => <div className="restaurant-menu-section mt30" key={item.category_name}>
             <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={() => this.toggle(item.category_name)}>
               <h3 className="font-weight-bold font-large product-cat-title">{item.category_name}</h3>

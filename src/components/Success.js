@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Card, CardBody } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
+import trueIcon from '../assets/images/true.png';
+
 class Success extends Component {
 
   componentDidMount() {
@@ -15,15 +17,16 @@ class Success extends Component {
   render() {
     return (
       <div className="container">
-        <Card>
+        <Card className="sucess-wapper my-5">
             <CardBody>
-              <div className="sucess-wapper">
-                <div>
-                  <h1 className="pb-2 text-green">Thank you, your order has been placed.</h1>
-                  <p>Please check your email for order confirmation and detailed delivery information.</p>
-                  <Link to="/myorder" className="text-white d-block rounded bg-primary w-25 mt-3 btn p-2">View order</Link>
-                  <Link to="/" className="text-primary d-block cursor-pointer mt-3">Return to home</Link>
+              <div>
+                <div className="d-flex align-center mb-3">
+                  <img src={trueIcon} width="38" height="38" />
+                  <h1 className="mb-0 ml-3 text-green">Thank you, your order has been placed.</h1>
                 </div>
+                <p>Please check your email for order confirmation and detailed delivery information.</p>
+                <Link to="/myorder" className="text-white d-block rounded bg-primary w-25 mt-3 btn p-2">View order</Link>
+                <Link to="/" className="text-primary d-block cursor-pointer mt-3">Return to home</Link>
               </div>
             </CardBody>
           </Card>

@@ -6,6 +6,8 @@ import SimpleReactValidator from 'simple-react-validator';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import _ from 'lodash';
 
+import { removeOrder } from '../actions/order-actions';
+import { resetCart } from '../actions/cart-actions';
 import { stripePayment, session, ApiRequest } from '../services';
 import Stripe from './app-components/Stripe';
 import AppInput from './form-fields/AppInput';
@@ -69,6 +71,10 @@ class Checkout extends Component {
         this.setState({
           redirectToSuccess: true
         });
+        this.props.removeOrder();
+        this.props.resetCart();
+        session.removeCartData();
+        session.removeOrderData();
       }
     } catch (e) {
       // showError(this.props.api.notification, e);
@@ -139,13 +145,13 @@ class Checkout extends Component {
                       <div style={{ width: 'calc(100% - 100px)' }}>
                         <div className="text-primary">{product.product_name}</div>
                         <div className="font-tiny d-flex mt-1">
-                          <div className="text-light-gray">Quantity: <span className="text-dark">{product.quantity}</span></div>
-                          <div className="ml-2 text-light-gray">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
+                          <div className="text-light-grey">Quantity: <span className="text-dark">{product.quantity}</span></div>
+                          <div className="ml-2 text-light-grey">Price: <span className="text-dark">{formatPrice(product.unit_price)}</span></div>
                         </div>
                         {product.modifiers.length > 0 &&
                           <div className="pt-2 d-flex flex-wrap">
                             {product.modifiers.map((modifier,i) => (
-                              <span className="text-light-gray font-tiny pr-1">{modifier.name}{i+1 < product.modifiers.length && ','}</span>
+                              <span className="text-light-grey font-tiny pr-1">{modifier.name}{i+1 < product.modifiers.length && ','}</span>
                             ))}
                           </div>
                         }
@@ -176,7 +182,7 @@ class Checkout extends Component {
                     <span>{formatPrice(subtotal_amount)}</span>
                   </div>
                   <div className="d-flex justify-content-between font-regular pb-2">
-                    <span>Vat</span>
+                    <span>Tax</span>
                     <span>{formatPrice(tax_amount)}</span>
                   </div>
                   <div className="d-flex justify-content-between font-large">
@@ -220,6 +226,8 @@ const mapStateToCheckoutProps = (state) => {
 };
 
 const mapDispatchTocehckoutProps = {
+  removeOrder,
+  resetCart,
 };
 
 export default connect(

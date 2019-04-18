@@ -4,9 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import _ from 'lodash';
 import {
-  Collapse,
   Navbar,
-  NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
@@ -79,11 +77,15 @@ class Header extends Component {
                 <Dropdown isOpen={this.state.isOpen} size="sm" toggle={this.toggle}>
                   <DropdownToggle className="bg-white border-0 text-secondary">
                     <span className="text-capitalize mr-3 font-tiny">Hi, {user.name}</span>
-                    <img src={arrowDown}
-                      style={{ width: 10, height: 10, transform: `${this.state.isOpen ? 'rotate(-180deg)' : 'unset'}` }} />
+                    <img
+                      src={arrowDown}
+                      style={{ width: 10, height: 10, transform: `${this.state.isOpen ? 'rotate(-180deg)' : 'unset'}` }}
+                      alt="collapse"
+                    />
                   </DropdownToggle>
                   <DropdownMenu className="p-2">
-                    <DropdownItem className="font-small cursor-pointer" onClick={this.logout}>Sign out</DropdownItem>
+                    <DropdownItem><Link to="/myorder" className="font-small cursor-pointer text-dark">My order</Link></DropdownItem>
+                    <DropdownItem className="font-small cursor-pointer px-3 mt-1" onClick={this.logout}>Sign out</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>
               </NavItem>
