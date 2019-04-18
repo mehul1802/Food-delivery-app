@@ -6,6 +6,8 @@ import SimpleReactValidator from 'simple-react-validator';
 import { StripeProvider, Elements } from 'react-stripe-elements';
 import _ from 'lodash';
 
+import { removeOrder } from '../actions/order-actions';
+import { resetCart } from '../actions/cart-actions';
 import { stripePayment, session, ApiRequest } from '../services';
 import Stripe from './app-components/Stripe';
 import AppInput from './form-fields/AppInput';
@@ -69,6 +71,8 @@ class Checkout extends Component {
         this.setState({
           redirectToSuccess: true
         });
+        this.props.removeOrder();
+        this.props.resetCart();
         session.removeCartData();
         session.removeOrderData();
       }
@@ -221,6 +225,8 @@ const mapStateToCheckoutProps = (state) => {
 };
 
 const mapDispatchTocehckoutProps = {
+  removeOrder,
+  resetCart,
 };
 
 export default connect(
