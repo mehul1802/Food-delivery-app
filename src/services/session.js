@@ -1,7 +1,5 @@
 import API from './api';
 import { store } from '../store';
-// import { apiServices as action } from '../actions';
-// import { ApiRequest } from './api-request';
 
 const LOCAL_STORAGE_KEY = 'authentication';
 const CART_KEY = 'cart';

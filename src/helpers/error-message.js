@@ -20,3 +20,8 @@ export function showError (ref = '', error = '') {
         });
     }
 }
+
+export function showFieldErrors(errors, fieldName) {
+    const fieldError = errors[fieldName]
+    return fieldError ? fieldError : ''
+}

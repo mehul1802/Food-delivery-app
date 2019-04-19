@@ -62,7 +62,8 @@ class AppInput extends React.Component {
         let validateField = this.props.validator && this.props.validation;
 
         const message = validateField ? this.props.validator.message(this.props.name, this.props.value, this.props.validation) : null,
-              errorClass = message ? 'invalid' : '',
+              errorMessage = this.props.errorMessage,
+              errorClass = message || !!errorMessage ? 'invalid' : '',
               className = this.props.className || '',
               innerRefClassName = this.props.innerRefClassName || '',
               titleCls = this.props.titleCls || '',
@@ -91,6 +92,9 @@ class AppInput extends React.Component {
 
                     {/* Error Message */}
                     {message}
+
+                    {/* Server Error Message */}
+                    { !message && errorMessage && <div className="error-message">{errorMessage}</div>}
                 </FormGroup>
             </React.Fragment>
         )

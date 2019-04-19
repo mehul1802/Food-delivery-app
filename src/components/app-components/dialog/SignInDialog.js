@@ -3,7 +3,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import { Button, Alert, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 import AppInput from '../../form-fields/AppInput';
 import { session, ApiRequest } from '../../../services';
-import { showError } from '../../../helpers';
+import { showFieldErrors } from '../../../helpers';
 
 const loginInitalState = {
   accEmail: '',
@@ -34,6 +34,8 @@ class SignInDialog extends Component {
     ...loginInitalState,
     ...registerInitalState,
     showSignUp: false,
+    errorMessage: '',
+    fieldErrors: {}
   }
 
   onChange = (e) => {
@@ -45,18 +47,20 @@ class SignInDialog extends Component {
     event.preventDefault();
     try {
       if (this.validator.allValid()) {
-        this.closeSingInDialog();
-        
+
         let credential = { email: this.state.accEmail, password: this.state.accPassword };
         const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, credential);
-       
+        if (response.status === 200) {
+          this.closeSingInDialog();
+        }
+
       } else {
         this.validator.showMessages();
         this.forceUpdate();
       }
     }
-    catch (event) {
-      showError(this.props.notification, event);
+    catch (e) {
+      this.handleErrors(e);
     }
   }
 
@@ -75,20 +79,34 @@ class SignInDialog extends Component {
         const response = await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/users/register`, obj);
         if (response.status === 200) {
           this.setState({ success: true });
-          this.setState({ ...registerInitalState });
+          this.setState({ ...registerInitalState, errorMessage: '' });
         }
       } else {
         this.validator.showMessages();
         this.forceUpdate();
       }
     }
-    catch (event) {
-      showError(this.props.notification, event);
+    catch (e) {
+      this.handleErrors(e);
+    }
+  }
+
+
+  handleErrors = (e) => {
+    const errorObj = e.response.data;
+    if (errorObj.error) {
+      this.setState({
+        errorMessage : errorObj.error
+      })
+    } else {
+      this.setState({
+        fieldErrors : errorObj
+      })
     }
   }
 
   showSignUp = () => {
-    this.setState({ showSignUp: !this.state.showSignUp });
+    this.setState({ showSignUp: !this.state.showSignUp, errorMessage: '' });
     this.validator = initiateValidation();
   }
 
@@ -96,6 +114,16 @@ class SignInDialog extends Component {
     this.setState({ showSignUp: false });
     this.props.handleSignInDialog();
     this.validator = initiateValidation();
+  }
+
+  displayError = () => {
+    if (this.state.errorMessage) {
+      return (<Alert color="danger" className="error-message py-2 mt-3">
+        {this.state.errorMessage}
+      </Alert>)
+    } else {
+      return null
+    }
   }
 
   render() {
@@ -121,10 +149,7 @@ class SignInDialog extends Component {
                   <AppInput label="Password" name="accPassword" type="password" value={this.state.accPassword} onChange={this.onChange} validator={this.validator} validation="required|password" />
                 </div>
                 <Button color="primary w-100 mt-3">Sign In</Button>
-                {this.props.errorMessage &&
-                  <Alert color="danger" className="error-message py-2 mt-3">
-                    {this.props.errorMessage}
-                  </Alert>}
+                {this.displayError()}
                 <div className="font-small mt-3 mb-2 text-center">
                   You don't have an account?
                   <span className="text-secondary ml-1 cursor-pointer" onClick={this.showSignUp}>Create an account</span>
@@ -136,11 +161,12 @@ class SignInDialog extends Component {
             <React.Fragment>
               {this.state.success && <p>Thank you for registration</p>}
               <Form onSubmit={this.handleSignUp}>
-                <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|alpha_space|min:3|max:30" />
-                <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
-                <AppInput label="Email" name="email" type="email" value={this.state.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
-                <AppInput label="Address" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
-                <AppInput label="Password" name="password" type="password" value={this.state.password} onChange={this.onChange} validator={this.validator} validation="required|password" />
+                <AppInput label="Name" name="name" type="text" value={this.state.name} errorMessage={showFieldErrors(this.state.fieldErrors, 'name')} onChange={this.onChange} validator={this.validator} validation="required|alpha_space|min:3|max:30" />
+                <AppInput label="Phone" name="phone" type="text" value={this.state.phone} errorMessage={showFieldErrors(this.state.fieldErrors, 'phone')} onChange={this.onChange} validator={this.validator} validation="required|phone" />
+                <AppInput label="Email" name="email" type="email" value={this.state.email} errorMessage={showFieldErrors(this.state.fieldErrors, 'email')} onChange={this.onChange} validator={this.validator} validation="required|email" />
+                <AppInput label="Address" name="address" type="text" value={this.state.address} errorMessage={showFieldErrors(this.state.fieldErrors, 'address')} onChange={this.onChange} validator={this.validator} validation="required" />
+                <AppInput label="Password" name="password" type="password" value={this.state.password} errorMessage={showFieldErrors(this.state.fieldErrors, 'password')} onChange={this.onChange} validator={this.validator} validation="required|min:6" />
+                {this.displayError()}
                 <Button color="primary w-100 mt-3">Create Account</Button>
               </Form>
 
