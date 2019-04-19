@@ -78,8 +78,11 @@ class SignInDialog extends Component {
         }
         const response = await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/users/register`, obj);
         if (response.status === 200) {
-          this.setState({ success: true });
-          this.setState({ ...registerInitalState, errorMessage: '' });
+          this.setState({ ...registerInitalState, success: true, errorMessage: '' }, () => {
+            setTimeout(() => {
+              this.showSignUp();
+            }, 2000);
+          });
         }
       } else {
         this.validator.showMessages();
@@ -159,7 +162,6 @@ class SignInDialog extends Component {
           }
           {this.state.showSignUp &&
             <React.Fragment>
-              {this.state.success && <p>Thank you for registration</p>}
               <Form onSubmit={this.handleSignUp}>
                 <AppInput label="Name" name="name" type="text" value={this.state.name} errorMessage={showFieldErrors(this.state.fieldErrors, 'name')} onChange={this.onChange} validator={this.validator} validation="required|alpha_space|min:3|max:30" />
                 <AppInput label="Phone" name="phone" type="text" value={this.state.phone} errorMessage={showFieldErrors(this.state.fieldErrors, 'phone')} onChange={this.onChange} validator={this.validator} validation="required|phone" />
@@ -167,6 +169,7 @@ class SignInDialog extends Component {
                 <AppInput label="Address" name="address" type="text" value={this.state.address} errorMessage={showFieldErrors(this.state.fieldErrors, 'address')} onChange={this.onChange} validator={this.validator} validation="required" />
                 <AppInput label="Password" name="password" type="password" value={this.state.password} errorMessage={showFieldErrors(this.state.fieldErrors, 'password')} onChange={this.onChange} validator={this.validator} validation="required|min:6" />
                 {this.displayError()}
+                {this.state.success && <Alert color="success">Registration successful</Alert>}
                 <Button color="primary w-100 mt-3">Create Account</Button>
               </Form>
 
