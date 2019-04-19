@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { format } from 'date-fns';
 import { ApiRequest } from '../services';
 import { Card, CardBody } from 'reactstrap';
 import { formatPrice } from '../utils/common';
 
+
+const DATE_FORMAT = 'DD/MM/YYYY HH:mm';
 
 const initialState = {
   orders: [],
@@ -35,10 +38,11 @@ class OrderList extends Component {
               {orders && orders.map(order => (
                 <Card className="mb-4" key={order.order_id}>
                   <CardBody className="p-0">
-                    <div className="d-flex justify-content-between">
-                      <div className="order-id p-2 font-tiny">{order.order_id}</div>
-                      <div className="order-date p-2 font-tiny">{order.date}</div>
+                    <div className="d-flex justify-content-between py-2 px-3 font-tiny">
+                      <div>Order id: {order.order_id}</div>
+                      <div>{format(order.date, DATE_FORMAT)}</div>
                     </div>
+                    <div className="dotted-border" />
                     <div className="pt-2">
                       {order.order_items && order.order_items.map(item => (
                         <div className="d-flex product-list py-3 px-4" key={item.name}>
@@ -65,7 +69,8 @@ class OrderList extends Component {
                         </div>
                       ))}
                     </div>
-                    <div className="px-4 pb-2 float-right font-medium">
+                    <div className="dotted-border" />
+                    <div className="px-4 py-3 float-right font-medium">
                       Total:  <span>{formatPrice(order.amount)}</span>
                     </div>
                   </CardBody>

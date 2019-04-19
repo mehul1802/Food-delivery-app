@@ -53,6 +53,7 @@ class Header extends Component {
   logout = () => {
     session.logout();
     this.toggle();
+    this.props.history.push(`/`);
   }
 
   render() {
