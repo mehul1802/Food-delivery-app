@@ -20,6 +20,7 @@ const initialState = {
     comment: '',
     modifierTotal: 0,
     tax_price: 0,
+    modifier_groups: [],
     modifiers: []
   }
 }
@@ -34,8 +35,12 @@ class MenuItemOptionsDialog extends Component {
     try {
       let response = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/menu/${this.props.productId}`);
       let product = response.data;
-      product.modifiers.map(modifier => {
-        modifier = Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })
+      product.modifiers = [];
+      product.modifier_groups.map(modifierGroup => {
+        modifierGroup = modifierGroup.items.map(modifier => {
+          modifier = Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false });
+          product.modifiers.push(modifier);
+        })
       });
       let unitTax = (parseFloat(product.vat_value) / 100) * parseFloat(product.unit_price);
       this.setState({
@@ -82,10 +87,10 @@ class MenuItemOptionsDialog extends Component {
 
   chooseMainIngredient = (item) => {
     this.setState({
-      product: { 
-        ...this.state.product, 
+      product: {
+        ...this.state.product,
         selected_main_modifier: item,
-        unit_price : item.price
+        unit_price: item.price
       }
     }, () => {
       this.calculateBasePrice();
@@ -241,7 +246,7 @@ class MenuItemOptionsDialog extends Component {
               <div className="font-dark">
                 <div className="font-medium medium"> Choose size</div>
                 <div className="font-regular light mb-2"> Requied - Choose 1</div>
-                <FormGroup tag="div" className="row justify-content-center m-0">
+                <FormGroup tag="div" className="row m-0">
                   {this.state.product.main_modifiers.map(main_modifier =>
                     <FormGroup check className="col-6 col-md-4 py-2 mb-2">
                       <Label check>
@@ -259,9 +264,11 @@ class MenuItemOptionsDialog extends Component {
                 <div className="font-medium medium">Complete your meal</div>
                 <div className="font-regular text-muted light mb-2">Optional. Here are some popular add-ons.</div>
               </div>
-              <FormGroup tag="div" check className="row m-0 font-tiny d-flex">
-                {this.state.product.modifiers.map(modifier => <div className="col-6 col-md-4 py-2 mb-2" key={modifier.key}>
-                  <Label check className="help-cntr">
+
+              {this.state.product.modifier_groups.map(modifiers => <div className="d-flex flex-column font-tiny py-2" key={modifiers.name}>
+                <div className="font-regular text-dark">{`* ${modifiers.name}`}</div>
+                <FormGroup tag="div" className="row" check>
+                  {modifiers.items.map(modifier => <Label check className="help-cntr pt-2 col-md-4 col-4">
                     <Input
                       name={modifier.key}
                       type="checkbox"
@@ -269,9 +276,10 @@ class MenuItemOptionsDialog extends Component {
                       onChange={this.toggleOption}
                     />
                     <span>{modifier.name} - {formatPrice(modifier.price)}</span>
-                  </Label>
-                </div>)}
-              </FormGroup>
+                  </Label>)}
+                </FormGroup>
+              </div>
+              )}
             </div>
           </div>
         </ModalBody>
