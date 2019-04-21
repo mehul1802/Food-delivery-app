@@ -22,7 +22,7 @@ const initialState = {
   cardExpiry: null,
   cardCvc: null,
   cardId: null,
-  redirectToSuccess : false
+  redirectToSuccess : false,
 };
 
 class Checkout extends Component {
@@ -38,11 +38,11 @@ class Checkout extends Component {
   }
 
   componentDidMount() {   
-    document.body.classList.add('checkout-body');   
+    document.body.classList.add('checkout-body');
   }
 
   componentWillUnmount() {    
-   document.body.classList.remove('checkout-body');    
+    document.body.classList.remove('checkout-body');    
   }
 
   state = initialState;
@@ -128,6 +128,12 @@ class Checkout extends Component {
     if (this.state.redirectToSuccess) {
       return (
           <Redirect to="/checkout/success" />
+      );
+    }
+
+    if (_.isEmpty(this.props.order)) {
+      return (
+          <Redirect to="/" />
       );
     }
 
