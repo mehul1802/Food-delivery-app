@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from "react-router";
 import hash from 'object-hash';
 import _ from 'lodash';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
@@ -56,6 +57,29 @@ class MenuItemOptionsDialog extends Component {
           this.chooseMainIngredient(this.state.product.selected_main_modifier);
         }
       });
+
+      let params = new URLSearchParams(this.props.location.search);
+      if (!_.isEmpty(params.get("uid"))) {
+        let cartItemId = params.get("uid");
+        let product = this.props.products.find(item => item.uid === cartItemId);
+        // this.setState({
+        //   product: {
+        //     ...this.state.product,
+        //     modifiers: product.modifiers.map(modifier => Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })),
+        //     main_modifier: product.main_modifier,
+        //     quantity: product.quantity
+        //   }
+        // });
+        console.log({
+          product: {
+            ...this.state.product,
+            modifiers: product.modifiers.map(modifier => Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })),
+            selected_main_modifier: product.main_modifier,
+            quantity: product.quantity
+          }
+        })
+        console.log(product);
+      }
 
     } catch (e) {
       console.log(e);
@@ -292,14 +316,14 @@ class MenuItemOptionsDialog extends Component {
 }
 
 const mapStateToMenuItemOptionsProps = (state) => {
-  return {};
+  return { products: state.cart.products };
 };
 
 const mapDispatchToMenuItemOptionsProps = {
   addToCart
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToMenuItemOptionsProps,
   mapDispatchToMenuItemOptionsProps
-)(MenuItemOptionsDialog);
+)(MenuItemOptionsDialog));
