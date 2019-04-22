@@ -7,10 +7,11 @@ import { Alert, Button, Form, Card, CardBody } from 'reactstrap';
 
 import AppInput from './form-fields/AppInput';
 import { session, ApiRequest } from '../services';
-// import { getUser } from '../actions/user-actions';
+import { getUser } from '../actions/user-actions';
 
 const initialState = {
   name: '',
+  user: '',
   phone: '',
   address: '',
   userDataFilled: false,
@@ -31,23 +32,19 @@ class UserProfile extends Component {
 
   state = initialState;
 
-  componentDidUpdate() {
-    if (!_.isEmpty(this.props.user) && !this.state.userDataFilled) {
-      this.setState({ 'userDataFilled': true });
-      this.populateuser();
+  static getDerivedStateFromProps(nextProps, prevState) {
+    console.log(nextProps);
+    if ((!_.isEqual(nextProps.user, prevState.user))  && !prevState.userDataFilled) {
+      return {
+        name: nextProps.user.name,
+        email: nextProps.user.email,
+        address: nextProps.user.address,
+        phone: nextProps.user.phone,
+        user_id: nextProps.user.user_id,
+        userDataFilled: true
+      }
     }
   }
-
-  populateuser = () => {
-    let data = this.props.user;
-    this.setState({
-        name: data.name,
-        phone: data.phone,
-        address: data.address,
-        email: data.email,
-        user_id: data.user_id,
-    });
-  };
 
   onChange = (e) => {
     const { name, value } = e.target;
@@ -56,7 +53,6 @@ class UserProfile extends Component {
 
   saveProfile = async event => {
     event.preventDefault();
-    console.log(this.state);
     try {
       if (this.validator.allValid()) {
 
@@ -118,7 +114,7 @@ class UserProfile extends Component {
                 <Form onSubmit={this.saveProfile}>
                   <div className="d-flex mb-5">
                     <div className="user-avatar d-flex justify-content-center align-items-center">
-                      <p className="user-letter m-0">{this.state.name[0]}</p>
+                      {/* <p className="user-letter m-0">{this.state.name[0]}</p> */}
                     </div>
                     <div className="ml-4">
                       <div className="font-large">{this.state.name}</div>
@@ -127,7 +123,7 @@ class UserProfile extends Component {
                   </div>
                   <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|name" />
                   <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
-                  <AppInput label="Address" name="Address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
+                  <AppInput label="Address" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
                   <Button color="primary w-20 rounded mt-4">Save</Button>
                   {this.displayError()}
                   {this.state.success && <Alert color="success">User update successfully</Alert>}
@@ -146,7 +142,7 @@ const mapStateToUserProfileProps = (state) => {
 };
 
 const mapDispatchToUserProfileProps = {
-  
+  getUser,
 };
 
 export default withRouter(connect(
