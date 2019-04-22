@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router";
 import hash from 'object-hash';
 import _ from 'lodash';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
+import { Button, Modal, ModalBody, ModalFooter, Input, Label, Form, FormGroup } from 'reactstrap';
 
-import { addToCart } from '../../../actions/cart-actions';
-
+import { addToCart, removeFromCart } from '../../../actions/cart-actions';
 
 import { ApiRequest } from '../../../services/api-request';
 import { session } from '../../../services';
@@ -73,12 +72,13 @@ class MenuItemOptionsDialog extends Component {
           product: {
             ...this.state.product,
             modifiers: updatedModifiers,
+            selected_modifiers: product.modifiers,
             selected_main_modifier: product.main_modifier,
+            unit_price: product.unit_price,
             quantity: product.quantity
           }
         }, () => { 
-          // this.selectedModifier()
-          this.calculateBasePrice();
+          this.selectedModifier()
         });
       }
 
@@ -190,6 +190,7 @@ class MenuItemOptionsDialog extends Component {
 
   addToCart = () => {
     const { product_id, product_name, cat_id, quantity, unit_price, vat_value, is_weight, modifierTotal, bag_price, tax_price, selected_modifiers, selected_main_modifier } = this.state.product;
+    const params = new URLSearchParams(this.props.location.search);
     let obj = {
       product_id: product_id,
       product_name: product_name,
@@ -208,6 +209,14 @@ class MenuItemOptionsDialog extends Component {
       uid: hash(obj),
       ...obj
     }
+
+    if (!_.isEmpty(params.get("uid"))) {
+      let cartItemId = params.get("uid");
+      let product = this.props.products.find(item => item.uid === cartItemId);
+      session.removeCartItem(product);
+      this.props.removeFromCart(cartItemId);        
+    }
+
     this.props.addToCart(product);
     session.setCartData(product);
     this.props.handleMenuItemOptionsDialog();
@@ -232,7 +241,7 @@ class MenuItemOptionsDialog extends Component {
 
   render() {
     const { isOpen, handleMenuItemOptionsDialog, className } = this.props;
-    const closeBtn = <button className="close" onClick={handleMenuItemOptionsDialog}>&times;</button>;
+    // const closeBtn = <button className="close" onClick={handleMenuItemOptionsDialog}>&times;</button>;
 
     return (
       <Modal
@@ -323,7 +332,8 @@ const mapStateToMenuItemOptionsProps = (state) => {
 };
 
 const mapDispatchToMenuItemOptionsProps = {
-  addToCart
+  addToCart,
+  removeFromCart
 };
 
 export default withRouter(connect(

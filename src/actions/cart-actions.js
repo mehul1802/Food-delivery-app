@@ -6,9 +6,9 @@ export function addToCart(product) {
     };
 }
 
-export function removeFromCart(productId) {
+export function removeFromCart(itemUid) {
     return dispatch => {
-        dispatch({ type: cartTypes.REMOVE_FROM_CART, payload: productId });
+        dispatch({ type: cartTypes.REMOVE_FROM_CART, payload: itemUid });
     };
 }
 
