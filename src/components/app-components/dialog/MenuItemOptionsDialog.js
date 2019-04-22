@@ -62,23 +62,24 @@ class MenuItemOptionsDialog extends Component {
       if (!_.isEmpty(params.get("uid"))) {
         let cartItemId = params.get("uid");
         let product = this.props.products.find(item => item.uid === cartItemId);
-        // this.setState({
-        //   product: {
-        //     ...this.state.product,
-        //     modifiers: product.modifiers.map(modifier => Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })),
-        //     main_modifier: product.main_modifier,
-        //     quantity: product.quantity
-        //   }
-        // });
-        console.log({
+        let selectedModifiers = product.modifiers.map(modifier => Object.assign(modifier, { key: strToLowercase(modifier.name), selected: true }));
+        let updatedModifiers = _(this.state.product.modifiers)
+        .keyBy('key')
+        .merge(_.keyBy(selectedModifiers, 'key'))
+        .values()
+        .value()
+          
+        this.setState({
           product: {
             ...this.state.product,
-            modifiers: product.modifiers.map(modifier => Object.assign(modifier, { key: strToLowercase(modifier.name), selected: false })),
+            modifiers: updatedModifiers,
             selected_main_modifier: product.main_modifier,
             quantity: product.quantity
           }
-        })
-        console.log(product);
+        }, () => { 
+          // this.selectedModifier()
+          this.calculateBasePrice();
+        });
       }
 
     } catch (e) {
@@ -293,6 +294,8 @@ class MenuItemOptionsDialog extends Component {
                 <div className="font-regular text-dark">{`* ${modifiers.name}`}</div>
                 <FormGroup tag="div" className="row" check>
                   {modifiers.items.map(modifier => <Label check className="help-cntr pt-2 col-md-4 col-4">
+                    {console.log(this.state.product.modifiers)}
+                    {console.log(modifier)}
                     <Input
                       name={modifier.key}
                       type="checkbox"
