@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
-import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import _ from 'lodash';
 import { Button, Form } from 'reactstrap';
 
 import AppInput from './form-fields/AppInput';
-import { session, ApiRequest } from '../services';
-import { getUser } from '../actions/user-actions';
+// import { session, ApiRequest } from '../services';
+// import { getUser } from '../actions/user-actions';
 
 const initialState = {
-  user: ''
+  name: '',
+  email: '',
+  phone: '',
+  address: '',
+  userDataFilled: false,
 }
 
 const initiateValidation = () => {
@@ -29,19 +32,26 @@ class UserProfile extends Component {
 
   state = initialState;
 
-  static getDerivedStateFromProps(nextProps) {
-    this.setState({ user: nextProps.user})
+  componentDidUpdate() {
+    if (!_.isEmpty(this.props.user) && !this.state.userDataFilled) {
+      this.setState({ 'userDataFilled': true });
+      this.populateuser();
+    }
   }
+
+  populateuser = () => {
+    let data = this.props.user;
+    this.setState({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        address: data.address,
+    });
+  };
 
   onChange = (e) => {
     const { name, value } = e.target;
-    this.setState(prevState => ({
-      ...prevState,
-      user: {
-        ...prevState.user,
-        [name] : value,
-      }
-    }))
+    this.setState({ [name]: value });
   }
 
   saveProfile = async event => {
@@ -68,18 +78,16 @@ class UserProfile extends Component {
 
 
   render() {
-    
-    const { user } = this.state;
     return (
       <div className="container">
         <div className="profile-section mt-5 mb-5">
           <h1 className="pb-3">Profile</h1>
           <div className="my-3">
           <Form onSubmit={this.saveProfile}>
-            <AppInput label="Email" name="email" type="email" value={user.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
-            <AppInput label="Name" name="name" type="text" value={user.name} onChange={this.onChange} validator={this.validator} validation="required|name" />
-            <AppInput label="Phone" name="phone" type="text" value={user.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
-            <AppInput label="Address" name="Address" type="text" value={user.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
+            <AppInput label="Email" name="email" type="email" value={this.state.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
+            <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|name" />
+            <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
+            <AppInput label="Address" name="Address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
             <Button color="primary w-20 rounded mt-3">Save</Button>
           </Form>
           </div>
