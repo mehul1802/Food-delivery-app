@@ -7,6 +7,7 @@ import Home from '../components/Home';
 import Checkout from '../components/Checkout';
 import Success from '../components/Success';
 import OrderList from '../components/OrderList';
+import UserProfile from '../components/UserProfile';
 
 export default (
   <Switch>
@@ -14,5 +15,6 @@ export default (
     <PrivateRoute path="/checkout/payment" component={Checkout} />
     <PrivateRoute path="/checkout/success" component={Success} />
     <PrivateRoute path="/myorder" component={OrderList} />
+    <PrivateRoute path="/profile" component={UserProfile} />
   </Switch>
 );

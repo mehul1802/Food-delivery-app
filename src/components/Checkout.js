@@ -36,15 +36,7 @@ class Checkout extends Component {
       element: message => <div className="error-message">{message}</div>
     });
   }
-
-  componentDidMount() {   
-    document.body.classList.add('checkout-body');
-  }
-
-  componentWillUnmount() {    
-    document.body.classList.remove('checkout-body');    
-  }
-
+  
   state = initialState;
 
   onChange = (e) => {

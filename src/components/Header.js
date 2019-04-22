@@ -85,6 +85,7 @@ class Header extends Component {
                     />
                   </DropdownToggle>
                   <DropdownMenu className="p-2">
+                    <DropdownItem><Link to="/profile" className="font-small cursor-pointer text-dark">Profile</Link></DropdownItem>
                     <DropdownItem><Link to="/myorder" className="font-small cursor-pointer text-dark">My order</Link></DropdownItem>
                     <DropdownItem className="font-small cursor-pointer px-3 mt-1" onClick={this.logout}>Sign out</DropdownItem>
                   </DropdownMenu>

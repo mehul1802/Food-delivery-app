@@ -22,12 +22,7 @@ class OrderList extends Component {
     } catch (e) {
       console.log(e);
     }
-    document.body.classList.add('checkout-body');
   }
-
-  componentWillUnmount() {
-    document.body.classList.remove('checkout-body');    
-   }
 
   render() {
     const { orders } = this.state;
