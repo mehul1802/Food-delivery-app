@@ -1,0 +1,11 @@
+.user-avatar {
+  width: 100px;
+  height: 100px;
+  background: rgb(206, 205, 205);
+  border-radius: 50%;
+  .user-letter {
+    font-size: 38px;
+    font-weight: 800;
+    color: #4a4a4a;
+  }
+}

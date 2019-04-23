@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import SimpleReactValidator from 'simple-react-validator';
 import { withRouter } from "react-router";
 import _ from 'lodash';
-import { Button, Form } from 'reactstrap';
+import { Alert, Button, Form, Card, CardBody } from 'reactstrap';
 
 import AppInput from './form-fields/AppInput';
-// import { session, ApiRequest } from '../services';
+import { session, ApiRequest } from '../services';
 // import { getUser } from '../actions/user-actions';
 
 const initialState = {
   name: '',
-  email: '',
   phone: '',
   address: '',
   userDataFilled: false,
@@ -43,9 +42,10 @@ class UserProfile extends Component {
     let data = this.props.user;
     this.setState({
         name: data.name,
-        email: data.email,
         phone: data.phone,
         address: data.address,
+        email: data.email,
+        user_id: data.user_id,
     });
   };
 
@@ -57,40 +57,84 @@ class UserProfile extends Component {
   saveProfile = async event => {
     event.preventDefault();
     console.log(this.state);
-    // try {
-    //   if (this.validator.allValid()) {
+    try {
+      if (this.validator.allValid()) {
 
-    //     let credential = { email: this.state.accEmail, password: this.state.accPassword };
-    //     const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, credential);
-    //     if (response.status === 200) {
-    //       this.closeSingInDialog();
-    //     }
+        const { name, phone, address, user_id } = this.state;
+        let obj = {
+          name: name,
+          address: address,
+          phone: phone,
+          user_id: user_id,
+        }
+        console.log(obj);
+        // const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, obj);
+        // if (response.status === 200) {
+        //   this.setState({  success: true, errorMessage: '' });
+        // }
 
-    //   } else {
-    //     this.validator.showMessages();
-    //     this.forceUpdate();
-    //   }
-    // }
-    // catch (e) {
-    //   this.handleErrors(e);
-    // }
+      } else {
+        this.validator.showMessages();
+        this.forceUpdate();
+      }
+    }
+    catch (e) {
+      this.handleErrors(e);
+    }
+  }
+
+  displayError = () => {
+    if (this.state.errorMessage) {
+      return (<Alert color="danger" className="error-message py-2 mt-3">
+        {this.state.errorMessage}
+      </Alert>)
+    } else {
+      return null
+    }
+  }
+
+  handleErrors = (e) => {
+    const errorObj = e.response.data;
+    if (errorObj.error) {
+      this.setState({
+        errorMessage : errorObj.error
+      })
+    } else {
+      this.setState({
+        fieldErrors : errorObj
+      })
+    }
   }
 
 
   render() {
     return (
       <div className="container">
-        <div className="profile-section mt-5 mb-5">
-          <h1 className="pb-3">Profile</h1>
-          <div className="my-3">
-          <Form onSubmit={this.saveProfile}>
-            <AppInput label="Email" name="email" type="email" value={this.state.email} onChange={this.onChange} validator={this.validator} validation="required|email" />
-            <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|name" />
-            <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
-            <AppInput label="Address" name="Address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
-            <Button color="primary w-20 rounded mt-3">Save</Button>
-          </Form>
-          </div>
+        <div className="profile-section my-5">
+          <Card>
+            <CardBody className="p-4">
+              <h1 className="mb-4">Profile</h1>
+              <div className="py-3">
+                <Form onSubmit={this.saveProfile}>
+                  <div className="d-flex mb-5">
+                    <div className="user-avatar d-flex justify-content-center align-items-center">
+                      <p className="user-letter m-0">{this.state.name[0]}</p>
+                    </div>
+                    <div className="ml-4">
+                      <div className="font-large">{this.state.name}</div>
+                      <div>{this.state.email}</div>
+                    </div>
+                  </div>
+                  <AppInput label="Name" name="name" type="text" value={this.state.name} onChange={this.onChange} validator={this.validator} validation="required|name" />
+                  <AppInput label="Phone" name="phone" type="text" value={this.state.phone} onChange={this.onChange} validator={this.validator} validation="required|phone" />
+                  <AppInput label="Address" name="Address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
+                  <Button color="primary w-20 rounded mt-4">Save</Button>
+                  {this.displayError()}
+                  {this.state.success && <Alert color="success">User update successfully</Alert>}
+                </Form>
+              </div>
+            </CardBody>
+          </Card>
       </div>
     </div>
     );
