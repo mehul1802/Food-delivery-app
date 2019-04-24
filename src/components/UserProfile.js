@@ -11,7 +11,6 @@ import { getUser } from '../actions/user-actions';
 
 const initialState = {
   name: '',
-  user: '',
   phone: '',
   address: '',
   userDataFilled: false,
@@ -33,9 +32,8 @@ class UserProfile extends Component {
   state = initialState;
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log(nextProps);
-    if ((!_.isEqual(nextProps.user, prevState.user))  && !prevState.userDataFilled) {
-      return {
+    if(!_.isEmpty(nextProps.user) && !prevState.userDataFilled) {
+         return {
         name: nextProps.user.name,
         email: nextProps.user.email,
         address: nextProps.user.address,
@@ -114,7 +112,7 @@ class UserProfile extends Component {
                 <Form onSubmit={this.saveProfile}>
                   <div className="d-flex mb-5">
                     <div className="user-avatar d-flex justify-content-center align-items-center">
-                      {/* <p className="user-letter m-0">{this.state.name[0]}</p> */}
+                      <p className="user-letter m-0">{this.state.name[0]}</p>
                     </div>
                     <div className="ml-4">
                       <div className="font-large">{this.state.name}</div>

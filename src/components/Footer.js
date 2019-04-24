@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router";
 
 class Footer extends Component {
   render() {
     return (
-      <div className="footer-section bg-blue">
+      <div className="footer-section bg-blue" style={{ width: `${this.props.location.pathname === '/' ? 'calc(100% - 340px)' : '100%'}`}}>
         {/* <div className="footer-links">
           <div className="row">
             <div className="col-3">
@@ -31,4 +32,4 @@ class Footer extends Component {
   }
 }
 
-export default Footer;
+export default withRouter(Footer);
