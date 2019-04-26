@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { Alert, Button, Form, Card, CardBody } from 'reactstrap';
 
 import AppInput from './form-fields/AppInput';
-import { session, ApiRequest } from '../services';
+import { ApiRequest } from '../services';
 import { getUser } from '../actions/user-actions';
 
 const initialState = {
@@ -62,10 +62,10 @@ class UserProfile extends Component {
           user_id: user_id,
         }
         console.log(obj);
-        // const response = await session.authenticate(`${process.env.REACT_APP_API_URL}/users/login`, obj);
-        // if (response.status === 200) {
-        //   this.setState({  success: true, errorMessage: '' });
-        // }
+        const response = await ApiRequest.triggerApi(`${process.env.REACT_APP_API_URL}/users/me`, obj, 'patch');
+        if (response.status === 200) {
+          this.setState({  success: true, errorMessage: '' });
+        }
 
       } else {
         this.validator.showMessages();
@@ -124,7 +124,7 @@ class UserProfile extends Component {
                   <AppInput label="Address" name="address" type="text" value={this.state.address} onChange={this.onChange} validator={this.validator} validation="required|address" />
                   <Button color="primary w-20 rounded mt-4">Save</Button>
                   {this.displayError()}
-                  {this.state.success && <Alert color="success">User update successfully</Alert>}
+                  {this.state.success && <Alert className="mt-3" color="success">User update successfully</Alert>}
                 </Form>
               </div>
             </CardBody>
