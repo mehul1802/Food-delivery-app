@@ -3,5 +3,13 @@
 		&:not(:last-child) {
 			border-bottom: 1px solid #00000020;
 		}
-	}
+  }
+  .order-qty {
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+      .unit-price {
+        margin: 6px 0px 0px !important;
+      }
+    }
+  }
 }

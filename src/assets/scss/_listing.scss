@@ -1,5 +1,8 @@
 .resturent-menu-listing {
 	width: calc(100% - 340px);
+	@media only screen and (max-width: 600px) {
+    width: 100%;
+  }
 	.listing-header {
 	 .resturant-list-header {
 		 background-size: cover;
@@ -19,6 +22,16 @@
 			 font-size: 14px;
 			 font-weight: 400;
 			 color: #000;
+			}
+			.store-info {
+				@media only screen and (max-width: 600px) {
+					flex-direction: column;
+					a {
+						&:not(:first-child) {
+							margin-top: 8px;
+						}
+					}
+				}
 			}
 			.brand-logo {
 			    position: absolute;

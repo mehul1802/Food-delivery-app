@@ -3,9 +3,16 @@
   height: 100px;
   background: rgb(206, 205, 205);
   border-radius: 50%;
+  @media only screen and (max-width: 600px) {
+    width: 60px;
+    height: 60px;
+  }
   .user-letter {
     font-size: 38px;
     font-weight: 800;
     color: #4a4a4a;
+    @media only screen and (max-width: 600px) {
+      font-size: 24px;
+    }
   }
 }

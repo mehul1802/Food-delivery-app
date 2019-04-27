@@ -104,7 +104,7 @@ class Listing extends Component {
           </div>
           <div className="restaurant-info">
             <h1>Alsalampizza</h1>
-            <div className="d-flex">
+            <div className="d-flex store-info">
               <a target="_blank" href="https://www.google.com/maps?q=5101+Germantown+Ave.+Philadelphia+PA+-+19144&um=1&ie=UTF-8&sa=X&ved=0ahUKEwi-iLjpstbhAhXnYN8KHT6iDjwQ_AUIDigB">5101 Germantown Ave. Philadelphia PA - 19144</a>
               <a href="tel:4083958800"> (408) 395-8800</a>
             </div>
