@@ -121,7 +121,7 @@ class MenuItemOptionsDialog extends Component {
         unit_price: item.price
       }
     }, () => {
-      this.calculateBasePrice();
+      this.selectedModifier();
     });
   }
 
