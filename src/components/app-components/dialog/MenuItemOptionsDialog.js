@@ -47,6 +47,7 @@ class MenuItemOptionsDialog extends Component {
         product: {
           ...this.state.product,
           ...product,
+          all_modifiers: product.modifiers,
           bag_price: product.unit_price,
           tax_price: unitTax,
           selected_main_modifier: product.main_modifiers[0]
@@ -63,11 +64,11 @@ class MenuItemOptionsDialog extends Component {
         let product = this.props.products.find(item => item.uid === cartItemId);
         let selectedModifiers = product.modifiers.map(modifier => Object.assign(modifier, { key: strToLowercase(modifier.name), selected: true }));
         let updatedModifiers = _(this.state.product.modifiers)
-        .keyBy('key')
-        .merge(_.keyBy(selectedModifiers, 'key'))
-        .values()
-        .value()
-          
+          .keyBy('key')
+          .merge(_.keyBy(selectedModifiers, 'key'))
+          .values()
+          .value()
+
         this.setState({
           product: {
             ...this.state.product,
@@ -77,7 +78,7 @@ class MenuItemOptionsDialog extends Component {
             unit_price: product.unit_price,
             quantity: product.quantity
           }
-        }, () => { 
+        }, () => {
           this.selectedModifier()
         });
       }
@@ -111,10 +112,12 @@ class MenuItemOptionsDialog extends Component {
   };
 
   chooseMainIngredient = (item) => {
+    let modifiersBySize = this.state.product.all_modifiers.filter(modifier => modifier.size === item.name);
     this.setState({
       product: {
         ...this.state.product,
         selected_main_modifier: item,
+        modifiers: modifiersBySize,
         unit_price: item.price
       }
     }, () => {
@@ -214,7 +217,7 @@ class MenuItemOptionsDialog extends Component {
       let cartItemId = params.get("uid");
       let product = this.props.products.find(item => item.uid === cartItemId);
       session.removeCartItem(product);
-      this.props.removeFromCart(cartItemId);        
+      this.props.removeFromCart(cartItemId);
     }
 
     this.props.addToCart(product);
@@ -299,22 +302,29 @@ class MenuItemOptionsDialog extends Component {
                 <div className="font-regular text-muted light mb-2">Optional. Here are some popular add-ons.</div>
               </div>
 
-              {this.state.product.modifier_groups.map(modifiers => <div className="d-flex flex-column font-tiny py-2" key={modifiers.name}>
-                <div className="font-regular text-dark">{`* ${modifiers.name}`}</div>
-                <FormGroup tag="div" className="row" check>
-                  {modifiers.items.map(modifier => <Label check className="help-cntr pt-2 col-md-4 col-4">
-                    {console.log(this.state.product.modifiers)}
-                    {console.log(modifier)}
-                    <Input
-                      name={modifier.key}
-                      type="checkbox"
-                      checked={this.state.product.modifiers.find(item => item.key === modifier.key).selected}
-                      onChange={this.toggleOption}
-                    />
-                    <span>{modifier.name} - {formatPrice(modifier.price)}</span>
-                  </Label>)}
-                </FormGroup>
-              </div>
+              {this.state.product.modifier_groups.map(modifiers => {
+                let modifiers_items = [];
+                let selected_main_modifier = this.state.product.selected_main_modifier;
+                if (selected_main_modifier) {
+                  modifiers_items = modifiers.items.filter(item => item.size === selected_main_modifier.name);
+                } else {
+                  modifiers_items = modifiers.items;
+                }
+                return (<div className="d-flex flex-column font-tiny py-2" key={modifiers.name}>
+                  <div className="font-regular text-dark">{`* ${modifiers.name}`}</div>
+                  <FormGroup tag="div" className="row" check>
+                    {modifiers_items.map(modifier => <Label check className="help-cntr pt-2 col-md-4 col-4">
+                      <Input
+                        name={modifier.key}
+                        type="checkbox"
+                        checked={this.state.product.modifiers.find(item => item.key === modifier.key).selected}
+                        onChange={this.toggleOption}
+                      />
+                      <span>{modifier.name} - {formatPrice(modifier.price)}</span>
+                    </Label>)}
+                  </FormGroup>
+                </div>)
+              }
               )}
             </div>
           </div>
