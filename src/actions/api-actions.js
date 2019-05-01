@@ -5,6 +5,8 @@ export const apiActions = {
     success,
     failure,
     completed,
+    showLoader,
+    hideLoader
 };
 
 function request () {
@@ -31,3 +33,14 @@ function completed () {
     }
 }
 
+function showLoader () {
+    return {
+        type: 'SHOW_LOADER'
+    }
+}
+
+function hideLoader () {
+    return {
+        type: 'HIDE_LOADER'
+    }
+}
