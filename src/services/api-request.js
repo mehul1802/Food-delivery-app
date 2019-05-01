@@ -1,5 +1,6 @@
 import API from './api'
-// import PublicAPI from './public-api';
+import { apiActions as action } from '../actions';
+import { store } from '../store';
 import axios from 'axios';
 import { session } from './session';
 
@@ -10,22 +11,36 @@ class ApiRequestClass {
         }
     };
 
-    async triggerApi (url, data, method = 'post') {
+    async triggerApi (url, data, method = 'post', showLoader = true) {
+        // if (showLoader) {
+        //     store.dispatch(action.showLoader());
+        // }
+
         try {
             const response = await API[method](url, data);
             return Promise.resolve(response);
         } catch(e) {
             return Promise.reject(e);
         }
+        // } finally {
+        //     store.dispatch(action.hideLoader());
+        // }
     }
 
-    async getRecords (url) {
+    async getRecords (url, showLoader = true) {
+        // if (showLoader) {
+        //     store.dispatch(action.showLoader());
+        // }
+
         try {
             const response = await API.get(url);
             return Promise.resolve(response);
         } catch(e) {
             return Promise.reject(e);
         }
+        // } finally {
+        //     store.dispatch(action.hideLoader());
+        // }
     }
 
     async upload (url, data, method = 'post') {
