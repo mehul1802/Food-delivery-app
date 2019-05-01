@@ -12,35 +12,33 @@ class ApiRequestClass {
     };
 
     async triggerApi (url, data, method = 'post', showLoader = true) {
-        // if (showLoader) {
-        //     store.dispatch(action.showLoader());
-        // }
+        if (showLoader) {
+            store.dispatch(action.request());
+        }
 
         try {
             const response = await API[method](url, data);
             return Promise.resolve(response);
         } catch(e) {
             return Promise.reject(e);
+        } finally {
+            store.dispatch(action.completed());
         }
-        // } finally {
-        //     store.dispatch(action.hideLoader());
-        // }
     }
 
     async getRecords (url, showLoader = true) {
-        // if (showLoader) {
-        //     store.dispatch(action.showLoader());
-        // }
+        if (showLoader) {
+            store.dispatch(action.request());
+        }
 
         try {
             const response = await API.get(url);
             return Promise.resolve(response);
         } catch(e) {
             return Promise.reject(e);
+        } finally {
+            store.dispatch(action.completed());
         }
-        // } finally {
-        //     store.dispatch(action.hideLoader());
-        // }
     }
 
     async upload (url, data, method = 'post') {

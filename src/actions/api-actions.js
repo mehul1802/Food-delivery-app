@@ -4,9 +4,7 @@ export const apiActions = {
     request,
     success,
     failure,
-    completed,
-    showLoader,
-    hideLoader
+    completed
 };
 
 function request () {
@@ -30,17 +28,5 @@ function failure () {
 function completed () {
     return {
         type: statusTypes.COMPLETED
-    }
-}
-
-function showLoader () {
-    return {
-        type: 'SHOW_LOADER'
-    }
-}
-
-function hideLoader () {
-    return {
-        type: 'HIDE_LOADER'
     }
 }

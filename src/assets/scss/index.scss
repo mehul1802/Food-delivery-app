@@ -68,17 +68,17 @@ html {
             min-height: 75vh;
         }
 
-        .overlay {
-            display: none;
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9998;
-            opacity: 0;
-            top: 0;
-            transition: all 0.5s ease-in-out;
-        }
+        // .overlay {
+        //     display: none;
+        //     position: fixed;
+        //     width: 100%;
+        //     height: 100%;
+        //     background: rgba(0, 0, 0, 0.7);
+        //     z-index: 9998;
+        //     opacity: 0;
+        //     top: 0;
+        //     transition: all 0.5s ease-in-out;
+        // }
 
         .overlay.active {
             display: block;
