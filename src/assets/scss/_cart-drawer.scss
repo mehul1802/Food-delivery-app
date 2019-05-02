@@ -6,6 +6,14 @@
   right: 0;
   top: 60px;
   width: 340px;
+  &.mobile-cart {
+    @media only screen and (max-width: 600px) {
+      display: block !important;
+      width: 100% !important;
+      background: #fff !important;
+      z-index: 999;
+    } 
+  }
   @media only screen and (max-width: 600px) {
     display: none;
   }

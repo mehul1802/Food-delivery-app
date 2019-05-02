@@ -17,3 +17,15 @@ export function resetCart() {
         dispatch({ type: cartTypes.RESET_CART });
     };
 }
+
+export function showCartDrawer () {
+    return dispatch => {
+        dispatch({ type: cartTypes.SHOW_CART });
+    };
+}
+
+export function hideCartDrawer () {
+    return dispatch => {
+        dispatch({ type: cartTypes.HIDE_CART });
+    };
+}

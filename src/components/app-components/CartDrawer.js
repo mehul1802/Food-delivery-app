@@ -93,7 +93,7 @@ class CartDrawer extends Component {
     const { products, subtotal_amount, tax_amount, order_amount } = this.state;
     return (
       <React.Fragment>
-        <div className="cart-drawer">
+        <div className={`cart-drawer ${this.props.showCart ? 'mobile-cart' : '' }`}>
           {Object.keys(products).length > 0 ?
             (<>
               <div className="px-3 py-2 cart-title">Order Detail</div>
@@ -160,7 +160,7 @@ class CartDrawer extends Component {
 }
 
 const mapStateToCartDrawerProps = (state) => {
-  return { products: state.cart.products, orderType: state.order.orderType, showSignIn: state.dialog.showSignIn };
+  return { products: state.cart.products, orderType: state.order.orderType, showSignIn: state.dialog.showSignIn, showCart: state.cart.showCart };
 };
 
 const mapDispatchToCartDrawerProps = {

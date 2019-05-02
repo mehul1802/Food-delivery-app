@@ -23,4 +23,12 @@
 			}
 		}
 	}
+	.menu-wrapper {
+		@media only screen and (max-width: 600px) {
+			flex-direction: row !important;
+			.cart-icon {
+				margin-left: 10px !important;
+			}
+		}
+	}
 }

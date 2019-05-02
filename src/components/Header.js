@@ -14,6 +14,7 @@ import {
 
 import { session, ApiRequest } from '../services';
 import { showLogin, hideLogin } from '../actions/dialog-actions';
+import { showCartDrawer, hideCartDrawer } from '../actions/cart-actions';
 import { getUser } from '../actions/user-actions';
 
 import SignInDialog from './app-components/dialog/SignInDialog';
@@ -44,6 +45,14 @@ class Header extends Component {
     }
   }
 
+  toggleCartDrawer = () => {
+    if (this.props.showCart) {
+      this.props.hideCartDrawer();
+    } else {
+      this.props.showCartDrawer();
+    }
+  }
+
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
@@ -68,7 +77,7 @@ class Header extends Component {
               <Input type="email" name="email" id="exampleEmail" placeholder="pizza, sushi and chinese" />
             </NavItem>
           </Nav>}
-          <Nav className="ml-auto nav-right d-flex align-items-center" navbar>
+          <Nav className="ml-auto nav-right d-flex align-items-center menu-wrapper" navbar>
             {!session.isLoggedIn() ?
               <NavItem>
                 <Button outline color="primary" className="rounded signin-btn" onClick={this.handleSignInDialog}>Sign in</Button>
@@ -94,7 +103,7 @@ class Header extends Component {
             }
 
             {isHome && <NavItem className="w-24 cart-icon">
-              <img src={cart} alt="cart" />
+              <img src={cart} alt="cart" onClick={this.toggleCartDrawer}/>
             </NavItem>}
           </Nav>
 
@@ -110,12 +119,14 @@ class Header extends Component {
 }
 
 const mapStateToHeaderProps = (state) => {
-  return { user: state.authentication.user, showSignIn: state.dialog.showSignIn };
+  return { user: state.authentication.user, showSignIn: state.dialog.showSignIn, showCart: state.cart.showCart };
 };
 
 const mapDispatchToHeaderProps = {
   showLogin,
   hideLogin,
+  showCartDrawer,
+  hideCartDrawer,
   getUser,
 };
 
