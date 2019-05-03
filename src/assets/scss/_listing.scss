@@ -13,6 +13,9 @@
 		  border: 1px solid rgba(0, 0, 0, 0.125);
 			padding: 12px 36px;
 			position: relative;
+			@media only screen and (max-width: 600px) {
+				padding: 16px 20px;
+			}
 			h1 {
 				font-size: 15px;
 				color: #000000de;
@@ -53,7 +56,10 @@
 	}
 	.restaurant-product-listing {
 	   padding: 0px 30px 24px;
-	   background: rgb(251, 251, 252) !important;
+		 background: rgb(251, 251, 252) !important;
+		 @media only screen and (max-width: 600px) {
+			 padding: 0px 20px 24px;
+		 }
 		.res-banner-section {
 		  align-items: center;
 		  img {

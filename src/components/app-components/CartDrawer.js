@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { Button } from 'reactstrap';
 
 import MenuItemOptionsDialog from './dialog/MenuItemOptionsDialog';
-import { removeFromCart } from '../../actions/cart-actions';
+import { removeFromCart, hideCartDrawer } from '../../actions/cart-actions';
 import { addOrder } from '../../actions/order-actions';
 import { showLogin } from '../../actions/dialog-actions';
 import { formatPrice, formatAmount } from '../../utils/common';
@@ -59,8 +59,6 @@ class CartDrawer extends Component {
 
   handleProductSelect = (cartItem) => {
     const { product_id, uid } = cartItem;
-    console.log('sssssssssss');
-    console.log(product_id)
     this.setState({ menuItemOptionsModal: true, productId: product_id });
     this.props.history.push({
       pathname: '',
@@ -74,7 +72,7 @@ class CartDrawer extends Component {
         const obj = { ...this.state, order_type: this.props.orderType };
         session.setOrder(obj);
         this.props.addOrder(obj);
-
+        this.props.hideCartDrawer();
         this.props.history.push(`/checkout/payment`);
       } catch (e) {
         console.log(e);
@@ -166,7 +164,8 @@ const mapStateToCartDrawerProps = (state) => {
 const mapDispatchToCartDrawerProps = {
   removeFromCart,
   addOrder,
-  showLogin
+  showLogin,
+  hideCartDrawer,
 };
 
 export default withRouter(connect(

@@ -37,3 +37,16 @@ input[type=number]::-webkit-outer-spin-button {
 	max-width: 520px;
 	margin: 0 auto;
 }
+
+@keyframes myfirst {
+  0% {background-color: #cecdcd; left:0px; right: 0px; opacity: 0.6;}
+}
+
+.loader-animation {
+  animation: myfirst 1.8s infinite;
+  -webkit-animation: myfirst 1.8s infinite;
+  animation-direction: alternate;
+  background: #e9e9e9;
+  opacity: 0.6;
+  border-radius: 100px;
+}

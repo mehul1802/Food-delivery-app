@@ -1,0 +1,12 @@
+.product-loader {
+  h3 {
+    @extend .loader-animation;
+    background: #cecdcd !important;
+    width: 160px;
+    height: 24px;
+  }
+  p {
+    @extend .loader-animation;
+    opacity: 0.4;
+  }
+}

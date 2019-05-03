@@ -71,7 +71,7 @@ class Header extends Component {
     return (
       <div className="header-section">
         <Navbar color="white" expand="md">
-          <Link to="/"><NavbarBrand><img src={logo} alt="logo" /></NavbarBrand></Link>
+          <Link to="/" onClick={()=> this.props.hideCartDrawer()}><NavbarBrand><img src={logo} alt="logo" /></NavbarBrand></Link>
           {isHome && <Nav className="w-25" navbar>
             <NavItem className="w-100">
               <Input type="email" name="email" id="exampleEmail" placeholder="pizza, sushi and chinese" />

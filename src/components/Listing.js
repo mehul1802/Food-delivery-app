@@ -95,7 +95,7 @@ class Listing extends Component {
   }
 
   render() {
-    const { orderType } = this.state;
+    const { orderType, loading } = this.state;
     return (
       <React.Fragment>
         <div className="listing-header bg-white">
@@ -121,34 +121,46 @@ class Listing extends Component {
             <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.editOrderType}>Change</div>
           </div>
         }
-        <div className="restaurant-product-listing">
-          {/* <div className="res-banner-section d-flex">
-            <img src={discBanner} />
-            <div className="bg-blue banner-offer-text d-flex">
-              <div style={{ flexBasis: '70%', marginRight: '20px' }}>
-                <h4>Get $10 off your first app order!</h4>
-                <p className="m-0">Download the Grubhub app to get $10 off your first delivery order.</p>
-              </div>
-              <a href="#" className="hot-deal-offer">Hot Deal</a>
-            </div>
-          </div> */}
-          {this.state.menuList.map(item => <div className="restaurant-menu-section mt30" key={item.category_name}>
-            <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={() => this.toggle(item.category_name)}>
-              <h3 className="font-weight-bold font-large product-cat-title">{item.category_name}</h3>
-              <img className="w-10" src={arrowDown} style={{ transform: `${item.collapse ? 'rotate(-180deg)' : 'unset'}` }} />
-            </div>
-            <Collapse isOpen={!item.collapse}>
+        {loading ? 
+          <div className="product-loader">
+            <h3 />
+            <div>
               <div className="row">
-                {item.list_items.map(product => (
-                  <div className="col-md-6 p-2" key={product.ProductID}>
-                    <Product product={product} onClick={(e) => this.handleProductSelect(product.ProductID)} />
-                  </div>
-                ))}
+                <div className="col-md-6 p-2">
+                  <p/>
+                </div>
               </div>
-            </Collapse>
-          </div>)
-          }
-        </div>
+            </div>
+          </div>: 
+          <div className="restaurant-product-listing">
+            {/* <div className="res-banner-section d-flex">
+              <img src={discBanner} />
+              <div className="bg-blue banner-offer-text d-flex">
+                <div style={{ flexBasis: '70%', marginRight: '20px' }}>
+                  <h4>Get $10 off your first app order!</h4>
+                  <p className="m-0">Download the Grubhub app to get $10 off your first delivery order.</p>
+                </div>
+                <a href="#" className="hot-deal-offer">Hot Deal</a>
+              </div>
+            </div> */}
+            {this.state.menuList.map(item => <div className="restaurant-menu-section mt30" key={item.category_name}>
+              <div className="restaurant-menu-header d-flex justify-content-between align-items-center" onClick={() => this.toggle(item.category_name)}>
+                <h3 className="font-weight-bold font-large product-cat-title">{item.category_name}</h3>
+                <img className="w-10" src={arrowDown} style={{ transform: `${item.collapse ? 'rotate(-180deg)' : 'unset'}` }} />
+              </div>
+              <Collapse isOpen={!item.collapse}>
+                <div className="row">
+                  {item.list_items.map(product => (
+                    <div className="col-md-6 p-2" key={product.ProductID}>
+                      <Product product={product} onClick={(e) => this.handleProductSelect(product.ProductID)} />
+                    </div>
+                  ))}
+                </div>
+              </Collapse>
+            </div>)
+            }
+          </div>
+        }
         {this.state.menuItemOptionsModal &&
           <MenuItemOptionsDialog
             isOpen={this.state.menuItemOptionsModal}
@@ -171,7 +183,7 @@ class Listing extends Component {
 }
 
 const mapStateToListingProps = (state) => {
-  return { orderType: state.order.orderType };
+  return { orderType: state.order.orderType, loading: state.api.loading };
 };
 
 const mapDispatchToListingProps = {
