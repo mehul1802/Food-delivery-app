@@ -123,11 +123,38 @@ class Listing extends Component {
         }
         {loading ? 
           <div className="product-loader">
-            <h3 />
+            <div className="restaurant-menu-section mt30">
+              <div className="restaurant-menu-header">
+                <h3 />
+              </div>
+            </div>
             <div>
-              <div className="row">
-                <div className="col-md-6 p-2">
-                  <p/>
+              <div className="row mx-4 my-4">
+                <div className="col-md-6 p-2 product-list">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p/>
+                    <p/>
+                  </div>
+                </div>
+                <div className="col-md-6 p-2 product-list">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p/>
+                    <p/>
+                  </div>
+                </div>
+              </div>
+              <div className="row mx-4 my-4">
+                <div className="col-md-6 p-2 product-list">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p/>
+                    <p/>
+                  </div>
+                </div>
+                <div className="col-md-6 p-2 product-list">
+                  <div className="d-flex align-items-center justify-content-between">
+                    <p/>
+                    <p/>
+                  </div>
                 </div>
               </div>
             </div>

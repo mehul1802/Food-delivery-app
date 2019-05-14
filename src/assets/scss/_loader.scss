@@ -1,4 +1,5 @@
 .product-loader {
+  padding: 1rem !important;
   h3 {
     @extend .loader-animation;
     background: #cecdcd !important;
@@ -8,5 +9,12 @@
   p {
     @extend .loader-animation;
     opacity: 0.4;
+    width: 100px;
+    height: 20px;
+    margin: 0;
+  }
+  .product-list {
+    border: 1px solid #e9e9e9;
+    padding: 16px !important;
   }
 }
