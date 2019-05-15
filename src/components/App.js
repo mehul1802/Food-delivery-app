@@ -17,11 +17,11 @@ class AppComponent extends Component {
         </div>
         <Footer />
 
-        {loading && <React.Fragment>
+        {/* {loading && <React.Fragment>
           <div className="overlay">
             <img className="overlay-loader" src="http://www.jocelynandchrismusic.com/wp-content/themes/aqura/assets/img/loader.gif" />
           </div>
-        </React.Fragment>}
+        </React.Fragment>} */}
       </div>
     );
   }

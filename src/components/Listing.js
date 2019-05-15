@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
 import Product from './app-components/Product';
 import { Collapse } from 'reactstrap';
+
 import MenuItemOptionsDialog from './app-components/dialog/MenuItemOptionsDialog';
 import OrderTypeDialog from './app-components/dialog/OrderTypeDialog';
 import { addOrderType } from '../actions/order-actions';
@@ -31,7 +32,7 @@ class Listing extends Component {
 
   async componentDidMount() {
     try {
-      let response = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/menu`);
+      let response = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/menu`, false);
       let menuList = response.data;
       this.setState({ menuList });
     } catch (e) {
@@ -95,7 +96,8 @@ class Listing extends Component {
   }
 
   render() {
-    const { orderType, loading } = this.state;
+    const { orderType } = this.state;
+    console.log(this.props.loading);
     return (
       <React.Fragment>
         <div className="listing-header bg-white">
@@ -121,43 +123,29 @@ class Listing extends Component {
             <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.editOrderType}>Change</div>
           </div>
         }
-        {loading ? 
+        {this.props.loading ? 
           <div className="product-loader">
-            <div className="restaurant-menu-section mt30">
-              <div className="restaurant-menu-header">
-                <h3 />
-              </div>
-            </div>
-            <div>
-              <div className="row mx-4 my-4">
-                <div className="col-md-6 p-2 product-list">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <p/>
-                    <p/>
+            {_.times(4, i => (
+              <>
+                <div className="restaurant-menu-section my-4" key={i}>
+                  <div className="restaurant-menu-header">
+                    <h3 />
                   </div>
                 </div>
-                <div className="col-md-6 p-2 product-list">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <p/>
-                    <p/>
+                <div>
+                  <div className="row">
+                    {_.times(5, i => (
+                      <div className="col-md-6 p-2" key={i}>
+                        <div className="product-list d-flex align-items-center justify-content-between">
+                          <p/>
+                          <p/>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
-              <div className="row mx-4 my-4">
-                <div className="col-md-6 p-2 product-list">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <p/>
-                    <p/>
-                  </div>
-                </div>
-                <div className="col-md-6 p-2 product-list">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <p/>
-                    <p/>
-                  </div>
-                </div>
-              </div>
-            </div>
+              </>
+            ))}
           </div>: 
           <div className="restaurant-product-listing">
             {/* <div className="res-banner-section d-flex">
