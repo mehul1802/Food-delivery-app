@@ -97,7 +97,6 @@ class Listing extends Component {
 
   render() {
     const { orderType } = this.state;
-    console.log(this.props.loading);
     return (
       <React.Fragment>
         <div className="listing-header bg-white">
@@ -123,7 +122,7 @@ class Listing extends Component {
             <div className="text-primary font-small ml-4 cursor-pointer" onClick={this.editOrderType}>Change</div>
           </div>
         }
-        {this.props.loading ? 
+        {_.isEmpty(this.state.menuList) ? 
           <div className="product-loader">
             {_.times(4, i => (
               <>
@@ -198,7 +197,7 @@ class Listing extends Component {
 }
 
 const mapStateToListingProps = (state) => {
-  return { orderType: state.order.orderType, loading: state.api.loading };
+  return { orderType: state.order.orderType };
 };
 
 const mapDispatchToListingProps = {

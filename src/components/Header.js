@@ -32,7 +32,7 @@ class Header extends Component {
 
   async componentDidMount() {
     if (session.isLoggedIn()) {
-      const user = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/users/me`);
+      const user = await ApiRequest.getRecords(`${process.env.REACT_APP_API_URL}/users/me`, false);
       this.props.getUser(user.data);
     }
   }
